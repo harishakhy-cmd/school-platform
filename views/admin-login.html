@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Staff sign in</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="stylesheet" href="/css/auth.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-admin">
+    <main class="auth-shell auth-admin">
+      <section class="auth-panel" aria-labelledby="admin-login-title">
+        <div class="auth-form-wrap">
+          <a class="auth-logo" href="/admin-login.html" aria-label="SCHOOL staff sign in"><img src="/images/school%20icon.jpg" alt="" /></a>
+          <h1 id="admin-login-title">Welcome Back!</h1>
+          <p class="auth-description">Sign in to your SCHOOL staff account.</p>
+          <div id="msg" class="auth-message hidden" role="alert" aria-live="polite"></div>
+          <form id="admin-login-form">
+            <div class="field">
+              <label class="auth-sr-only" for="username">Username</label>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.14 0-7.5 2.24-7.5 5v1h15v-1c0-2.76-3.36-5-7.5-5Z"/></svg>
+                <input id="username" name="username" type="text" autocomplete="username" placeholder="Username" aria-label="Username" required />
+              </div>
+            </div>
+            <div class="field">
+              <div class="auth-label-row"><label class="auth-sr-only" for="password">Password</label><a href="/admin-reset-password.html">Forgot password?</a></div>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2ZM10 7a2 2 0 1 1 4 0v2h-4V7Zm2 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-admin-primary btn-block auth-submit"><span>LOGIN</span></button>
+          </form>
+          <p class="auth-switch-line">Sign-in access is provided by your school administrator.</p>
+        </div>
+        <footer class="auth-footer"><a class="auth-switch" href="/login.html">Student sign in</a></footer>
+      </section>
+    </main>
+    <script src="/js/admin-login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,489 @@
+/* ==========================================================================
+   Interactive Biology & Life Sciences Laboratory Stylesheet
+   CBT & Digital Classroom Educational Platform
+   ========================================================================== */
+
+:root {
+  --bio-primary: #059669;
+  --bio-primary-dark: #047857;
+  --bio-primary-light: #D1FAE5;
+  --bio-accent: #0284C7;
+  --bio-accent-hover: #0369A1;
+  --bio-warning: #F59E0B;
+  --bio-danger: #EF4444;
+  --bio-success: #10B981;
+  --bio-dark: #0F172A;
+  --bio-surface: #FFFFFF;
+  --bio-bg: #F8FAFC;
+  --bio-border: #E2E8F0;
+  --bio-text: #1E293B;
+  --bio-text-muted: #64748B;
+  --bio-sidebar-width: 310px;
+  --bio-inspector-width: 320px;
+  --bio-header-height: 56px;
+  --bio-bottom-height: 190px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.bio-lab-body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bio-bg);
+  color: var(--bio-text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ==========================================================================
+   Header Navbar
+   ========================================================================== */
+.bio-navbar {
+  height: var(--bio-header-height);
+  background: var(--bio-surface);
+  border-bottom: 1px solid var(--bio-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.bio-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bio-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #059669, #0284C7);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+
+.bio-brand-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--bio-dark);
+  display: block;
+  line-height: 1.2;
+}
+
+.bio-brand-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bio-primary);
+  background: var(--bio-primary-light);
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.bio-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #F1F5F9;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.bio-mode-pill {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bio-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bio-mode-pill:hover {
+  color: var(--bio-dark);
+}
+
+.bio-mode-pill.active {
+  background: var(--bio-surface);
+  color: var(--bio-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.bio-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Main Workspace Layout
+   ========================================================================== */
+.bio-main-workspace {
+  display: flex;
+  height: calc(100vh - var(--bio-header-height));
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sidebar (Left) */
+.bio-sidebar {
+  width: var(--bio-sidebar-width);
+  background: var(--bio-surface);
+  border-right: 1px solid var(--bio-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 50;
+  transition: width 0.25s ease;
+}
+
+.bio-sidebar-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--bio-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bio-sidebar-search {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bio-border);
+}
+
+.bio-topics-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.bio-topic-item {
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid transparent;
+}
+
+.bio-topic-item:hover {
+  background: #F1F5F9;
+}
+
+.bio-topic-item.active {
+  background: var(--bio-primary-light);
+  border-color: #A7F3D0;
+}
+
+.bio-topic-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #E2E8F0;
+  color: var(--bio-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.bio-topic-item.active .bio-topic-icon {
+  background: var(--bio-primary);
+  color: #FFFFFF;
+}
+
+.bio-topic-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bio-dark);
+  line-height: 1.25;
+}
+
+.bio-topic-branch {
+  font-size: 11px;
+  color: var(--bio-text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Viewport (Center) */
+.bio-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: #F8FAFC;
+}
+
+.bio-canvas-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #FAFAFC;
+}
+
+#bio-main-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+#bio-3d-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+}
+
+/* Floating Canvas Toolbar */
+.bio-floating-toolbar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--bio-border);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 40;
+}
+
+.bio-tool-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bio-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.bio-tool-btn:hover {
+  background: #F1F5F9;
+  color: var(--bio-primary);
+}
+
+.bio-tool-btn.active {
+  background: var(--bio-primary);
+  color: #FFFFFF;
+}
+
+.bio-tool-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--bio-border);
+  margin: 0 2px;
+}
+
+/* Bottom Data Dock */
+.bio-bottom-dock {
+  height: var(--bio-bottom-height);
+  background: var(--bio-surface);
+  border-top: 1px solid var(--bio-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 45;
+  transition: height 0.25s ease;
+}
+
+.bio-dock-header {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--bio-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F8FAFC;
+}
+
+.bio-dock-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.bio-dock-table-pane {
+  flex: 1;
+  overflow: auto;
+  border-right: 1px solid var(--bio-border);
+  padding: 4px;
+}
+
+.bio-dock-graph-pane {
+  flex: 1;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAFC;
+}
+
+/* Inspector Panel (Right) */
+.bio-inspector {
+  width: var(--bio-inspector-width);
+  background: var(--bio-surface);
+  border-left: 1px solid var(--bio-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.bio-inspector-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--bio-border);
+  background: #F8FAFC;
+}
+
+.bio-inspector-section {
+  padding: 14px;
+  border-bottom: 1px solid var(--bio-border);
+}
+
+.bio-hud-card {
+  background: #F8FAFC;
+  border: 1px solid var(--bio-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.bio-hud-val {
+  font-family: 'JetBrains Mono', monospace, Consolas;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bio-primary);
+}
+
+/* Virtual Microscope Viewport */
+.microscope-ocular-view {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 12px solid #1E293B;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  background: #FAFAFC;
+}
+
+.microscope-slide-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Apparatus & Specimen Browser Styles */
+.bio-apparatus-cat {
+  margin-bottom: 8px;
+  border: 1px solid var(--bio-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.bio-apparatus-cat-header {
+  padding: 6px 10px;
+  background: #F8FAFC;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--bio-dark);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--bio-border);
+}
+
+.bio-apparatus-cat-header:hover {
+  background: #F1F5F9;
+}
+
+.bio-apparatus-item {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--bio-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #F1F5F9;
+  transition: background 0.15s ease;
+}
+
+.bio-apparatus-item:last-child {
+  border-bottom: none;
+}
+
+.bio-apparatus-item:hover {
+  background: var(--bio-primary-light);
+  color: var(--bio-primary-dark);
+}
+
+/* Dock Pill Styles */
+#bioDockPills .nav-link {
+  color: var(--bio-text-muted);
+  border-radius: 4px;
+}
+
+#bioDockPills .nav-link.active {
+  background: var(--bio-primary);
+  color: #FFFFFF;
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+  :root {
+    --bio-sidebar-width: 250px;
+    --bio-inspector-width: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bio-sidebar, .bio-inspector {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  .bio-sidebar.hidden {
+    transform: translateX(-100%);
+  }
+  .bio-inspector.hidden {
+    transform: translateX(100%);
+  }
+}

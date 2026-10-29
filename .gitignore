@@ -1,0 +1,11 @@
+node_modules/
+mysql-data/
+.env
+.env.*
+!.env.example
+!apps/*/.env.example
+*.log
+.DS_Store
+.vercel/
+/public/uploads/
+/tmp-cs-debug*/

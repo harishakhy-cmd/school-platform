@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCHOOL | Geography & Earth Sciences</title>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Geography Lab Stylesheet -->
+  <link rel="stylesheet" href="/css/geography-lab.css" />
+  <link rel="stylesheet" href="/css/lab-live.css" />
+  <link rel="stylesheet" href="/css/lab-workspace-polish.css" />
+  <link rel="stylesheet" href="/css/lab-responsive.css" />
+  <link rel="stylesheet" href="/css/lab-assets.css" />
+  <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+</head>
+<body class="geo-lab-body">
+  <div class="geo-lab-container">
+    <!-- Top Navigation Bar -->
+    <header class="geo-navbar">
+      <a href="/portal.html" class="school-header-brand" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></a>
+      <div class="geo-brand">
+        <div class="geo-brand-icon">
+          <i class="fa-solid fa-earth-africa"></i>
+        </div>
+        <div>
+          <span class="geo-brand-title">Geography & Earth Sciences Laboratory</span>
+          <span class="geo-brand-badge">Interactive GIS</span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Pills -->
+      <div class="geo-nav-center">
+        <button class="geo-mode-pill active" data-mode="map2d">
+          <i class="fa-solid fa-map"></i> 2D GIS Map
+        </button>
+        <button class="geo-mode-pill" data-mode="terrain3d">
+          <i class="fa-solid fa-mountain"></i> 3D Landforms & Orbit
+        </button>
+        <button class="geo-mode-pill" data-mode="charts">
+          <i class="fa-solid fa-chart-line"></i> Demographics & Climate
+        </button>
+        <button class="geo-mode-pill" data-mode="fieldwork">
+          <i class="fa-solid fa-compass"></i> Fieldwork Logger
+        </button>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="geo-nav-actions">
+        <button class="btn btn-sm btn-outline-success" id="btn-geo-real-terrain" title="Sample real ASTER GDEM elevation around the current map center">
+          <i class="fa-solid fa-mountain-sun"></i> Real DEM Terrain
+        </button>
+        <label class="small text-nowrap" for="geo-terrain-exaggeration" title="Visual vertical exaggeration; elevation values remain in metres">Vertical scale
+          <input id="geo-terrain-exaggeration" type="range" min="1" max="8" step="1" value="3" style="width:72px;vertical-align:middle">
+          <span id="geo-terrain-exaggeration-value">3×</span>
+        </label>
+        <span class="small text-muted" id="geo-dem-status" role="status" aria-live="polite"></span>
+        <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modal-geo-weather-hydro" title="Scientific Weather Station & Hydrograph Lab">
+          <i class="fa-solid fa-cloud-bolt"></i> Weather & Hydro
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-geo-symbols" title="Topographic Map Symbols & Legend">
+          <i class="fa-solid fa-book-atlas"></i> Map Legend
+        </button>
+        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-gis-query" title="GIS Attribute Filter">
+          <i class="fa-solid fa-filter"></i> GIS Query
+        </button>
+        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal-geo-study-areas" title="Choose Global Study Area">
+          <i class="fa-solid fa-globe me-1"></i> Study Areas
+        </button>
+        <button class="btn btn-sm btn-primary" id="btn-geo-save-map" title="Save Map State">
+          <i class="fa-solid fa-floppy-disk"></i> Save Project
+        </button>
+        <a href="/portal.html" class="btn btn-sm btn-light border" title="Return to Portal">
+          <i class="fa-solid fa-arrow-left"></i> Exit to Portal
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="geo-main-workspace">
+      <!-- 22-Topic Sidebar -->
+      <aside class="geo-sidebar" id="geo-sidebar">
+        <div class="geo-sidebar-header">
+          <h6><i class="fa-solid fa-book-bookmark me-1"></i> Curriculum Topics</h6>
+          <span class="badge bg-secondary-subtle text-secondary">22 Modules</span>
+        </div>
+        <div class="geo-topics-list" id="geo-topics-list">
+          <!-- Dynamically populated via JS from CURRICULUM_TOPICS -->
+        </div>
+      </aside>
+
+      <!-- Central Viewport -->
+      <section class="geo-viewport" id="geo-viewport">
+        <!-- 1. 2D Leaflet Map Canvas -->
+        <div id="geo-leaflet-map"></div>
+
+        <!-- 2. 3D Landform & Astronomy Viewport -->
+        <div id="geo-three-container"></div>
+        <div class="geo-3d-controls" id="geo-3d-controls" style="display:none;">
+          <select id="geo-3d-model-select" class="form-select form-select-sm bg-dark text-white border-secondary">
+            <option value="rift_valley">Albertine Rift Valley Graben</option>
+            <option value="horst_mountain">Rwenzori Horst / Block Mountain</option>
+            <option value="normal_fault">Normal Fault (Tension)</option>
+            <option value="reverse_fault">Reverse / Thrust Fault (Compression)</option>
+            <option value="anticline_syncline">Anticline & Syncline Folding</option>
+            <option value="volcano">Composite Volcano & Caldera</option>
+            <option value="glacial_valley">Glacial U-Shaped Trough & Horn</option>
+            <option value="elgon_caldera">Mt Elgon Shield Caldera (Wagagai 4,321 m)</option>
+            <option value="intrusive_pluton">Tororo Rock Volcanic Plug & Batholith</option>
+            <option value="coastal_stack">Coastal Erosion: Cave → Arch → Stack → Stump</option>
+            <option value="meander_oxbow">River Meander & Oxbow Lake Formation</option>
+            <option value="earth_sun">Earth 23.5° Axial Tilt & Seasons</option>
+          </select>
+          <button class="btn btn-sm btn-outline-light" id="btn-3d-rotate"><i class="fa-solid fa-pause"></i> Pause</button>
+          <button class="btn btn-sm btn-outline-light" id="btn-3d-reset"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>
+        </div>
+
+        <!-- 3. Scientific Climate & Chart Canvas -->
+        <div id="geo-chart-container">
+          <div class="geo-chart-inner">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <ul class="nav nav-pills" id="geo-chart-tabs">
+                <li class="nav-item">
+                  <button class="nav-link active py-1 px-3 small fw-bold" id="btn-tab-climate">
+                    <i class="fa-solid fa-cloud-sun-rain me-1"></i> Climate Hyetographs
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link py-1 px-3 small fw-bold" id="btn-tab-pyramid">
+                    <i class="fa-solid fa-users me-1"></i> Population Pyramid
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link py-1 px-3 small fw-bold" id="btn-tab-glacier">
+                    <i class="fa-solid fa-snowflake me-1"></i> Glacial Recession
+                  </button>
+                </li>
+              </ul>
+
+              <div class="d-flex align-items-center gap-2">
+                <div id="wrapper-station-select" style="width: 250px;">
+                  <select id="geo-station-select" class="form-select form-select-sm">
+                    <option value="entebbe">Entebbe (Equatorial Lake)</option>
+                    <option value="gulu">Gulu (Northern Savanna)</option>
+                    <option value="moroto">Moroto (Karamoja Semi-Arid)</option>
+                    <option value="kabale">Kabale (Kigezi Montane)</option>
+                    <option value="mombasa">Mombasa (Coastal Monsoon)</option>
+                  </select>
+                </div>
+                <a href="/graphing-lab.html?subject=GEOGRAPHY&preset=0" target="_blank" class="btn btn-sm btn-outline-primary fw-semibold" id="btn-open-in-graphing-lab" title="Launch in Advanced Graphing Lab">
+                  <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Graphing Lab
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h5 class="fw-bold mb-1" id="geo-climate-chart-title">Climate Hyetograph (Precipitation & Temperature)</h5>
+              <p class="small text-muted mb-3" id="geo-climate-chart-desc">Dual-axis meteorological representation.</p>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <canvas id="geo-climate-canvas" width="760" height="340" style="max-width:100%;"></canvas>
+            </div>
+
+            <div class="d-flex justify-content-center gap-4 mt-3 small" id="geo-chart-legend">
+              <span class="text-primary fw-bold"><i class="fa-solid fa-square text-primary"></i> Precipitation (Bars, mm)</span>
+              <span class="text-danger fw-bold"><i class="fa-solid fa-chart-line text-danger"></i> Temperature (Curve, °C)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Fieldwork Observation Logger -->
+        <div id="geo-fieldwork-container">
+          <div class="geo-fieldwork-inner">
+            <h5 class="fw-bold mb-2"><i class="fa-solid fa-compass text-primary me-2"></i> Geographical Fieldwork Observation Form</h5>
+            <p class="small text-muted mb-4">Record field coordinates, site landform observations, and measurements directly into the platform database.</p>
+            <form id="geo-fieldwork-form">
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Field Study Title</label>
+                  <input type="text" id="fw-title" class="form-control form-control-sm" placeholder="e.g. River Katonga Meander Study" required />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Site Name / Location</label>
+                  <input type="text" id="fw-site-name" class="form-control form-control-sm" placeholder="e.g. Mpigi - Masaka Highway Transect" required />
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label small fw-bold">Latitude (°N/S)</label>
+                  <input type="number" step="0.0001" id="fw-lat" class="form-control form-control-sm" placeholder="0.3476" required />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-bold">Longitude (°E/W)</label>
+                  <input type="number" step="0.0001" id="fw-lng" class="form-control form-control-sm" placeholder="32.5825" required />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-bold">Elevation (Meters a.s.l.)</label>
+                  <input type="number" step="0.1" id="fw-elevation" class="form-control form-control-sm" placeholder="1140" />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Field Observations & Methodology</label>
+                <textarea id="fw-observations" class="form-control form-control-sm" rows="4" placeholder="Detail channel width, slope angle measured with inclinometer, soil texture, vegetation cover, and human activities observed."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-cloud-arrow-up me-1"></i> Submit Fieldwork Observation
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Floating Map Cartographic Toolbar -->
+        <div class="geo-map-toolbar">
+          <select id="geo-basemap-select" class="form-select form-select-sm" style="width:145px; font-weight:600;">
+            <option value="voyager" selected>CARTO Voyager</option>
+            <option value="clean">Clean Light</option>
+            <option value="topo">Topographic</option>
+            <option value="satellite">Satellite</option>
+            <option value="osm">OpenStreetMap</option>
+          </select>
+
+          <div class="geo-tool-divider"></div>
+
+          <button class="geo-tool-btn" id="tool-measure-dist" title="Measure Distance (Haversine)">
+            <i class="fa-solid fa-ruler"></i> Distance
+          </button>
+          <button class="geo-tool-btn" id="tool-measure-area" title="Measure Polygon Area">
+            <i class="fa-solid fa-draw-polygon"></i> Area
+          </button>
+          <button class="geo-tool-btn" id="tool-measure-bearing" title="Compass Bearing (True, Back, Magnetic)">
+            <i class="fa-regular fa-compass"></i> Bearing
+          </button>
+          <button class="geo-tool-btn" id="tool-cross-section" title="Elevation Cross-Section Transect">
+            <i class="fa-solid fa-chart-area"></i> Transect
+          </button>
+          <button class="geo-tool-btn" id="tool-spatial-buffer" title="GIS 50km Proximity Buffer">
+            <i class="fa-solid fa-circle-dot"></i> Buffer
+          </button>
+          <button class="geo-tool-btn" id="tool-drop-pin" title="Drop Coordinate Pin">
+            <i class="fa-solid fa-location-dot"></i> Pin
+          </button>
+          <button class="geo-tool-btn" id="tool-clear-meas" title="Clear Measurements">
+            <i class="fa-solid fa-trash-can"></i> Clear
+          </button>
+          <button class="geo-tool-btn" id="tool-reset-view" title="Reset View to Uganda">
+            <i class="fa-solid fa-crosshairs"></i> Reset
+          </button>
+
+          <div class="geo-tool-divider"></div>
+
+          <!-- Layer Dropdown -->
+          <div class="dropdown">
+            <button class="geo-tool-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-layer-group"></i> Layers
+            </button>
+            <div class="dropdown-menu p-3" style="width:230px;">
+              <h6 class="dropdown-header px-0 text-dark fw-bold">Geographic Layers</h6>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-relief" checked />
+                <label class="form-check-label small" for="layer-chk-relief">Relief & Peaks</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-lakes" checked />
+                <label class="form-check-label small" for="layer-chk-lakes">Lakes & Basins</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-rivers" checked />
+                <label class="form-check-label small" for="layer-chk-rivers">River Network</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-parks" checked />
+                <label class="form-check-label small" for="layer-chk-parks">National Parks</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-rift" checked />
+                <label class="form-check-label small" for="layer-chk-rift">East African Rift</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-tectonics" />
+                <label class="form-check-label small" for="layer-chk-tectonics">Global Tectonics</label>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="layer-chk-districts" checked />
+                <label class="form-check-label small" for="layer-chk-districts">Uganda Districts</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="layer-chk-grid" />
+                <label class="form-check-label small" for="layer-chk-grid">UTM Topo Grid</label>
+              </div>
+            </div>
+          </div>
+
+          <span id="geo-measure-readout" class="ms-2 badge bg-primary-subtle text-primary border border-primary-subtle py-2 px-3 small"></span>
+        </div>
+
+        <!-- Real-Time Floating Coordinate HUD -->
+        <div class="geo-hud-coordinates">
+          <div class="geo-hud-item">
+            <span class="geo-hud-label">Lat / Lng</span>
+            <span class="geo-hud-val" id="geo-hud-dd">1.3733°, 32.2903°</span>
+          </div>
+          <div class="geo-hud-item">
+            <span class="geo-hud-label">DMS</span>
+            <span class="geo-hud-val" id="geo-hud-dms">1° 22' 24" N, 32° 17' 25" E</span>
+          </div>
+          <div class="geo-hud-item">
+            <span class="geo-hud-label">6-Fig Grid</span>
+            <span class="geo-hud-val" id="geo-hud-grid">421151</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Inspector & Activity Drawer -->
+      <aside class="geo-inspector" id="geo-inspector">
+        <div class="geo-inspector-header">
+          <span class="geo-inspector-title"><i class="fa-solid fa-circle-info me-1 text-primary"></i> Inspector & Lesson</span>
+        </div>
+        <div class="geo-inspector-body" id="geo-inspector-content">
+          <div class="text-center text-muted py-5">
+            <i class="fa-solid fa-hand-pointer fs-3 mb-2 text-secondary opacity-50"></i>
+            <p class="small mb-0">Select any curriculum topic from the left sidebar or click a geographic feature on the map to inspect details.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Elevation Cross-Section Profile -->
+  <div class="modal fade" id="modal-geo-cross-section" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-chart-area text-primary me-2"></i> Topographic Cross-Section & Slope Gradient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="geo-cross-section-stats" class="mb-3"></div>
+          <div class="border rounded p-3 bg-light d-flex justify-content-center">
+            <canvas id="geo-cross-section-canvas" width="700" height="260" style="max-width:100%;"></canvas>
+          </div>
+          <div class="small text-muted mt-2">
+            <strong>Formula Note:</strong> Slope Gradient = Vertical Interval (VI) &divide; Horizontal Equivalent (HE).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Topographic Map Symbol Key & Legend -->
+  <div class="modal fade" id="modal-geo-symbols" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-book-atlas text-primary me-2"></i> East Africa Topographic Survey Map Symbols</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="max-height: 480px; overflow-y: auto;">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-lines-leaning text-danger me-2"></i> Contour Lines</div>
+                <div class="small text-muted">Brown isolines connecting points of equal height above mean sea level. Vertical Interval usually 20 meters.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-triangle-exclamation text-primary me-2"></i> Trigonometrical Station (Beacons)</div>
+                <div class="small text-muted">Primary (&Delta; 1st Order) and secondary survey beacons with precise trigonometric altitude.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-water text-info me-2"></i> Perennial & Seasonal Streams</div>
+                <div class="small text-muted">Solid blue lines denote permanent flow; dashed blue lines denote seasonal intermittent streams.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-road text-dark me-2"></i> All-Weather Tarmac & Murram Roads</div>
+                <div class="small text-muted">Solid red for primary paved highways; dual parallel lines for engineered all-weather gravel murram routes.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-seedling text-success me-2"></i> Plantations & Cultivation</div>
+                <div class="small text-muted">Green stippled symbols representing tea estates, sugarcane plantations, and subsistence farmlands.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <div class="fw-bold text-dark small mb-1"><i class="fa-solid fa-circle-dot text-secondary me-2"></i> Spot Heights & Benchmarks</div>
+                <div class="small text-muted">Dots with numbers (e.g. &bull; 1245) representing precise surveyed ground elevations in meters.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: GIS Attribute Query & Filter -->
+  <div class="modal fade" id="modal-gis-query" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-filter text-primary me-2"></i> GIS Spatial Attribute Query</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Filter by Geographic Region</label>
+            <select id="gis-filter-region" class="form-select form-select-sm">
+              <option value="all">All Uganda Regions</option>
+              <option value="Central">Central Region</option>
+              <option value="Eastern">Eastern Region</option>
+              <option value="Northern">Northern Region</option>
+              <option value="Western">Western Region</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Minimum Population Density (persons / km²)</label>
+            <input type="number" id="gis-filter-density" class="form-control form-control-sm" placeholder="e.g. 300" />
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm flex-grow-1" id="btn-apply-gis-filter" data-bs-dismiss="modal">
+              <i class="fa-solid fa-magnifying-glass me-1"></i> Apply Spatial Query
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" id="btn-reset-gis-filter" data-bs-dismiss="modal">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Scientific Weather & Hydrograph Lab -->
+  <div class="modal fade" id="modal-geo-weather-hydro" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-cloud-bolt text-info me-2"></i> Scientific Weather Station & Storm Hydrograph Laboratory</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="max-height: 520px; overflow-y: auto;">
+          <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active fw-bold small" data-bs-toggle="tab" data-bs-target="#tab-hygrometer">
+                <i class="fa-solid fa-droplet text-primary me-1"></i> Hygrometer (Relative Humidity)
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link fw-bold small" data-bs-toggle="tab" data-bs-target="#tab-solar">
+                <i class="fa-solid fa-sun text-warning me-1"></i> Solar Altitude & Seasons
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link fw-bold small" data-bs-toggle="tab" data-bs-target="#tab-hydrograph">
+                <i class="fa-solid fa-water text-info me-1"></i> River Storm Hydrograph
+              </button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!-- 1. Hygrometer Psychrometer -->
+            <div class="tab-pane fade show active" id="tab-hygrometer">
+              <div class="row g-3">
+                <div class="col-md-5">
+                  <div class="p-3 bg-light rounded border">
+                    <label class="form-label small fw-bold">Dry Bulb Temperature (°C): <span id="val-dry-bulb" class="text-danger fw-bold">28</span>°C</label>
+                    <input type="range" class="form-range" id="range-dry-bulb" min="15" max="42" step="0.5" value="28" />
+
+                    <label class="form-label small fw-bold mt-3">Wet Bulb Temperature (°C): <span id="val-wet-bulb" class="text-primary fw-bold">22</span>°C</label>
+                    <input type="range" class="form-range" id="range-wet-bulb" min="10" max="38" step="0.5" value="22" />
+
+                    <div class="small text-muted mt-3">
+                      <strong>Psychrometric Rule:</strong> As wet bulb depression increases, Relative Humidity drops, indicating a drier atmospheric air mass.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="row g-2 text-center" id="hygro-results-cards">
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Depression</div>
+                      <div class="fs-4 fw-bold text-dark" id="res-depression">6.0°C</div>
+                    </div>
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Relative Humidity</div>
+                      <div class="fs-4 fw-bold text-primary" id="res-rh">58%</div>
+                    </div>
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Dew Point</div>
+                      <div class="fs-4 fw-bold text-info" id="res-dew-point">19.2°C</div>
+                    </div>
+                  </div>
+                  <div class="alert alert-info mt-3 py-2 small" id="res-comfort-badge">
+                    <i class="fa-solid fa-circle-check me-1"></i> Comfort Level: <strong>Comfortable Tropical Atmosphere</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Solar Altitude Calculator -->
+            <div class="tab-pane fade" id="tab-solar">
+              <div class="row g-3">
+                <div class="col-md-5">
+                  <div class="p-3 bg-light rounded border">
+                    <label class="form-label small fw-bold">Latitude (°N/S): <span id="val-solar-lat" class="text-primary fw-bold">0.3</span>° (Kampala)</label>
+                    <input type="range" class="form-range" id="range-solar-lat" min="-60" max="60" step="0.5" value="0.3" />
+
+                    <label class="form-label small fw-bold mt-3">Day of Year: <span id="val-solar-day" class="text-warning fw-bold">80</span> (March 21 Equinox)</label>
+                    <input type="range" class="form-range" id="range-solar-day" min="1" max="365" step="1" value="80" />
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="row g-2 text-center">
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Solar Declination</div>
+                      <div class="fs-4 fw-bold text-warning" id="res-declination">0.0°</div>
+                    </div>
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Noon Altitude</div>
+                      <div class="fs-4 fw-bold text-danger" id="res-noon-alt">89.7°</div>
+                    </div>
+                    <div class="col-4 p-3 bg-light rounded border">
+                      <div class="small text-muted">Daylight Hours</div>
+                      <div class="fs-4 fw-bold text-dark" id="res-day-length">12.0h</div>
+                    </div>
+                  </div>
+                  <div class="alert alert-warning mt-3 py-2 small" id="res-season-name">
+                    <i class="fa-solid fa-sun me-1"></i> Season: <strong>Vernal Equinox (Sun directly overhead at Equator)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. River Storm Hydrograph -->
+            <div class="tab-pane fade" id="tab-hydrograph">
+              <div class="row g-3 mb-2">
+                <div class="col-md-4">
+                  <label class="form-label small fw-bold">Drainage Basin Characteristics</label>
+                  <select id="sel-basin-type" class="form-select form-select-sm">
+                    <option value="rural_vegetated">Rural Vegetated Basin (High Infiltration)</option>
+                    <option value="urban_impervious">Urban Impervious Basin (Rapid Runoff)</option>
+                    <option value="deforested_steep">Deforested Steep Slope Basin</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-bold">Peak Storm Rainfall (mm): <span id="val-storm-rain" class="text-primary fw-bold">45</span> mm</label>
+                  <input type="range" class="form-range" id="range-storm-rain" min="10" max="100" step="5" value="45" />
+                </div>
+                <div class="col-md-4 d-flex align-items-center">
+                  <div class="p-2 bg-light rounded border w-100 text-center small">
+                    <span class="text-muted">Lag Time:</span> <strong id="res-lag-time" class="text-danger">6.0 hrs</strong> |
+                    <span class="text-muted">Peak Q:</span> <strong id="res-peak-q" class="text-primary">111.0 m³/s</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="border rounded p-2 bg-light d-flex flex-column align-items-center">
+                <div class="w-100 d-flex justify-content-end mb-2">
+                  <a href="/graphing-lab.html?subject=GEOGRAPHY&preset=3" target="_blank" class="btn btn-sm btn-outline-primary fw-semibold" title="Analyze hydrograph equation in Graphing Lab">
+                    <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open Hydrograph in Graphing Lab
+                  </a>
+                </div>
+                <canvas id="canvas-storm-hydrograph" width="760" height="240" style="max-width:100%;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/lab-live.js"></script>
+
+  <!-- Geography Lab Modules -->
+  <script src="/js/geo-datasets.js"></script>
+  <script src="/js/geo-weather-hydro.js"></script>
+  <script src="/js/geo-map-engine.js"></script>
+  <script src="/js/geo-3d-engine.js"></script>
+  <script src="/js/geography-lab.js"></script>
+  <script src="/js/lab-assets.js" data-subject="geography"></script>
+</body>
+</html>

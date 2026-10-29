@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCHOOL | Biology Laboratory</title>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+
+  <!-- Biology Lab Stylesheet -->
+  <link rel="stylesheet" href="/css/biology-lab.css" />
+  <link rel="stylesheet" href="/css/lab-live.css" />
+  <link rel="stylesheet" href="/css/lab-workspace-polish.css" />
+  <link rel="stylesheet" href="/css/lab-responsive.css" />
+  <link rel="stylesheet" href="/css/lab-assets.css" />
+  <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+</head>
+<body class="bio-lab-body">
+  <div class="bio-lab-container">
+    <!-- Top Navigation Bar -->
+    <header class="bio-navbar">
+      <a href="/portal.html" class="school-header-brand" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></a>
+      <div class="bio-brand">
+        <div class="bio-brand-icon">
+          <i class="fa-solid fa-dna"></i>
+        </div>
+        <div>
+          <span class="bio-brand-title">Interactive Biology & Life Sciences Laboratory</span>
+          <span class="bio-brand-badge">Cellular, Anatomy, Ecology & Virtual CBT Lab</span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Pills -->
+      <div class="bio-nav-center">
+        <button class="bio-mode-pill active" data-mode="workspace2d">
+          <i class="fa-solid fa-microscope"></i> 2D Cells & Organs
+        </button>
+        <button class="bio-mode-pill" data-mode="anatomy3d">
+          <i class="fa-solid fa-person"></i> 3D Anatomy Viewport
+        </button>
+        <button class="bio-mode-pill" data-mode="guided-labs">
+          <i class="fa-solid fa-flask-vial"></i> Virtual Experiments
+        </button>
+        <button class="bio-mode-pill" data-mode="assessments">
+          <i class="fa-solid fa-clipboard-check"></i> Practical CBT
+        </button>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="bio-nav-actions">
+        <a class="btn btn-sm btn-outline-primary" href="/scientific-viewer.html?asset=rcsb-pdb-1crn" title="Explore a source-attributed RCSB protein structure">
+          <i class="fa-solid fa-cube"></i> Sourced Protein Model
+        </a>
+        <a class="btn btn-sm btn-outline-secondary" href="/scientific-assets.html" title="Search scientific assets and sources">
+          <i class="fa-solid fa-book-atlas"></i> Asset Library
+        </a>
+        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal-virtual-microscope" title="Launch High-Resolution Virtual Microscope">
+          <i class="fa-solid fa-microscope"></i> Microscope
+        </button>
+        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-punnett-solver" title="Interactive Mendelian Genetics Cross Solver">
+          <i class="fa-solid fa-dna"></i> Punnett Solver
+        </button>
+        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modal-antibiotic-assay" title="Kirby-Bauer Antibiotic Sensitivity Test">
+          <i class="fa-solid fa-bacteria"></i> Antibiotic Assay
+        </button>
+        <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modal-ecology-simulator" title="Lotka-Volterra Predator-Prey Model">
+          <i class="fa-solid fa-chart-line"></i> Ecology Sim
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-specimen-library" title="Browse Biological Specimens & Models">
+          <i class="fa-solid fa-boxes-packing"></i> Specimen Library
+        </button>
+        <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modal-bio-templates" title="Standard Biology Experiment Protocols">
+          <i class="fa-solid fa-folder-open"></i> Templates
+        </button>
+        <button class="btn btn-sm btn-success" id="btn-bio-save-experiment" title="Save Current Biology Setup">
+          <i class="fa-solid fa-floppy-disk"></i> Save Setup
+        </button>
+        <a href="/portal.html" class="btn btn-sm btn-light border" title="Return to Portal">
+          <i class="fa-solid fa-arrow-left"></i> Exit
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="bio-main-workspace">
+      <!-- Left Sidebar: Tabs for Curriculum & Apparatus/Specimens -->
+      <aside class="bio-sidebar" id="bio-sidebar">
+        <!-- Sidebar Navigation Tabs -->
+        <ul class="nav nav-tabs nav-fill small fw-bold border-bottom" id="bioSidebarTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active py-2 text-success" id="tab-curriculum-btn" data-bs-toggle="tab" data-bs-target="#tab-curriculum-pane" type="button" role="tab">
+              <i class="fa-solid fa-book-bookmark me-1"></i> Curriculum (28)
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link py-2 text-secondary" id="tab-apparatus-btn" data-bs-toggle="tab" data-bs-target="#tab-apparatus-pane" type="button" role="tab">
+              <i class="fa-solid fa-cubes-stacked me-1"></i> Apparatus & Models
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content flex-grow-1 overflow-hidden d-flex flex-column" id="bioSidebarTabContent">
+          <!-- Pane 1: 28 Curriculum Modules -->
+          <div class="tab-pane fade show active d-flex flex-column h-100" id="tab-curriculum-pane" role="tabpanel">
+            <div class="bio-sidebar-search p-2 border-bottom">
+              <input type="text" class="form-control form-control-sm" id="bio-search-topics" placeholder="Search cells, genetics, heart, ecology..." />
+            </div>
+            <div class="bio-topics-list flex-grow-1 overflow-auto" id="bio-topics-list">
+              <!-- Dynamically populated via JS from CURRICULUM_TOPICS -->
+            </div>
+          </div>
+
+          <!-- Pane 2: Categorized Apparatus & Specimen Browser -->
+          <div class="tab-pane fade d-flex flex-column h-100" id="tab-apparatus-pane" role="tabpanel">
+            <div class="p-2 border-bottom">
+              <input type="text" class="form-control form-control-sm" id="bio-search-apparatus" placeholder="Filter specimens, organs, tools..." />
+            </div>
+            <div class="p-2 flex-grow-1 overflow-auto" id="bio-apparatus-tree">
+              <!-- Dynamically populated via JS from 11 categories -->
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Central Viewport -->
+      <section class="bio-viewport" id="bio-viewport">
+        <!-- Floating Canvas Toolbar -->
+        <div class="bio-floating-toolbar">
+          <button class="bio-tool-btn active" data-tool="select" title="Select & Inspect Organelle">
+            <i class="fa-solid fa-arrow-pointer"></i> Select
+          </button>
+          <button class="bio-tool-btn" data-tool="move" title="Pan / Move Specimen">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i> Move
+          </button>
+          <button class="bio-tool-btn" data-tool="rotate" title="Rotate Specimen">
+            <i class="fa-solid fa-rotate"></i> Rotate
+          </button>
+          <button class="bio-tool-btn" data-tool="zoom" title="Zoom In / Out">
+            <i class="fa-solid fa-magnifying-glass-plus"></i> Zoom
+          </button>
+          <button class="bio-tool-btn" data-tool="dissect" title="Dissect & Peel Layer">
+            <i class="fa-solid fa-scissors"></i> Dissect
+          </button>
+          <button class="bio-tool-btn" data-tool="label" title="Show / Hide Anatomical Labels">
+            <i class="fa-solid fa-tag"></i> Labels
+          </button>
+          <button class="bio-tool-btn" data-tool="measure" title="Graticule Measurement (μm)">
+            <i class="fa-solid fa-ruler-combined"></i> Calipers
+          </button>
+          <span class="bio-tool-sep"></span>
+          <button class="bio-tool-btn text-success" id="btn-bio-start-sim" title="Start Live Simulation">
+            <i class="fa-solid fa-play"></i> Run
+          </button>
+          <button class="bio-tool-btn text-warning" id="btn-bio-pause-sim" title="Pause Simulation">
+            <i class="fa-solid fa-pause"></i> Pause
+          </button>
+          <button class="bio-tool-btn text-danger" id="btn-bio-clear-canvas" title="Reset Viewport">
+            <i class="fa-solid fa-arrows-rotate"></i> Reset
+          </button>
+          <span class="bio-tool-sep"></span>
+          <button class="bio-tool-btn" id="btn-bio-undo" title="Undo Action (Ctrl+Z)">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button class="bio-tool-btn" id="btn-bio-redo" title="Redo Action (Ctrl+Y)">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <span class="bio-tool-sep"></span>
+          <button class="bio-tool-btn text-info" id="btn-bio-export-png" title="Export High-Res Image (PNG)">
+            <i class="fa-solid fa-image"></i> Export
+          </button>
+        </div>
+
+        <!-- Canvas Viewports -->
+        <div class="bio-canvas-wrapper" id="bio-canvas-wrapper">
+          <canvas id="bio-main-canvas"></canvas>
+
+          <!-- 3D Anatomy Container with Model Switcher Header -->
+          <div id="bio-3d-container" style="display: none; position: relative; width: 100%; height: 100%;">
+            <div class="position-absolute top-0 start-0 m-3 z-3 bg-dark bg-opacity-75 p-2 rounded text-white d-flex align-items-center gap-2">
+              <span class="small fw-bold"><i class="fa-solid fa-cube text-success me-1"></i> 3D Model:</span>
+              <select class="form-select form-select-sm bg-dark text-white border-secondary" id="select-3d-model" style="width: 220px; font-size: 12px;">
+                <option value="dna_helix">DNA Double Helix (B-DNA)</option>
+                <option value="beating_heart">Pulsing Human Heart</option>
+                <option value="renal_nephron">Renal Glomerulus & Tubule</option>
+                <option value="erythrocyte_rbc">Biconcave Erythrocyte</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Theory & Experiment Guide Pane (When guided-labs mode is active) -->
+          <div id="bio-guide-pane" class="position-absolute top-0 start-0 w-100 h-100 bg-white p-4 overflow-auto" style="display: none; z-index: 20;">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+              <h4 class="fw-bold mb-0 text-success" id="bio-guide-topic-title">Guided Biology Experiment Protocol</h4>
+              <button class="btn btn-sm btn-outline-secondary" id="btn-close-bio-guide"><i class="fa-solid fa-xmark"></i> Close Guide</button>
+            </div>
+            <div id="bio-guide-topic-content"></div>
+          </div>
+
+          <!-- CBT Practical Assessment Pane -->
+          <div id="bio-cbt-pane" class="position-absolute top-0 start-0 w-100 h-100 bg-white p-4 overflow-auto" style="display: none; z-index: 20;">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+              <h4 class="fw-bold mb-0 text-primary"><i class="fa-solid fa-clipboard-check me-2"></i> Practical Biology CBT Assessment</h4>
+              <button class="btn btn-sm btn-outline-secondary" id="btn-close-bio-cbt"><i class="fa-solid fa-xmark"></i> Return to Workbench</button>
+            </div>
+            <div id="bio-cbt-questions-container"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Data Dock -->
+        <div class="bio-bottom-dock" id="bio-bottom-dock">
+          <div class="bio-dock-header">
+            <!-- Dock Tabs -->
+            <ul class="nav nav-pills small" id="bioDockPills">
+              <li class="nav-item">
+                <button class="nav-link active py-0 px-2 fw-semibold" data-dock-tab="data-log">
+                  <i class="fa-solid fa-table me-1 text-success"></i> Observations Log
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link py-0 px-2 fw-semibold" data-dock-tab="response-curve">
+                  <i class="fa-solid fa-chart-line me-1 text-primary"></i> Response Curves
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link py-0 px-2 fw-semibold" data-dock-tab="lotka-chart">
+                  <i class="fa-solid fa-chart-area me-1 text-warning"></i> Predator-Prey Oscillation
+                </button>
+              </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-xs btn-outline-success" id="btn-bio-record-reading"><i class="fa-solid fa-circle-plus me-1"></i> Record Reading</button>
+              <button class="btn btn-xs btn-outline-secondary" id="btn-bio-clear-data"><i class="fa-solid fa-trash me-1"></i> Clear</button>
+              <a href="/graphing-lab.html?subject=BIOLOGY&preset=0" target="_blank" class="btn btn-xs btn-outline-success fw-semibold" id="btn-bio-open-graphing-lab" title="Analyze in Advanced Graphing Lab">
+                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Graphing Lab
+              </a>
+              <button class="btn btn-xs btn-light border" id="btn-bio-toggle-dock"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+          </div>
+
+          <div class="bio-dock-content">
+            <!-- Dock View 1: Observation Data Table -->
+            <div class="bio-dock-table-pane" id="pane-dock-table">
+              <table class="table table-sm table-hover table-striped mb-0 small" id="bio-data-table">
+                <thead class="table-light">
+                  <tr id="bio-table-head">
+                    <th>#</th>
+                    <th>Condition / Factor</th>
+                    <th>Biological Rate</th>
+                    <th>Volume / Yield</th>
+                    <th>Observation / Color Change</th>
+                    <th>Inference</th>
+                  </tr>
+                </thead>
+                <tbody id="bio-table-body">
+                  <tr><td colspan="6" class="text-center text-muted py-3">No observations recorded yet. Click "Record Reading" or run virtual experiment.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Dock View 2: Response Curve Graph -->
+            <div class="bio-dock-graph-pane" id="pane-dock-graph">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="small fw-bold text-muted">Kinetic & Physiological Response:</span>
+                <select id="bio-graph-var-select" class="form-select form-select-xs" style="width: 190px; font-size: 11px;">
+                  <option value="enzyme_temp">Enzyme Rate vs Temp (°C)</option>
+                  <option value="pop_growth">Logistic Population Growth</option>
+                  <option value="photo_light">Photosynthesis vs Light Intensity</option>
+                  <option value="transpiration">Transpiration vs Humidity</option>
+                </select>
+              </div>
+              <canvas id="bio-mini-graph" width="380" height="120" style="width:100%; height:110px;"></canvas>
+            </div>
+
+            <!-- Dock View 3: Lotka-Volterra Predator-Prey Oscillation Canvas -->
+            <div class="w-100 h-100 p-2" id="pane-dock-lotka" style="display: none;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="small fw-bold text-muted"><i class="fa-solid fa-chart-area text-warning me-1"></i> Lotka-Volterra Time Series (Rabbits vs Foxes):</span>
+                <div class="d-flex gap-2">
+                  <span class="badge bg-success-subtle text-success">Prey (dx/dt = αx - βxy)</span>
+                  <span class="badge bg-danger-subtle text-danger">Predator (dy/dt = δxy - γy)</span>
+                </div>
+              </div>
+              <canvas id="bio-lotka-canvas" width="600" height="110" style="width:100%; height:105px; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:4px;"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inspector Panel (Right) -->
+      <aside class="bio-inspector" id="bio-inspector">
+        <div class="bio-inspector-header">
+          <h6 class="mb-0 fw-bold" id="bio-inspector-title"><i class="fa-solid fa-sliders text-success me-2"></i> Topic Inspector</h6>
+          <small class="text-muted" id="bio-inspector-subtitle">Select a module from curriculum</small>
+        </div>
+
+        <!-- Section: Selected Specimen / Object Properties -->
+        <div class="bio-inspector-section border-bottom pb-2 mb-2" id="bio-selected-object-sec">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-1">Selected Specimen Properties</label>
+          <div class="p-2 bg-light rounded border small">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted">Entity:</span>
+              <strong id="inspector-obj-name" class="text-dark">Plant Mesophyll Cell</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted">SI Dimensions:</span>
+              <span id="inspector-obj-dim" class="font-monospace text-primary">60 μm × 35 μm</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Dissected Layer:</span>
+              <span id="inspector-obj-layer" class="badge bg-success">Intact (Layer 1/3)</span>
+            </div>
+            <div class="mb-1">
+              <label class="form-label text-muted mb-0" style="font-size: 11px;">Layer Dissection Peel:</label>
+              <input type="range" class="form-range" id="slider-dissection-peel" min="1" max="3" step="1" value="1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Live Physiological HUD -->
+        <div class="bio-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Live Physiological HUD</label>
+          <div class="bio-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Primary Metric:</span>
+              <span id="bio-hud-primary-label">Reaction Rate v</span>
+            </div>
+            <div class="bio-hud-val" id="bio-hud-primary-val">24.5 μmol/min</div>
+          </div>
+          <div class="bio-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Cellular Parameter:</span>
+              <span id="bio-hud-secondary-label">Turgor Pressure Ψp</span>
+            </div>
+            <div class="bio-hud-val" id="bio-hud-secondary-val">+0.45 MPa</div>
+          </div>
+          <div class="bio-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Metabolic State:</span>
+              <span id="bio-hud-tertiary-label">ATP Yield</span>
+            </div>
+            <div class="bio-hud-val" id="bio-hud-tertiary-val">38 ATP/glucose</div>
+          </div>
+        </div>
+
+        <!-- Section: Environmental Controls -->
+        <div class="bio-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Environmental Controls</label>
+          <div id="bio-controls-container">
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold">
+                <span>Temperature:</span>
+                <span class="text-success fw-bold"><span id="val-bio-temp">37.0</span> °C</span>
+              </div>
+              <input type="range" class="form-range" id="slider-bio-temp" min="0" max="70" step="0.5" value="37" />
+            </div>
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold">
+                <span>pH Level:</span>
+                <span class="text-success fw-bold" id="val-bio-ph">7.4</span>
+              </div>
+              <input type="range" class="form-range" id="slider-bio-ph" min="1.0" max="14.0" step="0.1" value="7.4" />
+            </div>
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold">
+                <span>Substrate / CO2 Conc:</span>
+                <span class="text-success fw-bold"><span id="val-bio-substrate">50</span>%</span>
+              </div>
+              <input type="range" class="form-range" id="slider-bio-substrate" min="0" max="100" step="5" value="50" />
+            </div>
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small fw-semibold">
+                <span>Osmotic Environment:</span>
+                <span class="text-primary fw-bold" id="val-bio-osmolarity">Isotonic (0.9% NaCl)</span>
+              </div>
+              <select class="form-select form-select-sm mt-1" id="select-bio-osmolarity">
+                <option value="hypotonic">Hypotonic (Pure Water 0.0M)</option>
+                <option value="isotonic" selected>Isotonic (0.9% NaCl / 0.3M)</option>
+                <option value="hypertonic">Hypertonic (10% Salt / 2.0M)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Key Concepts & Equations -->
+        <div class="bio-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Key Concepts & Pathways</label>
+          <div id="bio-equations-container" class="small">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Virtual Optical Microscope Viewport -->
+  <div class="modal fade" id="modal-virtual-microscope" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-microscope text-success me-2"></i> Virtual Compound Optical Microscope</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <!-- Microscope Ocular Viewport -->
+            <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <div class="microscope-ocular-view">
+                <canvas id="canvas-microscope-view" class="microscope-slide-canvas" width="320" height="320"></canvas>
+              </div>
+              <div class="mt-2 text-center small text-muted">
+                <span>Total Magnification:</span> <strong class="text-success fs-6" id="val-total-magnification">400×</strong>
+                <span class="mx-2">•</span>
+                <span>Field of View:</span> <strong class="text-dark" id="val-field-view">450 μm</strong>
+              </div>
+            </div>
+
+            <!-- Microscope Control Deck -->
+            <div class="col-md-6">
+              <div class="card p-3 mb-3 border">
+                <h6 class="fw-bold mb-2 text-primary"><i class="fa-solid fa-sliders me-1"></i> Objective Turret & Eyepiece</h6>
+                <div class="d-flex gap-2 mb-3">
+                  <button class="btn btn-sm btn-outline-success btn-obj-lens" data-mag="4">Scanning (4×)</button>
+                  <button class="btn btn-sm btn-outline-success active btn-obj-lens" data-mag="10">Low Power (10×)</button>
+                  <button class="btn btn-sm btn-outline-success btn-obj-lens" data-mag="40">High Power (40×)</button>
+                  <button class="btn btn-sm btn-outline-success btn-obj-lens" data-mag="100">Oil Immersion (100×)</button>
+                </div>
+
+                <label class="form-label small fw-bold">Specimen Slide Selection:</label>
+                <select class="form-select form-select-sm mb-3" id="select-slide-specimen">
+                  <option value="onion_epidermis">Allium Cepa (Onion Epidermal Cells with Iodine)</option>
+                  <option value="human_cheek">Human Cheek Epithelial Cells (Methylene Blue)</option>
+                  <option value="leaf_stomata">Zea Mays Leaf Epidermis (Guard Cells & Stomata)</option>
+                  <option value="blood_smear">Human Blood Smear (Erythrocytes & Leukocytes)</option>
+                  <option value="paramecium">Paramecium Caudatum (Ciliated Protozoan)</option>
+                  <option value="bacillus_subtilis">Bacillus Subtilis (Gram-Positive Rods)</option>
+                  <option value="spirogyra_algae">Spirogyra Algae (Spiral Chloroplast Ribbons)</option>
+                </select>
+
+                <div class="row g-2 mb-2">
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Coarse Focus:</label>
+                    <input type="range" class="form-range" id="slider-coarse-focus" min="0" max="100" value="50" />
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Fine Focus:</label>
+                    <input type="range" class="form-range" id="slider-fine-focus" min="0" max="100" value="50" />
+                  </div>
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Substage Diaphragm Illumination:</label>
+                    <input type="range" class="form-range" id="slider-diaphragm" min="20" max="100" value="85" />
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Ocular Micrometer Graticule:</label>
+                    <div class="form-check form-switch mt-1">
+                      <input class="form-check-input" type="checkbox" id="check-show-graticule" checked />
+                      <label class="form-check-label small" for="check-show-graticule">Overlay Scale (μm)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Genetics Punnett Square Cross Solver (Monohybrid & Dihybrid) -->
+  <div class="modal fade" id="modal-punnett-solver" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-dna text-primary me-2"></i> Comprehensive Genetics Punnett Square Solver</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Cross Type Selector -->
+          <div class="d-flex gap-2 mb-3">
+            <button class="btn btn-sm btn-outline-primary active btn-cross-type" data-type="monohybrid">Monohybrid (2×2)</button>
+            <button class="btn btn-sm btn-outline-primary btn-cross-type" data-type="dihybrid">Dihybrid (4×4)</button>
+            <button class="btn btn-sm btn-outline-primary btn-cross-type" data-type="sex_linked">Sex-Linked (Hemophilia / Color-Blindness)</button>
+            <button class="btn btn-sm btn-outline-primary btn-cross-type" data-type="abo_blood">ABO Blood Groups</button>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-5">
+              <label class="form-label small fw-bold" id="label-punnett-p1">Parent 1 Genotype (e.g. Aa):</label>
+              <input type="text" class="form-control form-control-sm text-uppercase font-monospace" id="punnett-p1" value="Aa" />
+            </div>
+            <div class="col-md-5">
+              <label class="form-label small fw-bold" id="label-punnett-p2">Parent 2 Genotype (e.g. Aa):</label>
+              <input type="text" class="form-control form-control-sm text-uppercase font-monospace" id="punnett-p2" value="Aa" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-sm btn-primary w-100" id="btn-calculate-punnett"><i class="fa-solid fa-calculator me-1"></i> Cross</button>
+            </div>
+          </div>
+
+          <div class="p-3 bg-light rounded border text-center mb-3">
+            <div id="punnett-grid-container" class="d-inline-block"></div>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-white">
+                <span class="small fw-bold text-muted d-block">Genotypic Ratio:</span>
+                <strong class="text-primary font-monospace fs-6" id="punnett-genotype-ratio">1 AA : 2 Aa : 1 aa</strong>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-white">
+                <span class="small fw-bold text-muted d-block">Phenotypic Ratio:</span>
+                <strong class="text-success font-monospace fs-6" id="punnett-phenotype-ratio">3 Dominant : 1 Recessive (75% / 25%)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: 12 Standard Biology Experiment Templates -->
+  <div class="modal fade" id="modal-bio-templates" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-flask-vial text-info me-2"></i> Standard Biology Experiment Protocols</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3" id="bio-templates-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Biological Specimen & Model Library -->
+  <div class="modal fade" id="modal-specimen-library" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-boxes-packing text-secondary me-2"></i> Comprehensive Biological Specimen & Model Library</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3" id="bio-specimens-categories">
+            <!-- Populated via JS: 11 Categories -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Kirby-Bauer Antibiotic Susceptibility Assay -->
+  <div class="modal fade" id="modal-antibiotic-assay" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-bacteria text-warning me-2"></i> Kirby-Bauer Antibiotic Disk Diffusion Assay</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <canvas id="canvas-petri-dish" width="280" height="280" style="background:#F1F5F9; border-radius:50%; border:6px solid #CBD5E1; box-shadow:inset 0 0 20px rgba(0,0,0,0.1);"></canvas>
+              <small class="text-muted mt-2">Bacterial Lawn (Mueller-Hinton Agar) with Antibiotic Discs</small>
+            </div>
+            <div class="col-md-6">
+              <div class="card p-3 border mb-3">
+                <h6 class="fw-bold mb-2">Assay Parameters:</h6>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Select Antibiotic Disc:</label>
+                  <select class="form-select form-select-sm" id="select-antibiotic-disc">
+                    <option value="penicillin">Penicillin (10 units)</option>
+                    <option value="ampicillin">Ampicillin (10 μg)</option>
+                    <option value="tetracycline">Tetracycline (30 μg)</option>
+                    <option value="streptomycin">Streptomycin (10 μg)</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Inhibition Zone Diameter: <span class="text-primary font-monospace fw-bold" id="val-zone-diameter">22</span> mm</label>
+                  <input type="range" class="form-range" id="slider-zone-diameter" min="6" max="38" step="1" value="22" />
+                </div>
+                <button class="btn btn-sm btn-primary w-100" id="btn-eval-antibiotic"><i class="fa-solid fa-microscope me-1"></i> Evaluate Clinical Interpretation</button>
+              </div>
+              <div id="antibiotic-eval-result" class="p-2 rounded border bg-light small">
+                <span class="text-muted">Adjust zone caliper and evaluate susceptibility.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: Lotka-Volterra Predator-Prey Ecology Simulator -->
+  <div class="modal fade" id="modal-ecology-simulator" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-chart-line text-info me-2"></i> Lotka-Volterra Predator-Prey Dynamical System</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-3">
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Prey Birth Rate (α): <span id="val-lv-alpha">1.0</span></label>
+              <input type="range" class="form-range" id="slider-lv-alpha" min="0.2" max="2.0" step="0.1" value="1.0" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Predation Rate (β): <span id="val-lv-beta">0.05</span></label>
+              <input type="range" class="form-range" id="slider-lv-beta" min="0.01" max="0.1" step="0.005" value="0.05" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Predator Death Rate (γ): <span id="val-lv-gamma">0.5</span></label>
+              <input type="range" class="form-range" id="slider-lv-gamma" min="0.1" max="1.5" step="0.1" value="0.5" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Predator Reproduction (δ): <span id="val-lv-delta">0.02</span></label>
+              <input type="range" class="form-range" id="slider-lv-delta" min="0.005" max="0.05" step="0.005" value="0.02" />
+            </div>
+          </div>
+
+          <div class="card p-3 border mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold small text-muted">Population Curves:</span>
+              <div class="d-flex gap-2">
+                <span class="badge bg-success">Prey (Rabbits)</span>
+                <span class="badge bg-danger">Predators (Foxes)</span>
+              </div>
+            </div>
+            <canvas id="canvas-modal-lotka" width="900" height="260" style="width:100%; height:260px; background:#FFFFFF; border:1px solid #E2E8F0;"></canvas>
+          </div>
+
+          <div class="d-flex justify-content-between small text-muted">
+            <span>Equilibrium Prey Population: <strong class="text-success font-monospace" id="val-eq-prey">25</strong></span>
+            <span>Equilibrium Predator Population: <strong class="text-danger font-monospace" id="val-eq-pred">20</strong></span>
+            <button class="btn btn-sm btn-outline-success" id="btn-run-lotka-sim"><i class="fa-solid fa-arrows-rotate me-1"></i> Re-Calculate Cycles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/lab-live.js"></script>
+
+  <!-- Biology Lab Scripts -->
+  <script src="/js/biology-lab.js"></script>
+  <script src="/js/lab-assets.js" data-subject="biology"></script>
+</body>
+</html>

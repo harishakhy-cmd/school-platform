@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "apps/vercel-edition/api/index.js": {
+      "includeFiles": "{app.js,config/**,controllers/**,middleware/**,models/**,routes/**,scripts/**,utils/**,views/**,public/**,temp_exec/**}"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/apps/vercel-edition/api/index"
+    }
+  ]
+}

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCHOOL | Computer Science Laboratory</title>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+
+  <!-- CS Lab Stylesheet -->
+  <link rel="stylesheet" href="/css/cs-lab.css" />
+  <link rel="stylesheet" href="/css/hardware-3d-lab.css" />
+  <link rel="stylesheet" href="/css/lab-live.css" />
+  <link rel="stylesheet" href="/css/lab-workspace-polish.css" />
+  <link rel="stylesheet" href="/css/lab-responsive.css" />
+  <link rel="stylesheet" href="/css/lab-assets.css" />
+  <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+</head>
+<body class="cs-lab-body">
+  <div class="cs-lab-container">
+    <!-- Top Navigation Bar -->
+    <header class="cs-navbar">
+      <a href="/portal.html" class="school-header-brand" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></a>
+      <div class="cs-brand">
+        <div class="cs-brand-icon">
+          <i class="fa-solid fa-terminal"></i>
+        </div>
+        <div>
+          <span class="cs-brand-title">Virtual Computer Science & Software Laboratory</span>
+          <span class="cs-brand-badge">IDE, Compilers, Networks, SQL & 3D Hardware</span>
+        </div>
+      </div>
+
+      <div class="cs-mobile-panel-controls" aria-label="Workspace panels">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-cs-mobile-panel="topics" aria-controls="cs-sidebar" aria-pressed="false">Topics</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-cs-mobile-panel="inspector" aria-controls="cs-inspector" aria-pressed="false">Inspector</button>
+      </div>
+
+      <!-- Mode Switcher Pills -->
+      <div class="cs-nav-center">
+        <button class="cs-mode-pill active" data-mode="ide-editor">
+          <i class="fa-solid fa-code"></i> IDE & Code
+        </button>
+        <button class="cs-mode-pill" data-mode="web-preview">
+          <i class="fa-solid fa-globe"></i> Web & Browser
+        </button>
+        <button class="cs-mode-pill" data-mode="database-sql">
+          <i class="fa-solid fa-database"></i> Database & SQL
+        </button>
+        <button class="cs-mode-pill" data-mode="networks-sec">
+          <i class="fa-solid fa-network-wired"></i> Networks & Security
+        </button>
+        <button class="cs-mode-pill" data-mode="hardware-3d">
+          <i class="fa-solid fa-microchip"></i> 3D Hardware
+        </button>
+        <button class="cs-mode-pill" data-mode="cbt-practical">
+          <i class="fa-solid fa-clipboard-check"></i> Practical CBT
+        </button>
+      </div>
+
+      <!-- Top Action Toolbar: 10 Standard IDE Actions + Tutor Screen Sharing & Notes -->
+      <div class="cs-nav-actions">
+        <button class="btn btn-sm btn-danger fw-semibold" id="btn-cs-share-screen" title="Share Screen, Application Window or Selected Tab with Students">
+          <i class="fa-solid fa-display me-1"></i> Share Screen
+        </button>
+        <button class="btn btn-sm btn-primary fw-semibold" id="btn-cs-templates-nav" data-bs-toggle="modal" data-bs-target="#modal-cs-templates" title="Starter Templates (14 Disciplines)">
+          <i class="fa-solid fa-shapes me-1"></i> Templates
+        </button>
+        <select class="form-select form-select-sm d-none d-xl-inline-block" id="select-quick-template" style="max-width: 170px; font-size: 11px; font-weight: 600;" title="Quick Launch Template">
+          <option value="">-- Quick Template --</option>
+          <option value="tmpl_html5_web">Web Application</option>
+          <option value="tmpl_python_ds">Python Data Structures</option>
+          <option value="tmpl_python_oop">Python OOP & Classes</option>
+          <option value="tmpl_c_memory">C Dynamic Memory</option>
+          <option value="tmpl_cpp_oop">C++ Modern STL</option>
+          <option value="tmpl_java_oop">Java Architecture</option>
+          <option value="tmpl_sql_relational">SQL Database Schema</option>
+          <option value="tmpl_node_rest">Node.js REST API</option>
+          <option value="tmpl_logic_gates">Logic Gates & ALU</option>
+          <option value="tmpl_os_scheduler">OS Process Scheduler</option>
+          <option value="tmpl_networking_sim">Networking TCP/IP</option>
+          <option value="tmpl_security_crypto">Cybersecurity Crypto</option>
+          <option value="tmpl_data_science">Data Science EDA</option>
+          <option value="tmpl_mobile_android">Android Architecture</option>
+        </select>
+        <button class="btn btn-sm btn-outline-info fw-semibold" id="btn-cs-toggle-notes" title="Tutor Lab Notes & Live Instruction">
+          <i class="fa-solid fa-chalkboard-user me-1"></i> Lab Notes
+        </button>
+        <span class="cs-tool-sep"></span>
+        <button class="btn btn-sm btn-outline-primary" id="btn-cs-new-file" title="Create New Source File (Ctrl+N)">
+          <i class="fa-solid fa-file-circle-plus"></i> New
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-cs-projects" title="Open Project (Ctrl+O)">
+          <i class="fa-solid fa-folder-open"></i> Open
+        </button>
+        <button class="btn btn-sm btn-outline-success" id="btn-cs-save-project" title="Save Project (Ctrl+S)">
+          <i class="fa-solid fa-floppy-disk"></i> Save
+        </button>
+        <button class="btn btn-sm btn-success" id="btn-cs-run-code" title="Run Code in Sandbox (Ctrl+Enter)">
+          <i class="fa-solid fa-play"></i> Run
+        </button>
+        <button class="btn btn-sm btn-outline-warning" id="btn-cs-debug-code" title="Run Diagnostics & Debug">
+          <i class="fa-solid fa-bug"></i> Debug
+        </button>
+        <button class="btn btn-sm btn-outline-danger" id="btn-cs-stop-code" title="Stop Running Program">
+          <i class="fa-solid fa-stop"></i> Stop
+        </button>
+        <button class="btn btn-sm btn-outline-info" id="btn-cs-build-code" title="Build & Compile (Ctrl+B)">
+          <i class="fa-solid fa-hammer"></i> Build
+        </button>
+        <button class="btn btn-sm btn-outline-primary" id="btn-cs-preview-browser" title="Live Web Preview">
+          <i class="fa-solid fa-eye"></i> Preview
+        </button>
+        <button class="btn btn-sm btn-outline-dark" id="btn-cs-share-project" title="Share Project / Export">
+          <i class="fa-solid fa-share-nodes"></i> Share
+        </button>
+        <button class="btn btn-sm btn-accent" id="btn-cs-submit-work" title="Submit Project for Grading">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Submit
+        </button>
+        <span class="cs-tool-sep"></span>
+        <a href="/portal.html" class="btn btn-sm btn-light border" title="Return to Portal">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="cs-main-workspace">
+      <!-- Left Sidebar: Tabs for Curriculum & File Explorer -->
+      <aside class="cs-sidebar" id="cs-sidebar">
+        <ul class="nav nav-tabs nav-fill small fw-bold border-bottom" id="csSidebarTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active py-2 text-primary" id="tab-cs-curriculum-btn" data-bs-toggle="tab" data-bs-target="#tab-cs-curriculum-pane" type="button" role="tab">
+              <i class="fa-solid fa-book-bookmark me-1"></i> Curriculum
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link py-2 text-secondary" id="tab-cs-files-btn" data-bs-toggle="tab" data-bs-target="#tab-cs-files-pane" type="button" role="tab">
+              <i class="fa-solid fa-folder-tree me-1"></i> Explorer
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link py-2 text-info" id="tab-cs-notes-btn" data-bs-toggle="tab" data-bs-target="#tab-cs-notes-pane" type="button" role="tab">
+              <i class="fa-solid fa-pen-to-square me-1"></i> Lab Notes
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content flex-grow-1 overflow-hidden d-flex flex-column" id="csSidebarTabContent">
+          <!-- Pane 1: 24 Curriculum Modules -->
+          <div class="tab-pane fade show active d-flex flex-column h-100" id="tab-cs-curriculum-pane" role="tabpanel">
+            <div class="cs-sidebar-search p-2 border-bottom">
+              <input type="text" class="form-control form-control-sm" id="cs-search-topics" placeholder="Search Python, Web, SQL, Networking, Hardware..." />
+            </div>
+            <div class="cs-topics-list flex-grow-1 overflow-auto" id="cs-topics-list">
+              <!-- Dynamically populated via JS from CURRICULUM_MODULES -->
+            </div>
+          </div>
+
+          <!-- Pane 2: Project File Explorer -->
+          <div class="tab-pane fade d-flex flex-column h-100" id="tab-cs-files-pane" role="tabpanel">
+            <div class="p-2 border-bottom d-flex justify-content-between align-items-center">
+              <span class="small fw-bold text-muted text-uppercase text-truncate" id="cs-project-name-badge">My Project</span>
+              <div class="btn-group btn-group-xs">
+                <button class="btn btn-xs btn-outline-primary" id="btn-add-file-tree" title="Add File"><i class="fa-solid fa-file-circle-plus"></i></button>
+                <button class="btn btn-xs btn-outline-secondary" id="btn-add-folder-tree" title="Add Folder"><i class="fa-solid fa-folder-plus"></i></button>
+                <button class="btn btn-xs btn-outline-success" id="btn-upload-file-tree" title="Upload Local File"><i class="fa-solid fa-upload"></i></button>
+                <button class="btn btn-xs btn-outline-dark" id="btn-download-project-tree" title="Download Project JSON"><i class="fa-solid fa-download"></i></button>
+                <input type="file" id="cs-file-upload-input" style="display:none;" />
+              </div>
+            </div>
+            <div class="p-2 border-bottom">
+              <input type="text" class="form-control form-control-sm" id="cs-search-files" placeholder="Filter project files..." />
+            </div>
+            <div class="p-2 flex-grow-1 overflow-auto" id="cs-file-tree-container">
+              <!-- Dynamically populated file tree -->
+            </div>
+          </div>
+
+          <!-- Pane 3: Tutor Lab Notes & Live Instruction Blackboard -->
+          <div class="tab-pane fade d-flex flex-column h-100" id="tab-cs-notes-pane" role="tabpanel">
+            <div class="p-2 border-bottom bg-light d-flex justify-content-between align-items-center">
+              <span class="small fw-bold text-info"><i class="fa-solid fa-chalkboard-user me-1"></i> Tutor Lab Notes</span>
+              <div class="btn-group btn-group-xs">
+                <button class="btn btn-xs btn-outline-primary" id="btn-notes-copy-editor" title="Insert into Code Editor"><i class="fa-solid fa-code me-1"></i> To Editor</button>
+                <button class="btn btn-xs btn-outline-success" id="btn-notes-broadcast" title="Broadcast Note to Students"><i class="fa-solid fa-bullhorn me-1"></i> Broadcast</button>
+                <button class="btn btn-xs btn-outline-dark" id="btn-notes-export" title="Export as Markdown"><i class="fa-solid fa-file-arrow-down"></i></button>
+              </div>
+            </div>
+            <!-- Quick Stencils -->
+            <div class="p-1 px-2 border-bottom bg-white d-flex gap-1 overflow-auto">
+              <button class="btn btn-xs btn-light border text-muted text-nowrap btn-note-stencil" data-stencil="agenda">Agenda</button>
+              <button class="btn btn-xs btn-light border text-muted text-nowrap btn-note-stencil" data-stencil="pseudocode">Pseudocode</button>
+              <button class="btn btn-xs btn-light border text-muted text-nowrap btn-note-stencil" data-stencil="task">Challenge</button>
+              <button class="btn btn-xs btn-light border text-muted text-nowrap btn-note-stencil" data-stencil="bigo">Big-O</button>
+            </div>
+            <!-- Writing Area -->
+            <div class="p-2 flex-grow-1 d-flex flex-column">
+              <textarea class="form-control form-control-sm flex-grow-1 font-monospace" id="tutor-lab-notes-input" placeholder="// Tutor's live lab notes, explanations, algorithm proofs, whiteboard text, or instructions for students..." style="resize:none; font-size:12px; line-height:1.5;"></textarea>
+            </div>
+            <div class="p-2 border-top bg-light d-flex justify-content-between align-items-center small text-muted">
+              <span id="tutor-notes-status"><i class="fa-solid fa-check text-success me-1"></i> Auto-saved</span>
+              <button class="btn btn-xs btn-link text-danger p-0" id="btn-clear-notes">Clear</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Horizontal Resizer (Left to Viewport) -->
+      <div class="cs-resizer-h" id="resizer-left" title="Drag to Resize Left Sidebar"></div>
+
+      <!-- Central Viewport -->
+      <section class="cs-viewport" id="cs-viewport">
+        <!-- Floating Canvas Toolbar -->
+        <div class="cs-floating-toolbar">
+          <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-xs" id="select-cs-language" style="width: 140px; font-size: 11px; font-weight: 600;">
+              <option value="javascript">JavaScript (Node/ES6)</option>
+              <option value="python">Python 3.12</option>
+              <option value="html">HTML5 / Web</option>
+              <option value="css">CSS3 / Web</option>
+              <option value="sql">SQL (Relational)</option>
+              <option value="c">C (GCC 15.2)</option>
+              <option value="cpp">C++ (G++)</option>
+              <option value="java">Java (OpenJDK 21)</option>
+            </select>
+            <span class="badge bg-primary-subtle text-primary border" id="cs-runtime-badge">Python 3.12 child process</span>
+            <button type="button" class="cs-tool-btn" id="btn-cs-check-code" title="Check code syntax and common semantic issues">
+              <i class="fa-solid fa-list-check"></i> Check
+            </button>
+          </div>
+          <span class="cs-tool-sep"></span>
+          <button class="cs-tool-btn active" id="btn-toggle-editor" title="Editor View">
+            <i class="fa-solid fa-code"></i> Editor
+          </button>
+          <button class="cs-tool-btn" id="btn-toggle-format" title="Format Code">
+            <i class="fa-solid fa-align-left"></i> Format
+          </button>
+          <button class="cs-tool-btn" id="btn-toggle-fullscreen" title="Toggle Fullscreen">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+          <span class="cs-tool-sep"></span>
+          <button class="cs-tool-btn text-danger" id="btn-cs-clear-code" title="Clear Editor">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+
+        <!-- Viewport Modes Container -->
+        <div class="cs-viewport-container" id="cs-viewport-container">
+          <!-- MODE 1: IDE Code Editor -->
+          <div class="cs-mode-view active" id="view-ide-editor">
+            <!-- Open Tabs Bar -->
+            <div class="cs-tabs-bar" id="cs-tabs-bar">
+              <div class="cs-file-tab active" data-filename="main.py">
+                <i class="fa-brands fa-python text-warning me-1"></i> main.py
+                <i class="fa-solid fa-xmark cs-tab-close ms-2"></i>
+              </div>
+            </div>
+            <!-- Code Editor Workspace -->
+            <div class="cs-editor-wrapper">
+              <div class="cs-line-numbers" id="cs-line-numbers">1</div>
+              <textarea class="cs-code-textarea" id="cs-code-editor" spellcheck="false" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="cs-editor-suggestions" aria-expanded="false" placeholder="// Write computer science code here..."></textarea>
+              <div class="cs-editor-suggestions" id="cs-editor-suggestions" role="listbox" aria-label="Code completion suggestions" hidden></div>
+            </div>
+            <div class="cs-editor-status">
+              <span id="cs-editor-check-status" role="status" aria-live="polite">Code assistance ready</span>
+              <span>Ctrl/Cmd+Space for suggestions</span>
+            </div>
+          </div>
+
+          <!-- MODE 2: Web Preview & Built-in Browser -->
+          <div class="cs-mode-view" id="view-web-preview" style="display: none;">
+            <div class="cs-browser-header">
+              <div class="d-flex align-items-center gap-1">
+                <button class="btn btn-xs btn-light border" id="btn-browser-back"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="btn btn-xs btn-light border" id="btn-browser-forward"><i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn btn-xs btn-light border" id="btn-browser-reload"><i class="fa-solid fa-rotate-right"></i></button>
+              </div>
+              <input type="text" class="form-control form-control-sm cs-browser-address" id="cs-browser-url" value="http://localhost:3000/preview/index.html" readonly />
+              <div class="btn-group btn-group-xs">
+                <button class="btn btn-xs btn-outline-secondary active btn-vp-switch" data-vp="desktop"><i class="fa-solid fa-desktop"></i></button>
+                <button class="btn btn-xs btn-outline-secondary btn-vp-switch" data-vp="tablet"><i class="fa-solid fa-tablet-screen-button"></i></button>
+                <button class="btn btn-xs btn-outline-secondary btn-vp-switch" data-vp="mobile"><i class="fa-solid fa-mobile-screen"></i></button>
+              </div>
+            </div>
+            <div class="cs-browser-viewport-wrapper">
+              <iframe id="cs-browser-iframe" class="cs-browser-frame desktop" sandbox="allow-scripts allow-modals"></iframe>
+            </div>
+          </div>
+
+          <!-- MODE 3: Database & SQL Laboratory -->
+          <div class="cs-mode-view" id="view-database-sql" style="display: none;">
+            <div class="p-3 d-flex flex-column h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold mb-0 text-primary"><i class="fa-solid fa-database me-2"></i> Isolated SQLite Query Console</h6>
+                <button class="btn btn-sm btn-primary" id="btn-execute-sql"><i class="fa-solid fa-bolt me-1"></i> Execute Query</button>
+              </div>
+              <div class="mb-3" style="height: 140px;">
+                <textarea class="form-control font-monospace text-primary bg-light h-100" id="cs-sql-input" placeholder="SELECT s.student_name, c.course_title, g.grade FROM students s JOIN enrollments e ON s.id = e.student_id ...">SELECT * FROM students LIMIT 10;</textarea>
+              </div>
+              <div class="flex-grow-1 overflow-auto border rounded bg-white p-2">
+                <span class="small fw-bold text-muted d-block mb-1">Query Result Set:</span>
+                <div id="cs-sql-result-table" class="table-responsive small">
+                  <p class="text-muted mb-0">Run a query to see its actual result. The sample database is recreated for each execution.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODE 4: Networks & Defensive Cybersecurity -->
+          <div class="cs-mode-view" id="view-networks-sec" style="display: none;">
+            <div class="p-3 h-100 overflow-auto">
+              <div class="row g-3">
+                <div class="col-md-7">
+                  <div class="card p-3 border h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="fw-bold mb-0 text-primary"><i class="fa-solid fa-network-wired me-2"></i> Network Topology Designer</h6>
+                      <button class="btn btn-xs btn-outline-success" id="btn-net-ping"><i class="fa-solid fa-paper-plane me-1"></i> Run Ping Simulation</button>
+                    </div>
+                    <canvas id="canvas-network-topology" width="500" height="260" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; width:100%; height:260px;"></canvas>
+                    <div class="row g-2 mt-2">
+                      <div class="col-sm-6"><label class="form-label small mb-1" for="cs-net-latency">Link latency (one way, ms)</label><input id="cs-net-latency" class="form-range" type="range" min="5" max="120" value="24"><output class="small text-muted" id="cs-net-latency-value">24 ms</output></div>
+                      <div class="col-sm-6"><label class="form-label small mb-1" for="cs-net-loss">Simulated packet loss</label><input id="cs-net-loss" class="form-range" type="range" min="0" max="75" value="0"><output class="small text-muted" id="cs-net-loss-value">0%</output></div>
+                    </div>
+                    <div id="cs-ping-result" class="small font-monospace mt-2" role="status" aria-live="polite">Configure the link and run four simulated echo requests.</div>
+                    <small class="text-muted d-block mt-1">Educational topology simulation; it does not send packets over your network.</small>
+                    <div class="mt-2 small text-muted d-flex justify-content-between">
+                      <span>Source: <strong>PC-A (192.168.1.10)</strong></span>
+                      <span>Router: <strong>Gateway (192.168.1.1)</strong></span>
+                      <span>Target: <strong>Web Server (10.0.0.50)</strong></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="card p-3 border mb-3">
+                    <h6 class="fw-bold mb-2 text-danger"><i class="fa-solid fa-shield-halved me-1"></i> Defensive Security Lab</h6>
+                    <label class="form-label small fw-bold">Password Entropy & Strength:</label>
+                    <input type="password" class="form-control form-control-sm mb-2 font-monospace" id="cs-entropy-input" autocomplete="new-password" placeholder="Type a sample password to evaluate locally..." />
+                    <div class="progress mb-2" style="height: 6px;">
+                      <div class="progress-bar bg-success" id="bar-entropy-meter" style="width: 85%;"></div>
+                    </div>
+                    <small class="text-muted d-block" id="cs-entropy-readout">Enter a sample password. This is a rough search-space estimate, not a password audit.</small>
+                  </div>
+                  <div class="card p-3 border">
+                    <h6 class="fw-bold mb-2 text-info"><i class="fa-solid fa-fingerprint me-1"></i> Cryptographic Hashing</h6>
+                    <div class="input-group input-group-sm mb-2">
+                      <span class="input-group-text">SHA-256</span>
+                      <input type="text" class="form-control font-monospace" id="cs-hash-input" placeholder="Enter text to hash locally" aria-label="Text to hash" />
+                    </div>
+                    <input type="text" class="form-control form-control-sm font-monospace" id="cs-hash-output" placeholder="Digest appears here as you type" aria-label="SHA-256 digest" readonly />
+                    <small class="text-muted mt-2">Computed locally using SHA-256. Do not use a plain hash as a production password storage scheme.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODE 5: 3D Computer Hardware Assembly -->
+          <div class="cs-mode-view" id="view-hardware-3d" style="display: none; position: relative;">
+            <div class="hardware-lab" id="cs-hardware-lab">
+              <header class="hardware-toolbar">
+                <div>
+                  <strong><i class="fa-solid fa-microchip me-2"></i>Hardware laboratory</strong>
+                  <span class="hardware-hint">Representative models · drag to orbit · right-drag or Shift-drag to pan · scroll to zoom</span>
+                </div>
+                <div class="hardware-toolbar-actions">
+                  <label class="visually-hidden" for="select-hardware-component">Choose a hardware model</label>
+                  <select class="form-select form-select-sm" id="select-hardware-component" aria-label="Choose a hardware model">
+                    <option value="motherboard">ATX motherboard</option>
+                    <option value="desktop">Desktop system unit</option>
+                    <option value="cpu">CPU package</option>
+                    <option value="ram">DIMM memory</option>
+                    <option value="storage">M.2 SSD</option>
+                    <option value="gpu">Graphics card</option>
+                    <option value="cooling">CPU air cooler</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="mobile">Mobile device</option>
+                    <option value="network">Network switch</option>
+                    <option value="ports">I/O connectors</option>
+                  </select>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-hw-view="reset" title="Reset camera">Reset view</button>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-hw-action="xray" aria-pressed="false" disabled>X-ray</button>
+                  <label class="hardware-opacity-control" for="hardware-xray-opacity">Case <span id="hardware-xray-opacity-value">22%</span>
+                    <input id="hardware-xray-opacity" type="range" min="0" max="100" value="22" disabled>
+                  </label>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-hw-action="explode" aria-pressed="false" disabled>Explode</button>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-hw-action="toggle-selected" disabled>Hide selected</button>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-hw-action="fullscreen">Fullscreen</button>
+                </div>
+              </header>
+              <div class="hardware-workspace">
+                <nav class="hardware-categories" aria-label="Hardware categories">
+                  <span class="hardware-section-label">COMPONENT LIBRARY</span>
+                  <button type="button" class="active" data-hw-model="motherboard"><i class="fa-solid fa-table-cells-large"></i> Motherboard</button>
+                  <button type="button" data-hw-model="desktop"><i class="fa-solid fa-computer"></i> Desktop system</button>
+                  <button type="button" data-hw-model="cpu"><i class="fa-solid fa-microchip"></i> Processor</button>
+                  <button type="button" data-hw-model="ram"><i class="fa-solid fa-memory"></i> Memory</button>
+                  <button type="button" data-hw-model="storage"><i class="fa-solid fa-hard-drive"></i> Storage</button>
+                  <button type="button" data-hw-model="gpu"><i class="fa-solid fa-display"></i> Graphics card</button>
+                  <button type="button" data-hw-model="cooling"><i class="fa-solid fa-fan"></i> Power & cooling</button>
+                  <button type="button" data-hw-model="laptop"><i class="fa-solid fa-laptop"></i> Laptop</button>
+                  <button type="button" data-hw-model="mobile"><i class="fa-solid fa-mobile-screen"></i> Mobile device</button>
+                  <button type="button" data-hw-model="network"><i class="fa-solid fa-network-wired"></i> Networking</button>
+                  <button type="button" data-hw-model="ports"><i class="fa-solid fa-plug"></i> Ports & connectors</button>
+                </nav>
+                <div class="hardware-stage">
+                  <div id="cs-3d-canvas-container" class="hardware-canvas" aria-label="Interactive 3D computer hardware model"></div>
+                  <div class="hardware-stage-tools" role="group" aria-label="Camera views">
+                    <button type="button" data-hw-view="front" title="Front view">Front</button>
+                    <button type="button" data-hw-view="top" title="Top view">Top</button>
+                    <button type="button" data-hw-view="side" title="Side view">Side</button>
+                    <button type="button" data-hw-view="iso" title="Isometric view">Isometric</button>
+                  </div>
+                  <div class="hardware-stage-note" id="hardware-stage-status" role="status">Select a component in the model to inspect it.</div>
+                  <div class="hardware-explosion-controls" role="group" aria-label="Exploded assembly animation">
+                    <div class="hardware-explosion-buttons">
+                      <button type="button" data-hw-action="explosion-play" disabled aria-label="Play disassembly">Play</button>
+                      <button type="button" data-hw-action="explosion-pause" disabled aria-label="Pause disassembly">Pause</button>
+                      <button type="button" data-hw-action="explosion-reverse" disabled aria-label="Reverse disassembly">Reverse</button>
+                      <button type="button" data-hw-action="explosion-restore" disabled aria-label="Restore assembled computer">Restore</button>
+                    </div>
+                    <label for="hardware-explosion-progress">Assembly separation</label>
+                    <input id="hardware-explosion-progress" type="range" min="0" max="100" value="0" disabled>
+                  </div>
+                </div>
+                <aside class="hardware-inspector" aria-live="polite">
+                  <div class="hardware-inspector-heading">
+                    <span class="hardware-section-label">COMPONENT INSPECTOR</span>
+                    <h2 id="hardware-part-name">ATX motherboard</h2>
+                    <p id="hardware-part-summary">A representative system board with common sockets, slots, power connections and controllers.</p>
+                  </div>
+                  <div class="hardware-inspector-content" id="hardware-part-details"></div>
+                  <details class="hardware-reference-card">
+                    <summary>Real hardware photo reference</summary>
+                    <figure>
+                      <img
+                        src="/images/hardware-interior-reference.jpg"
+                        alt="Open desktop computer showing a motherboard, graphics card, memory, storage, and power supply"
+                        width="1415"
+                        height="1337"
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <figcaption>
+                        A 2007 Antec P180b system by Kallerna. Public domain.
+                        <a href="https://commons.wikimedia.org/wiki/File:Computer_from_inside_018.jpg" target="_blank" rel="noopener noreferrer">Source and asset details</a>.
+                        Static reference photo; not the interactive 3D model.
+                      </figcaption>
+                    </figure>
+                  </details>
+                  <details class="hardware-reference-card">
+                    <summary>Interactive motherboard model reference</summary>
+                    <div class="hardware-model-reference">
+                      <p>
+                        Online model by Daniel Cardona, licensed CC BY 4.0.
+                        Load it from Sketchfab only when you choose; the embedded model is a separate reference and is not connected to the SCHOOL component inspector.
+                      </p>
+                      <button type="button" class="hardware-external-viewer-button" data-hw-load-sketchfab aria-controls="hardware-sketchfab-reference" aria-expanded="false">
+                        Load interactive 3D model
+                      </button>
+                      <iframe
+                        id="hardware-sketchfab-reference"
+                        class="hardware-external-viewer"
+                        title="Sketchfab 3D model: MotherBoard + Components by Daniel Cardona"
+                        data-src="https://sketchfab.com/models/3bc94057328243d4b341a55f59160f8a/embed?autostart=0&amp;ui_infos=0"
+                        loading="lazy"
+                        hidden
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                        allow="autoplay; fullscreen; xr-spatial-tracking"
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin"
+                      ></iframe>
+                      <p class="hardware-model-attribution">
+                        <a href="https://sketchfab.com/3d-models/motherboard-components-3bc94057328243d4b341a55f59160f8a" target="_blank" rel="noopener noreferrer">MotherBoard + Components</a>
+                        by <a href="https://sketchfab.com/DanielCardonaArt" target="_blank" rel="noopener noreferrer">Daniel Cardona (@DanielCardonaArt)</a>,
+                        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.
+                        The interactive viewer is hosted by Sketchfab; download and in-app part selection are not available here.
+                      </p>
+                    </div>
+                  </details>
+                  <section class="hardware-practical">
+                    <div class="hardware-practical-tabs" role="tablist" aria-label="Hardware practical activities">
+                      <button type="button" class="active" role="tab" aria-selected="true" data-hw-panel="assembly">Assembly</button>
+                      <button type="button" role="tab" aria-selected="false" data-hw-panel="diagnostics">Troubleshoot</button>
+                    </div>
+                    <div id="hardware-assembly-panel" class="hardware-practical-panel">
+                      <p>Follow the safe, simplified sequence. Check the representative build before simulated startup.</p>
+                      <div class="hardware-compatibility-grid">
+                        <label for="hardware-cpu-socket">CPU socket
+                          <select id="hardware-cpu-socket" class="form-select form-select-sm">
+                            <option value="AM5" selected>AM5</option>
+                            <option value="LGA1700">LGA1700</option>
+                          </select>
+                        </label>
+                        <label for="hardware-board-socket">Board socket
+                          <select id="hardware-board-socket" class="form-select form-select-sm">
+                            <option value="AM5" selected>AM5</option>
+                            <option value="LGA1700">LGA1700</option>
+                          </select>
+                        </label>
+                        <label for="hardware-memory">Memory module
+                          <select id="hardware-memory" class="form-select form-select-sm">
+                            <option value="DDR5" selected>DDR5</option>
+                            <option value="DDR4">DDR4</option>
+                          </select>
+                        </label>
+                        <label for="hardware-board-memory">Board memory support
+                          <select id="hardware-board-memory" class="form-select form-select-sm">
+                            <option value="DDR5" selected>DDR5</option>
+                            <option value="DDR4">DDR4</option>
+                          </select>
+                        </label>
+                        <label for="hardware-psu-watts">PSU capacity (illustrative)
+                          <select id="hardware-psu-watts" class="form-select form-select-sm">
+                            <option value="450">450 W</option>
+                            <option value="550">550 W</option>
+                            <option value="650">650 W</option>
+                            <option value="750" selected>750 W</option>
+                          </select>
+                        </label>
+                      </div>
+                      <ol id="hardware-assembly-steps"></ol>
+                      <button type="button" class="btn btn-sm btn-primary w-100" data-hw-action="check-build">Check build</button>
+                      <div id="hardware-practical-result" class="hardware-practical-result" role="status"></div>
+                    </div>
+                    <div id="hardware-diagnostics-panel" class="hardware-practical-panel" hidden>
+                      <label class="form-label small fw-semibold" for="hardware-scenario">Practice scenario</label>
+                      <select id="hardware-scenario" class="form-select form-select-sm">
+                        <option value="no-display">System powers on, but there is no display</option>
+                        <option value="no-boot">System does not power on</option>
+                        <option value="overheat">CPU temperature rises under load</option>
+                        <option value="no-network">Wired network link is unavailable</option>
+                      </select>
+                      <label class="form-label small fw-semibold mt-2" for="hardware-diagnosis">First diagnostic check</label>
+                      <select id="hardware-diagnosis" class="form-select form-select-sm">
+                        <option value="">Choose a check…</option>
+                      </select>
+                      <button type="button" class="btn btn-sm btn-primary w-100 mt-2" data-hw-action="diagnose">Check reasoning</button>
+                      <div id="hardware-diagnostic-result" class="hardware-practical-result" role="status"></div>
+                    </div>
+                    <p class="hardware-safety-note"><i class="fa-solid fa-triangle-exclamation me-1"></i>Training simulation only. Never open or service a mains-connected power supply.</p>
+                  </section>
+                </aside>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODE 6: Practical CBT Assessment Pane -->
+          <div class="cs-mode-view" id="view-cbt-practical" style="display: none;">
+            <div class="p-4 overflow-auto h-100">
+              <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                <h5 class="fw-bold mb-0 text-primary"><i class="fa-solid fa-clipboard-check me-2"></i> Practical Coding Assessment · Practice</h5>
+                <span class="badge bg-secondary fs-6" id="cbt-timer-badge">Untimed practice</span>
+              </div>
+              <div class="card p-3 mb-3 border">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-primary">QUESTION 1: FIBONACCI & DYNAMIC PROGRAMMING</span>
+                  <span class="text-muted small">Six executable test cases</span>
+                </div>
+                <p class="fw-semibold mb-2">Write a function <code>fibonacci(n)</code> in Python that computes the n-th Fibonacci number in O(n) time. Use iteration or dynamic programming. Your submitted code is executed in the isolated Python sandbox against six inputs, including a large value that exposes slow exponential implementations. This practice assessment can be run repeatedly.</p>
+                <div class="mb-3">
+                  <textarea class="form-control font-monospace small bg-light" id="cbt-q1-code" rows="5">def fibonacci(n, memo={}):
+    if n in memo: return memo[n]
+    if n <= 1: return n
+    memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo)
+    return memo[n]</textarea>
+                </div>
+                <button class="btn btn-sm btn-success" id="btn-submit-cbt-q1"><i class="fa-solid fa-vial-circle-check me-1"></i> Run Unit Tests & Grade</button>
+                <div id="cbt-q1-result" class="mt-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vertical Resizer (Viewport to Dock) -->
+        <div class="cs-resizer-v" id="resizer-bottom" title="Drag to Resize Terminal Dock"></div>
+
+        <!-- Bottom Dock: Terminal, Console, Output & Errors -->
+        <div class="cs-bottom-dock" id="cs-bottom-dock">
+          <div class="cs-dock-header">
+            <ul class="nav nav-pills small" id="csDockTabs">
+              <li class="nav-item">
+                <button class="nav-link active py-0 px-2 fw-semibold" data-dock-tab="output">
+                  <i class="fa-solid fa-terminal me-1 text-primary"></i> Program Output
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link py-0 px-2 fw-semibold" data-dock-tab="console">
+                  <i class="fa-solid fa-laptop-code me-1 text-success"></i> Interactive Terminal
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link py-0 px-2 fw-semibold" data-dock-tab="errors">
+                  <i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> Diagnostics & Errors
+                </button>
+              </li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-xs btn-outline-secondary" id="btn-clear-dock"><i class="fa-solid fa-trash me-1"></i> Clear</button>
+              <button class="btn btn-xs btn-light border" id="btn-toggle-dock"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+          </div>
+          <div class="cs-dock-content">
+            <!-- Tab 1: Output -->
+            <pre class="cs-terminal-screen active" id="pane-dock-output"><span class="text-muted">// Ready to run program. Click "Run Code" above or press Ctrl+Enter.</span></pre>
+            <!-- Tab 2: Terminal Console -->
+            <div class="cs-terminal-screen" id="pane-dock-console" style="display: none;">
+              <div id="cs-terminal-history"><span class="text-success">$</span> <span class="text-muted">Welcome to SCHOOL Virtual Terminal (Isolated Environment)</span></div>
+              <div class="d-flex align-items-center mt-1">
+                <span class="text-success fw-bold me-1">$</span>
+                <input type="text" class="cs-terminal-input" id="cs-terminal-cmd" placeholder="Type command (e.g. ls, python --version, gcc --version, help)..." />
+              </div>
+            </div>
+            <!-- Tab 3: Diagnostics & Errors -->
+            <pre class="cs-terminal-screen text-danger" id="pane-dock-errors" style="display: none;"><span class="text-muted">No compilation or syntax errors detected.</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Horizontal Resizer (Viewport to Right Inspector) -->
+      <div class="cs-resizer-h" id="resizer-right" title="Drag to Resize Right Inspector"></div>
+
+      <!-- Inspector Panel (Right) -->
+      <aside class="cs-inspector" id="cs-inspector">
+        <div class="cs-inspector-header">
+          <h6 class="mb-0 fw-bold" id="cs-inspector-title"><i class="fa-solid fa-sliders text-primary me-2"></i> Module Inspector</h6>
+          <small class="text-muted" id="cs-inspector-subtitle">Select a topic from curriculum</small>
+        </div>
+
+        <!-- Section: Runtime Limits -->
+        <div class="cs-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Runtime Limits</label>
+          <div class="cs-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Execution Timeout:</span>
+              <span class="text-primary font-monospace fw-bold">10s run / 15s compile</span>
+            </div>
+          </div>
+          <div class="cs-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Output Limit:</span>
+              <span class="text-success font-monospace fw-bold">64 KB per stream</span>
+            </div>
+          </div>
+          <div class="cs-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Memory isolation:</span>
+              <span class="badge bg-warning text-dark">No hard cap</span>
+            </div>
+          </div>
+          <small class="text-muted d-block">Programs run as child processes with sanitized environment variables. This is not an OS-level security boundary; run only trusted code.</small>
+        </div>
+
+        <!-- Section: Key Computer Science Concepts -->
+        <div class="cs-inspector-section flex-grow-1 overflow-auto">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Key Concepts & Principles</label>
+          <div id="cs-concepts-container" class="small">
+            <!-- Dynamically populated from curriculum -->
+          </div>
+          <button class="btn btn-sm btn-outline-primary w-100 mt-3" id="btn-load-module-sample" type="button" hidden>
+            Load module sample
+          </button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Saved Student Projects -->
+  <div class="modal fade" id="modal-cs-projects" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-folder-tree text-primary me-2"></i> Student Project Repositories</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cs-saved-projects-list" class="list-group">
+            <div class="text-center text-muted py-3">Loading projects...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: 12 Standard Project Starter Templates -->
+  <div class="modal fade" id="modal-cs-templates" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-shapes text-info me-2"></i> Standard Project Starter Templates</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3" id="cs-templates-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING SCREEN SHARING PRESENTER HUD -->
+  <div id="cs-screenshare-hud" class="cs-screenshare-hud" style="display: none;">
+    <div class="cs-screenshare-header">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-danger"><i class="fa-solid fa-circle fa-beat me-1"></i> SCREEN SHARING ACTIVE</span>
+        <span class="small text-white fw-bold" id="cs-screenshare-title">Live Presenter Stream</span>
+      </div>
+      <div class="btn-group btn-group-xs">
+        <button class="btn btn-xs btn-outline-light" id="btn-screen-pip" title="Picture in Picture"><i class="fa-solid fa-clone"></i></button>
+        <button class="btn btn-xs btn-outline-light" id="btn-screen-fs" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+        <button class="btn btn-xs btn-danger" id="btn-screen-stop" title="Stop Screen Share"><i class="fa-solid fa-stop me-1"></i> Stop</button>
+      </div>
+    </div>
+    <div class="cs-screenshare-video-wrapper">
+      <video id="cs-screenshare-video" autoplay playsinline muted></video>
+    </div>
+    <div class="cs-screenshare-footer">
+      <span class="text-white-50"><i class="fa-solid fa-users me-1 text-primary"></i> Students viewing your screen/window</span>
+      <span class="badge bg-success-subtle text-success">Broadcasting Live</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="/js/sha256.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/lab-live.js"></script>
+
+  <!-- CS Lab Scripts -->
+  <script src="/js/hardware-3d-engine.js"></script>
+  <script src="/js/cs-lab.js"></script>
+  <script src="/js/lab-assets.js" data-subject="computer-science"></script>
+  <script src="/js/cs-editor-assist.js"></script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+/* ==========================================================================
+   Interactive Physics & Physical Sciences Laboratory Stylesheet
+   CBT & Digital Classroom Educational Platform
+   ========================================================================== */
+
+:root {
+  --phys-primary: #2563EB;
+  --phys-primary-dark: #1D4ED8;
+  --phys-primary-light: #DBEAFE;
+  --phys-accent: #0D9488;
+  --phys-accent-hover: #0F766E;
+  --phys-warning: #F59E0B;
+  --phys-danger: #EF4444;
+  --phys-success: #10B981;
+  --phys-dark: #0F172A;
+  --phys-surface: #FFFFFF;
+  --phys-bg: #F8FAFC;
+  --phys-border: #E2E8F0;
+  --phys-text: #1E293B;
+  --phys-text-muted: #64748B;
+  --phys-sidebar-width: 310px;
+  --phys-inspector-width: 320px;
+  --phys-header-height: 56px;
+  --phys-bottom-height: 190px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.phys-lab-body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--phys-bg);
+  color: var(--phys-text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ==========================================================================
+   Header Navbar
+   ========================================================================== */
+.phys-navbar {
+  height: var(--phys-header-height);
+  background: var(--phys-surface);
+  border-bottom: 1px solid var(--phys-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.phys-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.phys-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563EB, #0D9488);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.phys-brand-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--phys-dark);
+  display: block;
+  line-height: 1.2;
+}
+
+.phys-brand-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--phys-primary);
+  background: var(--phys-primary-light);
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.phys-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #F1F5F9;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.phys-mode-pill {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--phys-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phys-mode-pill:hover {
+  color: var(--phys-dark);
+}
+
+.phys-mode-pill.active {
+  background: var(--phys-surface);
+  color: var(--phys-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.phys-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Main Workspace Layout
+   ========================================================================== */
+.phys-main-workspace {
+  display: flex;
+  height: calc(100vh - var(--phys-header-height));
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sidebar (Left) */
+.phys-sidebar {
+  width: var(--phys-sidebar-width);
+  background: var(--phys-surface);
+  border-right: 1px solid var(--phys-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 50;
+  transition: width 0.25s ease;
+}
+
+.phys-sidebar-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--phys-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phys-sidebar-search {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--phys-border);
+}
+
+.phys-topics-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.phys-topic-item {
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid transparent;
+}
+
+.phys-topic-item:hover {
+  background: #F1F5F9;
+}
+
+.phys-topic-item.active {
+  background: var(--phys-primary-light);
+  border-color: #BFDBFE;
+}
+
+.phys-topic-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #E2E8F0;
+  color: var(--phys-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.phys-topic-item.active .phys-topic-icon {
+  background: var(--phys-primary);
+  color: #FFFFFF;
+}
+
+.phys-topic-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--phys-dark);
+  line-height: 1.25;
+}
+
+.phys-topic-branch {
+  font-size: 11px;
+  color: var(--phys-text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Viewport (Center) */
+.phys-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: #F8FAFC;
+}
+
+.phys-canvas-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #FAFAFC;
+}
+
+#phys-main-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+#phys-3d-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+}
+
+/* Floating Canvas Toolbar */
+.phys-floating-toolbar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--phys-border);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 40;
+}
+
+.phys-tool-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--phys-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.phys-tool-btn:hover {
+  background: #F1F5F9;
+  color: var(--phys-primary);
+}
+
+.phys-tool-btn.active {
+  background: var(--phys-primary);
+  color: #FFFFFF;
+}
+
+.phys-tool-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--phys-border);
+  margin: 0 2px;
+}
+
+/* Simulation Playback Controls */
+.phys-playback-controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--phys-border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 40;
+}
+
+.phys-playback-btn {
+  border: none;
+  background: #F1F5F9;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--phys-dark);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.phys-playback-btn:hover {
+  background: #E2E8F0;
+  color: var(--phys-primary);
+}
+
+.phys-playback-btn.btn-play {
+  background: var(--phys-success);
+  color: #FFFFFF;
+}
+
+.phys-playback-btn.btn-play.playing {
+  background: var(--phys-warning);
+}
+
+/* Bottom Data Dock */
+.phys-bottom-dock {
+  height: var(--phys-bottom-height);
+  background: var(--phys-surface);
+  border-top: 1px solid var(--phys-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 45;
+  transition: height 0.25s ease;
+}
+
+.phys-dock-header {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--phys-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F8FAFC;
+}
+
+.phys-dock-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.phys-dock-table-pane {
+  flex: 1;
+  overflow: auto;
+  border-right: 1px solid var(--phys-border);
+  padding: 4px;
+}
+
+.phys-dock-graph-pane {
+  flex: 1;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAFC;
+}
+
+/* Inspector Panel (Right) */
+.phys-inspector {
+  width: var(--phys-inspector-width);
+  background: var(--phys-surface);
+  border-left: 1px solid var(--phys-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.phys-inspector-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--phys-border);
+  background: #F8FAFC;
+}
+
+.phys-inspector-section {
+  padding: 14px;
+  border-bottom: 1px solid var(--phys-border);
+}
+
+.phys-hud-card {
+  background: #F8FAFC;
+  border: 1px solid var(--phys-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.phys-hud-val {
+  font-family: 'JetBrains Mono', monospace, Consolas;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--phys-primary);
+}
+
+/* Vernier & Micrometer Scale Simulator Canvas */
+.scale-reader-canvas {
+  border: 1px solid var(--phys-border);
+  border-radius: 6px;
+  background: #FFFFFF;
+  display: block;
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+  :root {
+    --phys-sidebar-width: 250px;
+    --phys-inspector-width: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phys-sidebar, .phys-inspector {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  .phys-sidebar.hidden {
+    transform: translateX(-100%);
+  }
+  .phys-inspector.hidden {
+    transform: translateX(100%);
+  }
+}

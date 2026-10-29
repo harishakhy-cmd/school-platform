@@ -1,0 +1,362 @@
+:root {
+  --lab-chrome-bg: #fff;
+  --lab-chrome-border: #e2e8f0;
+  --lab-chrome-shadow: 0 5px 18px rgba(19, 39, 70, .055);
+}
+
+.phys-lab-container,
+.bio-lab-container,
+.geo-lab-container,
+.cs-lab-container,
+.chem-lab-body,
+.graph-lab-wrapper {
+  min-width: 0;
+}
+
+.phys-navbar,
+.bio-navbar,
+.geo-navbar,
+.cs-navbar,
+.chem-navbar,
+.graph-lab-header {
+  position: relative;
+  z-index: 100;
+  height: auto;
+  min-height: 58px;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px 16px;
+  padding: 9px clamp(12px, 1.5vw, 22px);
+  border-bottom: 1px solid var(--lab-chrome-border);
+  background: var(--lab-chrome-bg);
+  box-shadow: var(--lab-chrome-shadow);
+}
+
+.phys-brand,
+.bio-brand,
+.geo-brand,
+.cs-brand,
+.chem-brand,
+.graph-lab-brand {
+  min-width: max-content;
+}
+
+.school-header-brand {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 9px 3px 4px;
+  border: 1px solid var(--lab-chrome-border);
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 11px;
+  letter-spacing: .045em;
+  white-space: nowrap;
+}
+
+.school-header-brand img {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.phys-nav-center,
+.bio-nav-center,
+.geo-nav-center,
+.cs-nav-center,
+.chem-nav-center {
+  max-width: 100%;
+  flex: 1 1 auto;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.phys-nav-actions,
+.bio-nav-actions,
+.geo-nav-actions,
+.cs-nav-actions,
+.chem-nav-actions,
+.graph-lab-header > .d-flex {
+  max-width: 100%;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.phys-navbar button,
+.bio-navbar button,
+.geo-navbar button,
+.cs-navbar button,
+.chem-navbar button,
+.graph-lab-header button,
+.phys-navbar a,
+.bio-navbar a,
+.geo-navbar a,
+.cs-navbar a,
+.chem-navbar a,
+.graph-lab-header a {
+  min-height: 34px;
+  border-radius: 8px;
+  font-weight: 650;
+}
+
+.phys-mode-pill,
+.bio-mode-pill,
+.geo-mode-pill,
+.cs-mode-pill,
+.chem-mode-pill {
+  flex: 0 0 auto;
+}
+
+.phys-main-workspace,
+.bio-main-workspace,
+.geo-main-workspace,
+.cs-main-workspace,
+.chem-main-workspace,
+.graph-lab-workspace {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.phys-sidebar,
+.bio-sidebar,
+.geo-sidebar,
+.cs-sidebar,
+.chem-sidebar,
+.graph-sidebar {
+  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-width: thin;
+}
+
+.phys-viewport,
+.bio-viewport,
+.geo-viewport,
+.cs-viewport-container,
+.chem-viewport,
+.graph-viewport-area {
+  min-width: 0;
+  min-height: 0;
+}
+
+.phys-navbar :focus-visible,
+.bio-navbar :focus-visible,
+.geo-navbar :focus-visible,
+.cs-navbar :focus-visible,
+.chem-navbar :focus-visible,
+.graph-lab-header :focus-visible,
+.phys-main-workspace :focus-visible,
+.bio-main-workspace :focus-visible,
+.geo-main-workspace :focus-visible,
+.cs-main-workspace :focus-visible,
+.chem-main-workspace :focus-visible,
+.graph-lab-workspace :focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .45);
+  outline-offset: 2px;
+}
+
+@media (min-width: 1100px) {
+  .phys-lab-container,
+  .bio-lab-container,
+  .geo-lab-container,
+  .cs-lab-container,
+  .chem-lab-body,
+  .graph-lab-wrapper {
+    display: flex;
+    height: 100dvh;
+    min-height: 600px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .phys-main-workspace,
+  .bio-main-workspace,
+  .geo-main-workspace,
+  .cs-main-workspace,
+  .chem-main-workspace,
+  .graph-lab-workspace {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 1099px) {
+  .phys-lab-body,
+  .bio-lab-body,
+  .geo-lab-body,
+  .cs-lab-body,
+  .chem-lab-body {
+    width: 100%;
+    height: auto;
+    min-height: 100dvh;
+    overflow: auto;
+  }
+
+  .phys-lab-container,
+  .bio-lab-container,
+  .geo-lab-container,
+  .cs-lab-container,
+  .chem-lab-body,
+  .graph-lab-wrapper {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .phys-main-workspace,
+  .bio-main-workspace,
+  .geo-main-workspace,
+  .cs-main-workspace,
+  .chem-main-workspace,
+  .graph-lab-workspace {
+    width: 100%;
+    height: min(74dvh, 780px);
+    min-height: 500px;
+    flex: 0 0 auto;
+    overflow: hidden;
+  }
+
+  .phys-nav-center,
+  .bio-nav-center,
+  .geo-nav-center,
+  .cs-nav-center,
+  .chem-nav-center {
+    flex: 1 1 420px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .phys-navbar,
+  .bio-navbar,
+  .geo-navbar,
+  .cs-navbar,
+  .chem-navbar,
+  .graph-lab-header {
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .phys-brand,
+  .bio-brand,
+  .geo-brand,
+  .cs-brand,
+  .chem-brand,
+  .graph-lab-brand {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .phys-brand-title,
+  .bio-brand-title,
+  .geo-brand-title,
+  .cs-brand-title,
+  .chem-brand-title {
+    font-size: 13px;
+  }
+
+  .phys-brand-badge,
+  .bio-brand-badge,
+  .geo-brand-badge,
+  .cs-brand-badge,
+  .chem-brand-badge {
+    font-size: 9px;
+  }
+
+  .phys-nav-center,
+  .bio-nav-center,
+  .geo-nav-center,
+  .cs-nav-center,
+  .chem-nav-center {
+    width: 100%;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+
+  .phys-nav-actions,
+  .bio-nav-actions,
+  .geo-nav-actions,
+  .cs-nav-actions,
+  .chem-nav-actions,
+  .graph-lab-header > .d-flex {
+    width: 100%;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+
+  .phys-navbar button,
+  .bio-navbar button,
+  .geo-navbar button,
+  .cs-navbar button,
+  .chem-navbar button,
+  .graph-lab-header button,
+  .phys-navbar a,
+  .bio-navbar a,
+  .geo-navbar a,
+  .cs-navbar a,
+  .chem-navbar a,
+  .graph-lab-header a {
+    min-height: 36px;
+  }
+
+  .phys-main-workspace,
+  .bio-main-workspace,
+  .geo-main-workspace,
+  .cs-main-workspace,
+  .chem-main-workspace,
+  .graph-lab-workspace {
+    height: 68dvh;
+    min-height: 430px;
+  }
+
+  .phys-sidebar,
+  .bio-sidebar,
+  .geo-sidebar,
+  .cs-sidebar,
+  .chem-sidebar {
+    max-width: min(84vw, 300px);
+  }
+}
+
+@media (max-width: 420px) {
+  .phys-navbar .btn,
+  .bio-navbar .btn,
+  .geo-navbar .btn,
+  .cs-navbar .btn,
+  .chem-navbar .btn,
+  .graph-lab-header .btn {
+    padding-inline: .55rem;
+    font-size: .72rem;
+  }
+
+  .phys-main-workspace,
+  .bio-main-workspace,
+  .geo-main-workspace,
+  .cs-main-workspace,
+  .chem-main-workspace,
+  .graph-lab-workspace {
+    height: 64dvh;
+    min-height: 400px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phys-navbar *,
+  .bio-navbar *,
+  .geo-navbar *,
+  .cs-navbar *,
+  .chem-navbar *,
+  .graph-lab-header * {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

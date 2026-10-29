@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Classroom</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX for Scientific/Mathematical Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Math.js & Graphing Lab Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.js"></script>
+    <script src="/js/graph-subject-profiles.js"></script>
+    <script src="/js/graph-engine.js"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+
+    <link rel="stylesheet" href="/css/live-classroom.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-classroom">
+    <!-- Classroom Navbar -->
+    <header class="classroom-navbar">
+      <div class="nav-container">
+        <div class="brand-group">
+          <span class="school-header-brand"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></span>
+          <a href="/portal.html" class="btn-back" title="Back to Portal">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div class="classroom-header-title">
+            <h2 id="classroom-name">Loading Classroom...</h2>
+            <span class="classroom-badge-code" id="classroom-code">CLS-00000</span>
+          </div>
+        </div>
+
+        <div class="classroom-nav-actions">
+          <span class="role-pill" id="classroom-user-role">Student</span>
+          <a href="/portal.html" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-house"></i> Portal Home
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Classroom Container -->
+    <div class="classroom-layout container">
+      
+      <!-- Classroom Hero Header -->
+      <div class="classroom-hero-card">
+        <div class="hero-left">
+          <h1 id="hero-classroom-name">Classroom</h1>
+          <p class="classroom-meta" id="hero-classroom-meta">Subject: -- | Tutor: -- | Academic Term: --</p>
+        </div>
+        <div class="hero-right">
+          <div class="hero-stat">
+            <span class="hero-stat-num" id="hero-student-count">0</span>
+            <span class="hero-stat-label">Students</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classroom Tabs Navigation (11 Tabs) -->
+      <nav class="classroom-tab-nav" id="classroom-tab-nav">
+        <button type="button" class="tab-btn active" data-tab="tab-stream"><i class="fa-solid fa-bullhorn"></i> Stream</button>
+        <button type="button" class="tab-btn" data-tab="tab-lessons"><i class="fa-solid fa-book-open"></i> Lessons</button>
+        <button type="button" class="tab-btn" data-tab="tab-materials"><i class="fa-solid fa-folder"></i> Materials</button>
+        <button type="button" class="tab-btn" data-tab="tab-assignments"><i class="fa-solid fa-file-pen"></i> Assignments</button>
+        <button type="button" class="tab-btn" data-tab="tab-quizzes"><i class="fa-solid fa-circle-question"></i> Quizzes</button>
+        <button type="button" class="tab-btn tab-highlight" data-tab="tab-cbt"><i class="fa-solid fa-laptop-code"></i> CBT Exams</button>
+        <button type="button" class="tab-btn" data-tab="tab-attendance"><i class="fa-solid fa-user-check"></i> Attendance</button>
+        <button type="button" class="tab-btn" data-tab="tab-discussions"><i class="fa-solid fa-comments"></i> Discussions</button>
+        <button type="button" class="tab-btn" data-tab="tab-calendar"><i class="fa-solid fa-calendar-days"></i> Calendar</button>
+        <button type="button" class="tab-btn" data-tab="tab-grades"><i class="fa-solid fa-award"></i> Gradebook</button>
+        <button type="button" class="tab-btn" data-tab="tab-live"><i class="fa-solid fa-video"></i> Live & Whiteboard</button>
+        <button type="button" class="tab-btn tab-highlight" data-tab="tab-graphing"><i class="fa-solid fa-chart-line"></i> Graphing Lab</button>
+      </nav>
+
+      <!-- TAB VIEWPORTS -->
+      <div class="tab-viewport">
+        
+        <!-- 1. STREAM -->
+        <div class="tab-pane active" id="tab-stream">
+          <div class="stream-layout">
+            <div class="stream-main">
+              <!-- Post Announcement (Tutor/Admin only) -->
+              <div class="card p-3 mb-3 tutor-only hidden" id="card-post-announcement">
+                <h4><i class="fa-solid fa-bullhorn text-accent"></i> Post Announcement</h4>
+                <div class="field mt-2">
+                  <input type="text" id="stream-ann-title" class="input-text" placeholder="Announcement Title" />
+                </div>
+                <div class="field">
+                  <textarea id="stream-ann-content" class="input-textarea" rows="2" placeholder="Share updates, notices, or instructions with your class..."></textarea>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-publish-announcement">Publish</button>
+              </div>
+
+              <!-- Stream Timeline -->
+              <div class="stream-feed" id="stream-feed">
+                <p class="muted p-4 text-center">Loading stream updates...</p>
+              </div>
+            </div>
+
+            <div class="stream-sidebar">
+              <div class="card p-3">
+                <h4>Classroom Code</h4>
+                <div class="code-box mt-2" id="box-class-code">CLS-XXXXX</div>
+                <p class="small muted mt-2">Students can verify enrollment using their assigned registration number.</p>
+              </div>
+
+              <div class="card p-3 mt-3">
+                <h4>Classroom Members</h4>
+                <div class="members-preview-list" id="stream-members-list">
+                  <p class="small muted">Loading members...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. LESSONS -->
+        <div class="tab-pane" id="tab-lessons">
+          <div class="tab-toolbar">
+            <h3>Course Lessons & Curriculum</h3>
+            <button type="button" class="btn btn-primary btn-sm tutor-only hidden" id="btn-create-lesson-modal">
+              <i class="fa-solid fa-plus"></i> Add Lesson
+            </button>
+          </div>
+          <div class="lessons-container" id="lessons-container">
+            <p class="muted p-4 text-center">Loading lessons...</p>
+          </div>
+        </div>
+
+        <!-- 3. MATERIALS -->
+        <div class="tab-pane" id="tab-materials">
+          <div class="tab-toolbar">
+            <h3>Learning Materials & Documents</h3>
+            <button type="button" class="btn btn-primary btn-sm tutor-only hidden" id="btn-add-material-modal">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Upload Material
+            </button>
+          </div>
+          <div class="materials-grid" id="materials-grid">
+            <p class="muted p-4 text-center">Loading materials...</p>
+          </div>
+        </div>
+
+        <!-- 4. ASSIGNMENTS -->
+        <div class="tab-pane" id="tab-assignments">
+          <div class="tab-toolbar">
+            <h3>Class Assignments & Homework</h3>
+            <button type="button" class="btn btn-primary btn-sm tutor-only hidden" id="btn-create-assignment-modal">
+              <i class="fa-solid fa-plus"></i> Create Assignment
+            </button>
+          </div>
+          <div class="assignments-list" id="assignments-list">
+            <p class="muted p-4 text-center">Loading assignments...</p>
+          </div>
+        </div>
+
+        <!-- 5. QUIZZES -->
+        <div class="tab-pane" id="tab-quizzes">
+          <div class="tab-toolbar">
+            <h3>Classroom Quizzes</h3>
+            <button type="button" class="btn btn-primary btn-sm tutor-only hidden" id="btn-create-quiz-modal">
+              <i class="fa-solid fa-plus"></i> Create Quiz
+            </button>
+          </div>
+          <div class="quizzes-list" id="quizzes-list">
+            <p class="muted p-4 text-center">Loading quizzes...</p>
+          </div>
+        </div>
+
+        <!-- 6. CBT EXAMS -->
+        <div class="tab-pane" id="tab-cbt">
+          <div class="tab-toolbar">
+            <div>
+              <h3><i class="fa-solid fa-laptop-code text-accent"></i> Computer-Based Testing (CBT)</h3>
+              <p class="muted small">Official examinations scheduled for this classroom. Results automatically synchronize with the gradebook.</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm tutor-only hidden" id="btn-create-cbt-modal">
+              <i class="fa-solid fa-plus"></i> Schedule CBT Exam
+            </button>
+          </div>
+          <div class="classroom-cbt-list" id="classroom-cbt-list">
+            <p class="muted p-4 text-center">Loading examinations...</p>
+          </div>
+        </div>
+
+        <!-- 7. ATTENDANCE -->
+        <div class="tab-pane" id="tab-attendance">
+          <div class="tab-toolbar">
+            <h3>Attendance Register</h3>
+            <div class="attendance-controls tutor-only hidden">
+              <input type="date" id="attendance-date-picker" class="input-date" />
+              <button type="button" class="btn btn-primary btn-sm" id="btn-save-batch-attendance">Save Attendance</button>
+            </div>
+          </div>
+          <div id="attendance-view-content">
+            <p class="muted p-4 text-center">Loading attendance...</p>
+          </div>
+        </div>
+
+        <!-- 8. DISCUSSIONS -->
+        <div class="tab-pane" id="tab-discussions">
+          <div class="tab-toolbar">
+            <h3>Classroom Discussion Forum</h3>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-open-discussion-modal">
+              <i class="fa-solid fa-comment-dots"></i> Ask Question / Start Topic
+            </button>
+          </div>
+          <div class="discussions-feed" id="discussions-feed">
+            <p class="muted p-4 text-center">Loading discussions...</p>
+          </div>
+        </div>
+
+        <!-- 9. CALENDAR -->
+        <div class="tab-pane" id="tab-calendar">
+          <div class="tab-toolbar">
+            <h3>Classroom Academic Calendar</h3>
+          </div>
+          <div class="calendar-events-list" id="classroom-calendar-list">
+            <p class="muted p-4 text-center">Loading schedule...</p>
+          </div>
+        </div>
+
+        <!-- 10. GRADES -->
+        <div class="tab-pane" id="tab-grades">
+          <div class="tab-toolbar">
+            <h3>Classroom Academic Gradebook</h3>
+            <span class="badge badge-success" id="overall-grade-pill">Grade: --</span>
+          </div>
+          <div class="gradebook-table-wrapper" id="gradebook-table-wrapper">
+            <p class="muted p-4 text-center">Loading gradebook...</p>
+          </div>
+        </div>
+
+        <!-- 11. LIVE & WHITEBOARD Ã¢â‚¬â€ Full-screen layout -->
+                <!-- 11. LIVE & WHITEBOARD — Full-screen layout -->
+        <div class="tab-pane" id="tab-live">
+          <!-- Full-screen live classroom shell -->
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Session Top Bar
+               ═══════════════════════════════════════════ -->
+          <div id="live-topbar">
+            <div id="live-session-badge">LIVE</div>
+            <div id="live-session-title">Live Class</div>
+            <div id="live-mode-switcher">
+              <button class="lc-mode-btn active" id="lc-mode-whiteboard" data-tip="Whiteboard">
+                <i class="fa-solid fa-chalkboard"></i> Board
+              </button>
+              <button class="lc-mode-btn" id="lc-mode-video" data-tip="Video Gallery">
+                <i class="fa-solid fa-users"></i> Video
+              </button>
+              <button class="lc-mode-btn" id="lc-mode-screen" data-tip="Screen Share">
+                <i class="fa-solid fa-display"></i> Screen
+              </button>
+            </div>
+            <div id="live-session-timer">00:00</div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Video Gallery (hidden until active)
+               ═══════════════════════════════════════════ -->
+          <div id="live-video-gallery"></div>
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Screen Share View
+               ═══════════════════════════════════════════ -->
+          <div id="live-screen-view">
+            <video id="live-screen-video" autoplay playsinline muted></video>
+            <div id="live-screen-label">Screen Share</div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+               Waiting / Not-live screen
+               ═══════════════════════════════════════════ -->
+          <div id="live-waiting-screen">
+            <div class="lc-big-icon">📡</div>
+            <h3>No Live Class Active</h3>
+            <p>When your tutor starts a live session, you will automatically join. Tutors can start a session from here.</p>
+            <button class="btn btn-sm btn-primary" id="live-start-btn" style="display:none">
+              <i class="fa-solid fa-play"></i> Start Live Class
+            </button>
+          </div>
+
+          <div class="wb-fullscreen-shell" id="wb-fullscreen-shell">
+
+            <!-- TOP BAR: Live controls + Student Preview Strip (Video/Photo + Name + Reg No) -->
+            <div class="wb-top-bar" id="wb-top-bar">
+              <div class="wb-top-left">
+                <button type="button" class="btn btn-sm btn-outline" id="btn-exit-wb-fullscreen" title="Return to Classroom Hub">
+                  <i class="fa-solid fa-arrow-left"></i> <span class="d-none-sm">Hub</span>
+                </button>
+                <div class="live-header-compact">
+                  <span class="wb-top-brand"><i class="fa-solid fa-chalkboard-user"></i> Live Lesson</span>
+                  <div id="live-indicator" class="live-badge off">OFFLINE</div>
+                </div>
+                <div id="live-controls-box" class="wb-live-controls-compact">
+                  <span class="muted small" id="live-status-desc">No session active.</span>
+                  <div class="tutor-only hidden" style="display:inline-flex;gap:6px;">
+                    <button type="button" class="btn btn-sm btn-primary" id="btn-start-live"><i class="fa-solid fa-play"></i> Start</button>
+                    <button type="button" class="btn btn-sm btn-outline btn-danger hidden" id="btn-end-live"><i class="fa-solid fa-stop"></i> End</button>
+                  </div>
+                  <div class="student-only" style="display:inline-flex;">
+                    <button type="button" class="btn btn-sm btn-accent hidden" id="btn-join-live"><i class="fa-solid fa-door-open"></i> Join</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Top Section: Student Preview Strip (Live Video/Photo + Name + Reg No) -->
+              <div class="wb-student-strip" id="wb-student-strip">
+                <div class="wb-strip-label"><i class="fa-solid fa-users-viewfinder text-primary"></i> <span class="d-none-sm">Students:</span></div>
+                <div class="wb-strip-scroller" id="wb-strip-scroller">
+                  <!-- Dynamically populated student preview cards -->
+                  <div class="wb-student-chip wb-chip-placeholder">
+                    <div class="wb-chip-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                    <div class="wb-chip-info">
+                      <span class="wb-chip-name">Loading...</span>
+                      <span class="wb-chip-reg">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Top-right action buttons -->
+              <div class="wb-top-right">
+                <button type="button" class="btn btn-sm btn-outline" id="btn-undo-wb" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
+                <button type="button" class="btn btn-sm btn-outline" id="btn-redo-wb" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
+                <div class="dropdown d-inline-block">
+                  <button type="button" class="btn btn-sm btn-outline dropdown-toggle" id="btn-wb-labs-menu" data-bs-toggle="dropdown" aria-expanded="false" title="Virtual Laboratories">
+                    <i class="fa-solid fa-flask-vial text-primary me-1"></i> <span class="d-none-sm">Labs</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="btn-wb-labs-menu" style="z-index: 10000; font-size: 13px;">
+                    <li><a class="dropdown-item py-2" href="/cs-lab.html" target="_blank"><i class="fa-solid fa-terminal text-primary me-2"></i> Computer Science & ICT Lab</a></li>
+                    <li><a class="dropdown-item py-2" href="/graphing-lab.html" target="_blank"><i class="fa-solid fa-chart-line text-warning me-2"></i> Graphing & Data Lab</a></li>
+                    <li><a class="dropdown-item py-2" href="/physics-lab.html" target="_blank"><i class="fa-solid fa-atom text-info me-2"></i> Physics Laboratory</a></li>
+                    <li><a class="dropdown-item py-2" href="/biology-lab.html" target="_blank"><i class="fa-solid fa-dna text-success me-2"></i> Biology Laboratory</a></li>
+                    <li><a class="dropdown-item py-2" href="/chemistry-lab.html" target="_blank"><i class="fa-solid fa-flask-vial text-primary me-2"></i> Chemistry & Molecular Lab</a></li>
+                    <li><a class="dropdown-item py-2" href="/scientific-assets.html" target="_blank"><i class="fa-solid fa-book-atlas text-primary me-2"></i> Scientific Asset Library</a></li>
+                    <li><button class="dropdown-item py-2" type="button" id="btn-wb-insert-scientific-model"><i class="fa-solid fa-cube text-primary me-2"></i> Insert sourced model reference</button></li>
+                    <li><a class="dropdown-item py-2" href="/geography-lab.html" target="_blank"><i class="fa-solid fa-earth-africa text-secondary me-2"></i> Geography & Earth Lab</a></li>
+                  </ul>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline" id="btn-clear-wb" title="Clear Whiteboard"><i class="fa-solid fa-trash-can"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" id="btn-save-wb" title="Sync to Server"><i class="fa-solid fa-cloud-arrow-up"></i> Sync</button>
+                <button type="button" class="btn btn-sm btn-outline" id="btn-toggle-wb-fullscreen" title="Toggle Fullscreen Canvas"><i class="fa-solid fa-expand"></i></button>
+                <button type="button" class="btn btn-sm btn-accent" id="btn-toggle-chat" title="Toggle Live Chat & Reactions"><i class="fa-solid fa-comments"></i></button>
+              </div>
+            </div>
+
+            <!-- MAIN AREA: Central Scrollable Whiteboard + Right Iconic Tools + Right Slider Chat -->
+            <div class="wb-main-area">
+
+              <!-- CENTER: Whiteboard Canvas (Scrollable behind all other content) -->
+              <div class="wb-canvas-area" id="wb-canvas-area">
+
+                <!-- Contextual Selected Shape Inspector Bar (Floating overlay) -->
+                <div class="wb-inspector-bar hidden" id="wb-selected-inspector">
+                  <span class="wb-inspector-badge" id="wb-inspector-shape-name"><i class="fa-solid fa-cube me-1"></i> Shape</span>
+                  <div class="wb-inspector-actions">
+                    <button type="button" class="btn btn-xs btn-accent" id="insp-btn-properties" title="Formulas & Properties Panel (Image 2)"><i class="fa-solid fa-square-root-variable"></i> Formulas & Props</button>
+                    <button type="button" class="btn btn-xs btn-outline" id="insp-btn-duplicate" title="Duplicate (Ctrl+D)"><i class="fa-solid fa-copy"></i> Duplicate</button>
+                    <button type="button" class="btn btn-xs btn-outline" id="insp-btn-transform" title="2D ⇄ 3D"><i class="fa-solid fa-arrows-rotate"></i> 2D⇄3D</button>
+                    <button type="button" class="btn btn-xs btn-outline" id="insp-btn-net" title="Blueprint Net"><i class="fa-solid fa-compass-drafting"></i> Net</button>
+                    <button type="button" class="btn btn-xs btn-outline text-danger" id="insp-btn-delete" title="Delete (Del)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+                  </div>
+                </div>
+
+                <!-- Floating Quick Custom Equation Plotter Popover -->
+                <div class="wb-quick-eq-popover hidden" id="wb-quick-eq-popover">
+                  <div class="wb-quick-eq-header">
+                    <span><i class="fa-solid fa-calculator text-primary me-1"></i> Plot Custom Equation</span>
+                    <button type="button" class="btn-close-xs" id="wb-close-quick-eq">&times;</button>
+                  </div>
+                  <div class="wb-quick-eq-body">
+                    <label class="wb-field-label">Equation y = f(x):</label>
+                    <input type="text" id="wb-quick-eq-input" placeholder="e.g. 2*x + 1, x^2 - 4, a*x^2 + b*x + c" value="2*x + 1" class="wb-input-sm" />
+                    
+                    <label class="wb-field-label mt-2">Custom Parameters / Values (optional):</label>
+                    <input type="text" id="wb-quick-eq-params" placeholder="e.g. a=2, b=-3, c=1" class="wb-input-sm" />
+
+                    <div style="display:flex;gap:6px;margin-top:6px;">
+                      <div style="flex:1;">
+                        <span class="wb-field-label">xMin:</span>
+                        <input type="number" id="wb-quick-eq-xmin" value="-10" class="wb-input-sm" style="width:100%;" />
+                      </div>
+                      <div style="flex:1;">
+                        <span class="wb-field-label">xMax:</span>
+                        <input type="number" id="wb-quick-eq-xmax" value="10" class="wb-input-sm" style="width:100%;" />
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-accent mt-2 w-100" id="btn-wb-plot-quick-eq">
+                      <i class="fa-solid fa-chart-line me-1"></i> Plot Equation on Board
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Contextual Educational Geometry Properties, Formula & Liquid Panel (Image 2 & 3 Target Design) -->
+                <div class="wb-3d-float-panel hidden" id="wb-3d-float-panel">
+                  <div class="wb-3d-float-header">
+                    <span id="wb-prop-header-title"><i class="fa-solid fa-shapes text-primary me-1"></i> Geometry & Liquid Studio</span>
+                    <button type="button" class="btn-close-xs" id="wb-close-3d-panel" title="Close Panel">&times;</button>
+                  </div>
+                  
+                  <div class="wb-3d-float-body">
+                    <!-- Educational Formula Card (Inspired directly by Image 2: Surface Area & Volume) -->
+                    <div class="wb-edu-formula-card" id="wb-edu-formula-card">
+                      <div class="wb-edu-card-top" id="wb-edu-card-top">
+                        <span class="wb-edu-shape-tag" id="wb-edu-shape-tag"><i class="fa-solid fa-cube me-1"></i> CYLINDER</span>
+                        <span class="wb-edu-type-pill" id="wb-edu-type-pill">3D SOLID</span>
+                      </div>
+                      
+                      <div class="wb-edu-card-formulas">
+                        <div class="wb-formula-row" id="wb-row-sa">
+                          <span class="wb-formula-lbl">Surface Area:</span>
+                          <span class="wb-formula-math" id="wb-math-sa">SA = 2πr(r + h)</span>
+                          <span class="wb-formula-val" id="wb-val-sa">125.6 cm²</span>
+                        </div>
+                        <div class="wb-formula-row" id="wb-row-vol">
+                          <span class="wb-formula-lbl">Volume (V):</span>
+                          <span class="wb-formula-math" id="wb-math-vol">V = πr²h</span>
+                          <span class="wb-formula-val" id="wb-val-vol">157.0 cm³</span>
+                        </div>
+                      </div>
+
+                      <div class="wb-edu-dims-bar" id="wb-edu-dims-bar">
+                        <span class="wb-dim-chip" id="wb-chip-dim1">r = 5 cm</span>
+                        <span class="wb-dim-chip" id="wb-chip-dim2">h = 10 cm</span>
+                        <span class="wb-dim-chip hidden" id="wb-chip-dim3">l = 11.2 cm</span>
+                      </div>
+                    </div>
+
+                    <!-- Shape Dimension Sliders & Inputs -->
+                    <div class="wb-prop-section">
+                      <div class="wb-section-title"><i class="fa-solid fa-ruler-combined text-primary me-1"></i> Shape Dimensions</div>
+                      <div class="wb-dim-inputs-grid" id="wb-dim-inputs-grid">
+                        <div class="wb-dim-field" id="wb-field-dim1">
+                          <label id="wb-lbl-dim1">Radius (r):</label>
+                          <div class="wb-input-slider-group">
+                            <input type="range" id="wb-slider-dim1" min="10" max="250" value="70" class="wb-range-sm" />
+                            <input type="number" id="wb-num-dim1" value="70" class="wb-input-xs" />
+                          </div>
+                        </div>
+                        <div class="wb-dim-field" id="wb-field-dim2">
+                          <label id="wb-lbl-dim2">Height (h):</label>
+                          <div class="wb-input-slider-group">
+                            <input type="range" id="wb-slider-dim2" min="20" max="350" value="140" class="wb-range-sm" />
+                            <input type="number" id="wb-num-dim2" value="140" class="wb-input-xs" />
+                          </div>
+                        </div>
+                        <div class="wb-dim-field hidden" id="wb-field-dim3">
+                          <label id="wb-lbl-dim3">Breadth (b):</label>
+                          <div class="wb-input-slider-group">
+                            <input type="range" id="wb-slider-dim3" min="10" max="200" value="50" class="wb-range-sm" />
+                            <input type="number" id="wb-num-dim3" value="50" class="wb-input-xs" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <label class="wb-checkbox-label mt-1">
+                        <input type="checkbox" id="wb-toggle-dim-labels" checked />
+                        <span><i class="fa-solid fa-tags text-primary me-1"></i> Show Educational Dimension Arrows on Canvas (Image 2)</span>
+                      </label>
+                    </div>
+
+                    <!-- Liquid Fill & Volumetric Studio (Target Behavior from Image 3) -->
+                    <div class="wb-prop-section" id="wb-liquid-section">
+                      <div class="wb-section-title">
+                        <span><i class="fa-solid fa-flask text-accent me-1"></i> Liquid Filling System (Image 3)</span>
+                        <span class="wb-liquid-vol-badge" id="wb-liquid-vol-badge">50% (50.0 ml)</span>
+                      </div>
+
+                      <div class="wb-liquid-slider-box">
+                        <div class="wb-slider-header">
+                          <span>Fill Height & Volume:</span>
+                          <span class="wb-badge-percent" id="wb-liquid-val">50%</span>
+                        </div>
+                        <input type="range" id="wb-liquid-level" min="0" max="100" value="50" class="wb-liquid-slider" />
+                        
+                        <!-- Quick level preset chips -->
+                        <div class="wb-liquid-presets">
+                          <button type="button" class="wb-preset-chip" data-pct="0">0% Empty</button>
+                          <button type="button" class="wb-preset-chip" data-pct="25">25%</button>
+                          <button type="button" class="wb-preset-chip" data-pct="50">50%</button>
+                          <button type="button" class="wb-preset-chip" data-pct="75">75%</button>
+                          <button type="button" class="wb-preset-chip" data-pct="100">100% Full</button>
+                        </div>
+                      </div>
+
+                      <!-- Liquid Appearance & Color Swatches -->
+                      <div class="wb-liquid-color-row mt-2">
+                        <span>Liquid Color:</span>
+                        <div class="wb-color-swatches" id="wb-liquid-swatches">
+                          <button type="button" class="wb-swatch-btn active" data-color="#0284C7" style="background:#0284C7;" title="Cyan Water (Image 3)"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#38BDF8" style="background:#38BDF8;" title="Sky Blue"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#06B6D4" style="background:#06B6D4;" title="Aqua Marine"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#10B981" style="background:#10B981;" title="Emerald Green"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#F59E0B" style="background:#F59E0B;" title="Amber Solution"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#EF4444" style="background:#EF4444;" title="Crimson"></button>
+                          <button type="button" class="wb-swatch-btn" data-color="#8B5CF6" style="background:#8B5CF6;" title="Violet Indicator"></button>
+                        </div>
+                        <input type="color" id="wb-liquid-color" value="#0284C7" title="Custom Liquid Color" />
+                      </div>
+                      <label class="wb-color-label mt-2" title="Approximate density of the current liquid layer">
+                        <span>Layer 1 density (g/mL):</span>
+                        <input type="number" id="wb-liquid-density" min="0" max="25" step="0.01" value="1" style="width:84px;" />
+                      </label>
+                      <div class="small text-muted mt-1">Layers are treated as immiscible and sorted densest at the bottom. Mixing, temperature changes, and surface effects are not modelled.</div>
+
+                      <!-- Measuring Cylinder Graduations Toggle (Image 3) -->
+                      <label class="wb-checkbox-label mt-2">
+                        <input type="checkbox" id="wb-toggle-graduations" checked />
+                        <span><i class="fa-solid fa-ruler-vertical text-accent me-1"></i> Show 10–100 ml Graduation Scale Marks (Image 3)</span>
+                      </label>
+
+                      <!-- Multi-liquid configuration (collapsed by default) -->
+                      <div class="wb-multi-liquid-box mt-2">
+                        <label class="wb-color-label" title="Multi-liquid configuration">
+                          <span>Layers:</span>
+                          <select id="wb-liquid-count">
+                            <option value="1" selected>1 Liquid Layer</option>
+                            <option value="2">2 Liquid Layers</option>
+                            <option value="3">3 Liquid Layers</option>
+                          </select>
+                        </label>
+                        <label class="wb-color-label hidden" id="wb-liquid-l2-label">
+                          <span>L2:</span>
+                          <input type="range" id="wb-liquid-l2-level" min="0" max="100" value="0" style="width:55px;" />
+                          <span id="wb-liquid-l2-val">0%</span>
+                          <input type="number" id="wb-liquid-l2-density" min="0" max="25" step="0.01" value="0.9" aria-label="Layer 2 density in grams per millilitre" style="width:64px;" />
+                          <input type="color" id="wb-liquid-l2-color" value="#F59E0B" />
+                        </label>
+                        <label class="wb-color-label hidden" id="wb-liquid-l3-label">
+                          <span>L3:</span>
+                          <input type="range" id="wb-liquid-l3-level" min="0" max="100" value="0" style="width:55px;" />
+                          <span id="wb-liquid-l3-val">0%</span>
+                          <input type="number" id="wb-liquid-l3-density" min="0" max="25" step="0.01" value="0.8" aria-label="Layer 3 density in grams per millilitre" style="width:64px;" />
+                          <input type="color" id="wb-liquid-l3-color" value="#EF4444" />
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- 3D Shading, Faces & Inscribed Geometry -->
+                    <div class="wb-prop-section">
+                      <div class="wb-section-title"><i class="fa-solid fa-paint-roller text-primary me-1"></i> 3D Face Shading & Geometry</div>
+                      <div style="display:flex;gap:6px;align-items:center;">
+                        <label class="wb-color-label flex-1" title="Shade specific 3D face">
+                          <span>Face:</span>
+                          <select id="wb-face-select">
+                            <option value="none">None</option>
+                            <option value="front">Front</option>
+                            <option value="top">Top</option>
+                            <option value="right">Right</option>
+                            <option value="left">Left</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="back">Back</option>
+                          </select>
+                          <input type="color" id="wb-face-color" value="#F59E0B" />
+                        </label>
+                        <label class="wb-color-label flex-1" title="Inscribe inner shape inside 3D solid">
+                          <span>Inner:</span>
+                          <select id="wb-inner-shape-select">
+                            <option value="none">None</option>
+                            <option value="sphere">Sphere inside</option>
+                            <option value="cube">Cube inside</option>
+                            <option value="cylinder">Cylinder inside</option>
+                            <option value="cone">Cone inside</option>
+                            <option value="square-pyramid">Pyramid inside</option>
+                          </select>
+                        </label>
+                      </div>
+
+                      <div style="display:flex;gap:6px;align-items:center;margin-top:6px;">
+                        <label class="wb-color-label flex-1" title="Attach measurement label">
+                          <span>Side:</span>
+                          <select id="wb-side-select">
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                            <option value="slant">Slant</option>
+                          </select>
+                          <input type="text" id="wb-side-value-input" placeholder="e.g. 10 cm" style="width:70px; font-size:11px;" />
+                        </label>
+                      </div>
+
+                      <!-- Quick subject graph insert -->
+                      <div style="margin-top:8px;border-top:1px solid #334155;padding-top:8px;">
+                        <label class="wb-color-label">
+                          <i class="fa-solid fa-chart-line text-primary"></i>
+                          <select id="wb-gl-quick-subject" style="font-size:11px;">
+                            <option value="" disabled selected>Preset Subject</option>
+                            <option value="MATHEMATICS">📐 Math</option>
+                            <option value="PHYSICS">⚛️ Physics</option>
+                            <option value="CHEMISTRY">🧪 Chem</option>
+                            <option value="BIOLOGY">🧬 Bio</option>
+                            <option value="GEOGRAPHY">🌍 Geo</option>
+                            <option value="ECONOMICS">📈 Econ</option>
+                            <option value="STATISTICS">📊 Stats</option>
+                            <option value="AGRICULTURE">🌾 Agri</option>
+                          </select>
+                          <button type="button" class="btn btn-xs btn-accent" id="btn-wb-quick-plot-graph" title="Plot on Board">Plot</button>
+                          <button type="button" class="btn btn-xs btn-outline" id="btn-wb-load-saved-graph" title="Load Saved">Load</button>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modern Educational Shape Library Modal (Target Design from Image 2) -->
+                <div class="wb-shape-lib-modal hidden" id="wb-shape-library-modal">
+                  <div class="wb-shape-lib-backdrop" id="wb-shape-lib-backdrop"></div>
+                  <div class="wb-shape-lib-window">
+                    <div class="wb-shape-lib-header">
+                      <div class="wb-shape-lib-title">
+                        <i class="fa-solid fa-shapes text-primary me-2"></i>
+                        <span>Educational Geometry & Solid Shapes Library</span>
+                      </div>
+                      <div class="wb-shape-lib-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="wb-lib-search-input" placeholder="Search shapes, formulas (e.g. cylinder, cone, SA, volume)..." />
+                      </div>
+                      <button type="button" class="btn-close-sm" id="wb-close-shape-library" title="Close Library">&times;</button>
+                    </div>
+
+                    <!-- Category Tab Bar -->
+                    <div class="wb-shape-lib-tabs">
+                      <button type="button" class="wb-lib-tab active" data-tab="tab-lib-3d">
+                        <i class="fa-solid fa-cube text-primary me-1"></i> 3D Solid Shapes <span class="wb-tab-count">10</span>
+                      </button>
+                      <button type="button" class="wb-lib-tab" data-tab="tab-lib-2d">
+                        <i class="fa-solid fa-draw-polygon text-accent me-1"></i> 2D Geometric Shapes <span class="wb-tab-count">16</span>
+                      </button>
+                      <button type="button" class="wb-lib-tab" data-tab="tab-lib-lines">
+                        <i class="fa-solid fa-ruler-horizontal text-success me-1"></i> Lines & STEM Tools <span class="wb-tab-count">10</span>
+                      </button>
+                    </div>
+
+                    <!-- Category Contents -->
+                    <div class="wb-shape-lib-body">
+                      <!-- 3D Solids Cards Grid (Matching Image 2 directly!) -->
+                      <div class="wb-lib-pane active" id="tab-lib-3d">
+                        <div class="wb-shape-cards-grid">
+                          <!-- 1. Cube -->
+                          <div class="wb-shape-card" data-shape="cube" style="--card-accent:#8B5CF6;">
+                            <div class="wb-card-num">1</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <rect x="18" y="28" width="46" height="46" fill="#8B5CF6" stroke="#4C1D95" stroke-width="2"/>
+                                <polygon points="18,28 36,12 82,12 64,28" fill="#A78BFA" stroke="#4C1D95" stroke-width="2"/>
+                                <polygon points="64,28 82,12 82,58 64,74" fill="#7C3AED" stroke="#4C1D95" stroke-width="2"/>
+                                <line x1="88" y1="12" x2="88" y2="58" stroke="#1E293B" stroke-width="1.5" marker-end="url(#arr)"/>
+                                <text x="91" y="38" font-size="10" font-weight="700" fill="#1E293B">a</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Cube</h4>
+                              <div class="wb-card-dims">a = side length</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> 6a²</div>
+                                <div><strong>V:</strong> a³</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 2. Cuboid -->
+                          <div class="wb-shape-card" data-shape="cuboid" style="--card-accent:#0284C7;">
+                            <div class="wb-card-num">2</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <rect x="12" y="32" width="54" height="40" fill="#38BDF8" stroke="#0369A1" stroke-width="2"/>
+                                <polygon points="12,32 30,16 84,16 66,32" fill="#7DD3FC" stroke="#0369A1" stroke-width="2"/>
+                                <polygon points="66,32 84,16 84,56 66,72" fill="#0284C7" stroke="#0369A1" stroke-width="2"/>
+                                <text x="36" y="84" font-size="9" font-weight="700" fill="#1E293B">l</text>
+                                <text x="88" y="46" font-size="9" font-weight="700" fill="#1E293B">h</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Cuboid / Prism</h4>
+                              <div class="wb-card-dims">l = length, b = breadth, h = height</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> 2(lb + bh + hl)</div>
+                                <div><strong>V:</strong> lbh</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 3. Cylinder -->
+                          <div class="wb-shape-card" data-shape="cylinder" style="--card-accent:#10B981;">
+                            <div class="wb-card-num">3</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <rect x="22" y="24" width="56" height="46" fill="#86EFAC" fill-opacity="0.3"/>
+                                <line x1="22" y1="24" x2="22" y2="70" stroke="#047857" stroke-width="2"/>
+                                <line x1="78" y1="24" x2="78" y2="70" stroke="#047857" stroke-width="2"/>
+                                <ellipse cx="50" cy="24" rx="28" ry="10" fill="#86EFAC" stroke="#047857" stroke-width="2"/>
+                                <ellipse cx="50" cy="70" rx="28" ry="10" fill="#6EE7B7" stroke="#047857" stroke-width="2"/>
+                                <line x1="50" y1="24" x2="78" y2="24" stroke="#1E293B" stroke-width="1.2"/>
+                                <text x="62" y="20" font-size="9" font-weight="700" fill="#1E293B">r</text>
+                                <text x="83" y="50" font-size="9" font-weight="700" fill="#1E293B">h</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Cylinder</h4>
+                              <div class="wb-card-dims">r = radius, h = height</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> 2πr(r + h)</div>
+                                <div><strong>V:</strong> πr²h</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 4. Measuring Cylinder (Image 3) -->
+                          <div class="wb-shape-card" data-shape="measuring-cylinder" style="--card-accent:#06B6D4;">
+                            <div class="wb-card-num"><i class="fa-solid fa-flask"></i></div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <rect x="30" y="16" width="40" height="58" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+                                <ellipse cx="50" cy="16" rx="20" ry="7" fill="#BAE6FD" stroke="#0284C7" stroke-width="1.8"/>
+                                <ellipse cx="50" cy="74" rx="20" ry="7" fill="#0284C7" stroke="#0369A1" stroke-width="1.8"/>
+                                <!-- Liquid column inside -->
+                                <path d="M 30 42 L 30 74 A 20 7 0 0 0 70 74 L 70 42 Z" fill="#0284C7" fill-opacity="0.7"/>
+                                <ellipse cx="50" cy="42" rx="20" ry="7" fill="#0369A1" fill-opacity="0.8"/>
+                                <!-- Ticks -->
+                                <line x1="30" y1="28" x2="40" y2="28" stroke="#0F172A" stroke-width="1.5"/>
+                                <line x1="30" y1="42" x2="44" y2="42" stroke="#0F172A" stroke-width="1.5"/>
+                                <line x1="30" y1="56" x2="40" y2="56" stroke="#0F172A" stroke-width="1.5"/>
+                                <text x="74" y="24" font-size="8" font-weight="700" fill="#0284C7">100ml</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Measuring Cylinder</h4>
+                              <div class="wb-card-dims">Graduated scale, meniscus fill</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>Target:</strong> Image 3 Continuous Liquid</div>
+                                <div><strong>V:</strong> πr²h</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 5. Cone -->
+                          <div class="wb-shape-card" data-shape="cone" style="--card-accent:#F59E0B;">
+                            <div class="wb-card-num">4</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <path d="M 50 14 L 20 68 A 30 9 0 0 0 80 68 Z" fill="#FBBF24" stroke="#B45309" stroke-width="2"/>
+                                <ellipse cx="50" cy="68" rx="30" ry="9" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+                                <line x1="50" y1="14" x2="50" y2="68" stroke="#1E293B" stroke-dasharray="3,3" stroke-width="1.2"/>
+                                <line x1="50" y1="68" x2="80" y2="68" stroke="#1E293B" stroke-width="1.2"/>
+                                <text x="62" y="65" font-size="8" font-weight="700" fill="#1E293B">r</text>
+                                <text x="42" y="44" font-size="8" font-weight="700" fill="#1E293B">h</text>
+                                <text x="68" y="38" font-size="8" font-weight="700" fill="#1E293B">l</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Cone</h4>
+                              <div class="wb-card-dims">r = radius, h = height, l = slant</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> πr(l + r)</div>
+                                <div><strong>V:</strong> 1/3 πr²h</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 6. Sphere -->
+                          <div class="wb-shape-card" data-shape="sphere" style="--card-accent:#A855F7;">
+                            <div class="wb-card-num">5</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <circle cx="50" cy="45" r="32" fill="#C084FC" stroke="#6B21A8" stroke-width="2"/>
+                                <ellipse cx="50" cy="45" rx="32" ry="11" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                <line x1="50" y1="45" x2="82" y2="45" stroke="#FFFFFF" stroke-width="1.5"/>
+                                <text x="64" y="42" font-size="9" font-weight="700" fill="#FFFFFF">r</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Sphere</h4>
+                              <div class="wb-card-dims">r = radius</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> 4πr²</div>
+                                <div><strong>V:</strong> 4/3 πr³</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 7. Hemisphere -->
+                          <div class="wb-shape-card" data-shape="hemisphere" style="--card-accent:#0EA5E9;">
+                            <div class="wb-card-num">6</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <path d="M 18 38 A 32 32 0 0 0 82 38 Z" fill="#0EA5E9" stroke="#0369A1" stroke-width="2"/>
+                                <ellipse cx="50" cy="38" rx="32" ry="11" fill="#67E8F9" stroke="#0369A1" stroke-width="2"/>
+                                <line x1="50" y1="38" x2="82" y2="38" stroke="#1E293B" stroke-width="1.5"/>
+                                <text x="64" y="34" font-size="9" font-weight="700" fill="#1E293B">r</text>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Hemisphere</h4>
+                              <div class="wb-card-dims">r = radius</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> 3πr² (Total)</div>
+                                <div><strong>V:</strong> 2/3 πr³</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 8. Square Pyramid -->
+                          <div class="wb-shape-card" data-shape="square-pyramid" style="--card-accent:#F43F5E;">
+                            <div class="wb-card-num">7</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <polygon points="50,14 20,68 80,68" fill="#FB7185" stroke="#9F1239" stroke-width="2"/>
+                                <polygon points="50,14 80,68 62,56" fill="#F43F5E" stroke="#9F1239" stroke-width="1.8"/>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Square Pyramid</h4>
+                              <div class="wb-card-dims">b = base side, h = height</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> b² + 2bl</div>
+                                <div><strong>V:</strong> 1/3 b²h</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 9. Triangular Prism -->
+                          <div class="wb-shape-card" data-shape="triangular-prism" style="--card-accent:#6366F1;">
+                            <div class="wb-card-num">8</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <polygon points="20,68 46,24 72,68" fill="#818CF8" stroke="#3730A3" stroke-width="2"/>
+                                <polygon points="46,24 72,68 84,54 58,16" fill="#6366F1" stroke="#3730A3" stroke-width="2"/>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Triangular Prism</h4>
+                              <div class="wb-card-dims">b = base, h = height, l = length</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>SA:</strong> bh + (s₁+s₂+s₃)l</div>
+                                <div><strong>V:</strong> 1/2 bhl</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <!-- 10. Frustum Cone -->
+                          <div class="wb-shape-card" data-shape="frustum" style="--card-accent:#D97706;">
+                            <div class="wb-card-num">9</div>
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 100 90" class="wb-card-svg">
+                                <polygon points="36,28 64,28 80,68 20,68" fill="#FCD34D" stroke="#92400E" stroke-width="2"/>
+                                <ellipse cx="50" cy="28" rx="14" ry="5" fill="#FDE68A" stroke="#92400E" stroke-width="1.8"/>
+                                <ellipse cx="50" cy="68" rx="30" ry="9" fill="#F59E0B" stroke="#92400E" stroke-width="1.8"/>
+                              </svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Frustum</h4>
+                              <div class="wb-card-dims">r₁ = top, r₂ = bottom, h = height</div>
+                              <div class="wb-card-formulas">
+                                <div><strong>V:</strong> 1/3 πh(r₁² + r₁r₂ + r₂²)</div>
+                              </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 2D Geometric Shapes Grid -->
+                      <div class="wb-lib-pane" id="tab-lib-2d">
+                        <div class="wb-shape-cards-grid">
+                          <div class="wb-shape-card" data-shape="circle" style="--card-accent:#10B981;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><circle cx="40" cy="40" r="28" fill="#A7F3D0" stroke="#047857" stroke-width="2"/><line x1="40" y1="40" x2="68" y2="40" stroke="#047857" stroke-width="1.8"/><text x="52" y="36" font-size="9" font-weight="700">r</text></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Circle</h4>
+                              <div class="wb-card-dims">r = radius, d = 2r</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> πr²</div><div><strong>Perimeter:</strong> 2πr</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="rectangle" style="--card-accent:#0284C7;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><rect x="14" y="24" width="52" height="32" fill="#BAE6FD" stroke="#0369A1" stroke-width="2"/><text x="38" y="64" font-size="9" font-weight="700">l</text><text x="70" y="42" font-size="9" font-weight="700">w</text></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Rectangle</h4>
+                              <div class="wb-card-dims">l = length, w = width</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> lw</div><div><strong>Perimeter:</strong> 2(l + w)</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="square" style="--card-accent:#8B5CF6;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><rect x="20" y="20" width="40" height="40" fill="#DDD6FE" stroke="#5B21B6" stroke-width="2"/><text x="38" y="68" font-size="9" font-weight="700">a</text></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Square</h4>
+                              <div class="wb-card-dims">a = side length</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> a²</div><div><strong>Perimeter:</strong> 4a</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="triangle" style="--card-accent:#F59E0B;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><polygon points="40,16 16,64 64,64" fill="#FDE68A" stroke="#B45309" stroke-width="2"/><line x1="40" y1="16" x2="40" y2="64" stroke="#B45309" stroke-dasharray="2,2"/><text x="38" y="74" font-size="9" font-weight="700">b</text></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Triangle</h4>
+                              <div class="wb-card-dims">b = base, h = height</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> 1/2 bh</div><div><strong>Perimeter:</strong> a + b + c</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="ellipse" style="--card-accent:#EC4899;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><ellipse cx="40" cy="40" rx="30" ry="18" fill="#FBCFE8" stroke="#9D174D" stroke-width="2"/></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Ellipse</h4>
+                              <div class="wb-card-dims">a = major, b = minor</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> πab</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="polygon" data-sub="hexagon" style="--card-accent:#6366F1;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><polygon points="40,16 65,29 65,55 40,68 15,55 15,29" fill="#C7D2FE" stroke="#3730A3" stroke-width="2"/></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Regular Polygon (6)</h4>
+                              <div class="wb-card-dims">n = 6, s = side</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> 1/4 ns² cot(π/n)</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="parallelogram" style="--card-accent:#0EA5E9;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><polygon points="24,24 68,24 56,56 12,56" fill="#BAE6FD" stroke="#0284C7" stroke-width="2"/></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Parallelogram</h4>
+                              <div class="wb-card-dims">b = base, h = height</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> bh</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+
+                          <div class="wb-shape-card" data-shape="trapezoid" style="--card-accent:#F59E0B;">
+                            <div class="wb-card-diagram">
+                              <svg viewBox="0 0 80 80" class="wb-card-svg"><polygon points="26,24 54,24 68,56 12,56" fill="#FDE68A" stroke="#B45309" stroke-width="2"/></svg>
+                            </div>
+                            <div class="wb-card-info">
+                              <h4 class="wb-card-name">Trapezoid</h4>
+                              <div class="wb-card-dims">a, b = bases, h = height</div>
+                              <div class="wb-card-formulas"><div><strong>Area:</strong> 1/2 (a + b)h</div></div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Lines & STEM Tools Grid -->
+                      <div class="wb-lib-pane" id="tab-lib-lines">
+                        <div class="wb-shape-cards-grid">
+                          <div class="wb-shape-card" data-shape="line">
+                            <div class="wb-card-diagram"><svg viewBox="0 0 80 80" class="wb-card-svg"><line x1="16" y1="64" x2="64" y2="16" stroke="#1E40AF" stroke-width="3"/></svg></div>
+                            <div class="wb-card-info"><h4 class="wb-card-name">Straight Line</h4><div class="wb-card-dims">Geometric segment</div></div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                          <div class="wb-shape-card" data-shape="dashed-line">
+                            <div class="wb-card-diagram"><svg viewBox="0 0 80 80" class="wb-card-svg"><line x1="16" y1="64" x2="64" y2="16" stroke="#1E40AF" stroke-width="3" stroke-dasharray="6,4"/></svg></div>
+                            <div class="wb-card-info"><h4 class="wb-card-name">Dashed Line</h4><div class="wb-card-dims">Hidden edge / auxiliary</div></div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                          <div class="wb-shape-card" data-shape="arrow">
+                            <div class="wb-card-diagram"><svg viewBox="0 0 80 80" class="wb-card-svg"><line x1="16" y1="40" x2="60" y2="40" stroke="#1E40AF" stroke-width="3"/><polygon points="64,40 54,34 54,46" fill="#1E40AF"/></svg></div>
+                            <div class="wb-card-info"><h4 class="wb-card-name">Vector Arrow</h4><div class="wb-card-dims">Direction & magnitude</div></div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                          <div class="wb-shape-card" data-shape="dimension-line">
+                            <div class="wb-card-diagram"><svg viewBox="0 0 80 80" class="wb-card-svg"><line x1="16" y1="40" x2="64" y2="40" stroke="#1E40AF" stroke-width="2"/><line x1="16" y1="30" x2="16" y2="50" stroke="#1E40AF" stroke-width="2"/><line x1="64" y1="30" x2="64" y2="50" stroke="#1E40AF" stroke-width="2"/><text x="36" y="36" font-size="8" font-weight="700">|↔|</text></svg></div>
+                            <div class="wb-card-info"><h4 class="wb-card-name">Dimension Line</h4><div class="wb-card-dims">Measurement indicator</div></div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                          <div class="wb-shape-card" data-shape="geom-angle-marker">
+                            <div class="wb-card-diagram"><svg viewBox="0 0 80 80" class="wb-card-svg"><line x1="20" y1="60" x2="60" y2="60" stroke="#1E40AF" stroke-width="2"/><line x1="20" y1="60" x2="52" y2="28" stroke="#1E40AF" stroke-width="2"/><path d="M 38 60 A 18 18 0 0 0 32 48" fill="none" stroke="#F59E0B" stroke-width="2"/><text x="40" y="52" font-size="10" font-weight="700" fill="#F59E0B">θ</text></svg></div>
+                            <div class="wb-card-info"><h4 class="wb-card-name">Angle Marker</h4><div class="wb-card-dims">Arc & θ label</div></div>
+                            <button type="button" class="btn btn-sm btn-outline wb-card-insert-btn"><i class="fa-solid fa-plus"></i> Insert</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Polygon hint bar (visible only during polygon mode) -->
+                <div id="wb-polygon-hint" class="wb-polygon-hint hidden">
+                  <i class="fa-solid fa-info-circle"></i>
+                  <strong>Polygon mode:</strong> Click canvas to add vertices &mdash;
+                  <kbd>Double-click</kbd> to close &amp; fill &mdash;
+                  <kbd>Esc</kbd> to cancel
+                  <button class="btn btn-sm btn-outline" id="btn-close-polygon" style="margin-left:8px">Close Shape</button>
+                </div>
+
+                <!-- 2D Shapes Permanent Flyout Panel -->
+                <div class="wb-shape-flyout-panel hidden" id="wb-2d-flyout">
+                  <div class="wb-flyout-header">
+                    <span><i class="fa-solid fa-shapes text-primary me-1"></i> 2D Shapes Library</span>
+                    <button type="button" class="btn-close-xs" id="wb-close-2d-flyout">&times;</button>
+                  </div>
+                  <div class="wb-flyout-body">
+                    <div class="wb-flyout-cat">Basic Shapes</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="rectangle">▭ Rectangle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="square">□ Square</button>
+                      <button type="button" class="wb-flyout-item" data-shape="circle">○ Circle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="ellipse">⬭ Ellipse</button>
+                      <button type="button" class="wb-flyout-item" data-shape="triangle">△ Triangle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="right-triangle">◺ Right Triangle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="polygon">⬡ Custom Poly</button>
+                      <button type="button" class="wb-flyout-item" data-shape="arc">⌒ Arc</button>
+                    </div>
+
+                    <div class="wb-flyout-cat">Quadrilaterals</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="parallelogram">▱ Parallelogram</button>
+                      <button type="button" class="wb-flyout-item" data-shape="trapezoid">⏢ Trapezoid</button>
+                      <button type="button" class="wb-flyout-item" data-shape="rhombus">◇ Rhombus</button>
+                      <button type="button" class="wb-flyout-item" data-shape="kite">♢ Kite</button>
+                    </div>
+
+                    <div class="wb-flyout-cat">Regular Polygons</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="pentagon">⬠ Pentagon (5)</button>
+                      <button type="button" class="wb-flyout-item" data-shape="hexagon">⬡ Hexagon (6)</button>
+                      <button type="button" class="wb-flyout-item" data-shape="heptagon">Heptagon (7)</button>
+                      <button type="button" class="wb-flyout-item" data-shape="octagon">🛑 Octagon (8)</button>
+                    </div>
+
+                    <div class="wb-flyout-cat">Geometry & STEM Annotations</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="sector">⌔ Sector</button>
+                      <button type="button" class="wb-flyout-item" data-shape="segment">⌢ Segment</button>
+                      <button type="button" class="wb-flyout-item" data-shape="chord">— Chord</button>
+                      <button type="button" class="wb-flyout-item" data-shape="tangent">⟷ Tangent</button>
+                      <button type="button" class="wb-flyout-item" data-shape="geom-angle-marker">θ Angle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="geom-right-angle">∟ Right Angle</button>
+                      <button type="button" class="wb-flyout-item" data-shape="geom-parallel-ticks">|| Parallel</button>
+                      <button type="button" class="wb-flyout-item" data-shape="geom-perpendicular">⊥ Perpendic</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3D Solids Permanent Flyout Panel -->
+                <div class="wb-shape-flyout-panel hidden" id="wb-3d-flyout">
+                  <div class="wb-flyout-header">
+                    <span><i class="fa-solid fa-cube text-primary me-1"></i> 3D Solids Library</span>
+                    <button type="button" class="btn-close-xs" id="wb-close-3d-flyout">&times;</button>
+                  </div>
+                  <div class="wb-flyout-body">
+                    <div class="wb-flyout-cat">3D Solids & Revolutions</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="cube">🧊 Cube</button>
+                      <button type="button" class="wb-flyout-item" data-shape="cuboid">📦 Cuboid</button>
+                      <button type="button" class="wb-flyout-item" data-shape="cylinder">🛢️ Cylinder</button>
+                      <button type="button" class="wb-flyout-item" data-shape="measuring-cylinder">🧪 Measuring Cyl</button>
+                      <button type="button" class="wb-flyout-item" data-shape="cone">🍦 Cone</button>
+                      <button type="button" class="wb-flyout-item" data-shape="sphere">⚽ Sphere</button>
+                      <button type="button" class="wb-flyout-item" data-shape="hemisphere">🥣 Hemisphere</button>
+                      <button type="button" class="wb-flyout-item" data-shape="frustum">Frustum Cone</button>
+                    </div>
+
+                    <div class="wb-flyout-cat">Prisms & Pyramids</div>
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="triangular-prism">Triangular Prism</button>
+                      <button type="button" class="wb-flyout-item" data-shape="rectangular-prism">Rectangular Prism</button>
+                      <button type="button" class="wb-flyout-item" data-shape="pentagonal-prism">Pentagonal Prism</button>
+                      <button type="button" class="wb-flyout-item" data-shape="square-pyramid">🔺 Square Pyramid</button>
+                      <button type="button" class="wb-flyout-item" data-shape="triangular-pyramid">Tetrahedron</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Lines & Arrows Permanent Flyout Panel -->
+                <div class="wb-shape-flyout-panel hidden" id="wb-lines-flyout">
+                  <div class="wb-flyout-header">
+                    <span><i class="fa-solid fa-minus text-primary me-1"></i> Lines & Arrows</span>
+                    <button type="button" class="btn-close-xs" id="wb-close-lines-flyout">&times;</button>
+                  </div>
+                  <div class="wb-flyout-body">
+                    <div class="wb-flyout-grid">
+                      <button type="button" class="wb-flyout-item" data-shape="line">— Straight Line</button>
+                      <button type="button" class="wb-flyout-item" data-shape="dashed-line">-- Dashed Line</button>
+                      <button type="button" class="wb-flyout-item" data-shape="arrow">→ Single Arrow</button>
+                      <button type="button" class="wb-flyout-item" data-shape="double-arrow">↔ Double Arrow</button>
+                      <button type="button" class="wb-flyout-item" data-shape="dimension-line">|↔| Dimension Line</button>
+                      <button type="button" class="wb-flyout-item" data-shape="curved-arrow">↷ Curved Arrow</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Scrollable Infinite Canvas Workspace (Endless Downward Scroll) -->
+                <div class="whiteboard-canvas-wrapper" id="whiteboard-canvas-wrapper">
+                  <!-- Floating Infinite Workspace HUD -->
+                  <div class="wb-infinite-nav" id="wb-infinite-nav">
+                    <div class="wb-infinite-badge" id="wb-infinite-badge">
+                      <i class="fa-solid fa-infinity text-primary"></i> <span id="wb-page-indicator">Page 1</span> • <span id="wb-scroll-depth-indicator">Top</span>
+                    </div>
+                    <div class="wb-infinite-actions">
+                      <button type="button" class="btn btn-xs btn-outline hidden" id="btn-wb-scroll-top" title="Back to Top (Home)">
+                        <i class="fa-solid fa-arrow-up"></i> Top
+                      </button>
+                      <button type="button" class="btn btn-xs btn-outline" id="btn-wb-scroll-bottom" title="Scroll to Bottom">
+                        <i class="fa-solid fa-arrow-down"></i> Bottom
+                      </button>
+                      <button type="button" class="btn btn-xs btn-accent" id="btn-wb-expand-down" title="Add More Workspace Downwards (+2,000px)">
+                        <i class="fa-solid fa-plus"></i> Expand Down
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="whiteboard-canvas-inner" id="whiteboard-canvas-inner">
+                    <!-- Text label input (positioned dynamically on canvas click in text mode) -->
+                    <input type="text" id="wb-text-input" class="wb-text-input hidden" placeholder="Type equation or text label, press Enter..." />
+
+                    <canvas id="whiteboard-canvas" width="2400" height="4000"></canvas>
+                    <canvas id="whiteboard-overlay" width="2400" height="4000"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT SIDEBAR: Vertical Iconic Tools Navbar -->
+              <div class="wb-icon-sidebar" id="wb-icon-sidebar">
+
+                <!-- Basic Drawing Tools -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn btn-tool active" data-tool="select" title="Selection Mode (V)"><i class="fa-solid fa-arrow-pointer"></i></button>
+                  <button class="wb-icon-btn btn-tool" data-tool="pen" title="Freehand Pen (P)"><i class="fa-solid fa-pencil"></i></button>
+                  <button class="wb-icon-btn btn-tool" data-tool="highlighter" title="Highlighter (H)"><i class="fa-solid fa-highlighter"></i></button>
+                  <button class="wb-icon-btn btn-tool" data-tool="eraser" title="Eraser (E)"><i class="fa-solid fa-eraser"></i></button>
+                  <button class="wb-icon-btn btn-tool" data-tool="text" title="Text & Equation Annotation (T)"><i class="fa-solid fa-font"></i></button>
+                  <button class="wb-icon-btn btn-tool" data-tool="polygon" title="Polygon (G)"><i class="fa-solid fa-draw-polygon"></i></button>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- 2D / 3D Shapes & Lines -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn wb-sidebar-dropdown-trigger" type="button" title="2D Shapes Library (S / 2)" id="wb-2d-shape-trigger">
+                    <i class="fa-solid fa-shapes"></i>
+                  </button>
+                  <button class="wb-icon-btn wb-sidebar-dropdown-trigger" type="button" title="3D Solids Library (D / 3)" id="wb-3d-shape-trigger">
+                    <i class="fa-solid fa-cube"></i>
+                  </button>
+                  <button class="wb-icon-btn wb-sidebar-dropdown-trigger" type="button" title="Lines & Arrows (L)" id="wb-lines-trigger">
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <button class="wb-icon-btn" type="button" title="Educational Geometry Shape Library (Image 2)" id="wb-open-shape-library-btn" style="color:#38BDF8;">
+                    <i class="fa-solid fa-book-open"></i>
+                  </button>
+
+                  <!-- Native select fallbacks (hidden) -->
+                  <select id="wb-2d-shape-select" class="wb-hidden-select">
+                    <option value="rectangle">Rectangle</option>
+                    <option value="square">Square</option>
+                    <option value="circle">Circle</option>
+                    <option value="cube">Cube</option>
+                  </select>
+                  <select id="wb-3d-shape-select" class="wb-hidden-select">
+                    <option value="cube">Cube</option>
+                    <option value="cuboid">Cuboid</option>
+                    <option value="cylinder">Cylinder</option>
+                  </select>
+                  <select id="wb-lines-select" class="wb-hidden-select">
+                    <option value="line">Line</option>
+                    <option value="arrow">Arrow</option>
+                  </select>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- Operations: Merge, Union, Subtract, Intersect, Fragment, Detach -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn" id="btn-merge-wb" title="Merge / Group"><i class="fa-solid fa-object-group"></i></button>
+                  <button class="wb-icon-btn" id="btn-unmerge-wb" title="Unmerge / Ungroup"><i class="fa-solid fa-object-ungroup"></i></button>
+                  <button class="wb-icon-btn" id="btn-shape-union" title="Combine / Union"><i class="fa-solid fa-plus"></i></button>
+                  <button class="wb-icon-btn" id="btn-shape-subtract" title="Subtract Overlap"><i class="fa-solid fa-minus"></i></button>
+                  <button class="wb-icon-btn" id="btn-shape-intersect" title="Intersect"><i class="fa-regular fa-circle"></i></button>
+                  <button class="wb-icon-btn" id="btn-shape-fragment" title="Fragment"><i class="fa-solid fa-border-none"></i></button>
+                  <button class="wb-icon-btn" id="btn-shape-detach" title="Detach Net Faces"><i class="fa-solid fa-puzzle-piece"></i></button>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- 3D Transform & Net -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn" id="btn-transform-dim" title="2D ⇄ 3D Transform"><i class="fa-solid fa-arrows-rotate"></i></button>
+                  <button class="wb-icon-btn" id="btn-toggle-net" title="Blueprint Net Unfold"><i class="fa-solid fa-compass-drafting"></i></button>
+                  <button class="wb-icon-btn" id="wb-toggle-3d-panel" title="3D Face Shading & Liquid Volumes"><i class="fa-solid fa-flask"></i></button>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- Tutor Equation Plotting & Graphing Studio -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn wb-icon-btn-accent" id="wb-quick-eq-trigger" title="Plot Custom Equation (y = f(x))"><i class="fa-solid fa-calculator"></i></button>
+                  <button class="wb-icon-btn wb-icon-btn-accent" id="btn-wb-open-graphing-lab" title="Launch Interactive Graphing Studio"><i class="fa-solid fa-chart-line"></i></button>
+                  <button class="wb-icon-btn" id="btn-wb-open-geography-lab" title="Launch Geography & Earth Sciences Laboratory" onclick="window.openClassroomLab('geography-lab.html');"><i class="fa-solid fa-earth-africa" style="color:#0284C7;"></i></button>
+                  <button class="wb-icon-btn" id="btn-wb-open-physics-lab" title="Launch Interactive Physics Laboratory" onclick="window.openClassroomLab('physics-lab.html');"><i class="fa-solid fa-atom" style="color:#2563EB;"></i></button>
+                  <button class="wb-icon-btn" id="btn-wb-open-biology-lab" title="Launch Interactive Biology & Life Sciences Laboratory" onclick="window.openClassroomLab('biology-lab.html');"><i class="fa-solid fa-dna" style="color:#059669;"></i></button>
+                  <button class="wb-icon-btn" id="btn-wb-open-chemistry-lab" title="Launch Chemistry & Molecular Laboratory" onclick="window.openClassroomLab('chemistry-lab.html');"><i class="fa-solid fa-flask-vial" style="color:#2563EB;"></i></button>
+                  <button class="wb-icon-btn" id="btn-wb-open-cs-lab" title="Launch Virtual Computer Science & ICT Laboratory" onclick="window.openClassroomLab('cs-lab.html');"><i class="fa-solid fa-terminal" style="color:#1E40AF;"></i></button>
+                  <button class="wb-icon-btn" id="btn-plot-math" title="Plot Advanced Math Curve"><i class="fa-solid fa-square-root-variable"></i></button>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- Selection & Manipulation -->
+                <div class="wb-sidebar-group">
+                  <button class="wb-icon-btn" id="btn-select-all-wb" title="Select All (Ctrl+A)"><i class="fa-solid fa-check-double"></i></button>
+                  <button class="wb-icon-btn" id="btn-duplicate-shape" title="Duplicate Shape (Ctrl+D)"><i class="fa-solid fa-copy"></i></button>
+                  <button class="wb-icon-btn wb-icon-btn-danger" id="btn-delete-selected" title="Delete Selected (Del)"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- Styling Controls -->
+                <div class="wb-sidebar-group wb-sidebar-style">
+                  <label class="wb-icon-style-label" title="Stroke Outline Color">
+                    <input type="color" id="wb-color-picker" value="#1E40AF" />
+                  </label>
+                  <label class="wb-icon-style-label" title="Fill Color">
+                    <input type="color" id="wb-fill-picker" value="#93C5FD" />
+                  </label>
+                  <label class="wb-icon-style-label wb-fill-toggle-label" title="Toggle Shape Fill">
+                    <input type="checkbox" id="wb-fill-toggle" />
+                    <i class="fa-solid fa-fill-drip"></i>
+                  </label>
+                  <select id="wb-stroke-width" class="wb-sidebar-mini-select" title="Stroke Width">
+                    <option value="1">1px</option>
+                    <option value="2" selected>2px</option>
+                    <option value="3">3px</option>
+                    <option value="5">5px</option>
+                    <option value="8">8px</option>
+                  </select>
+                  <select id="wb-line-dash" class="wb-sidebar-mini-select" title="Line Dash">
+                    <option value="solid" selected>—</option>
+                    <option value="dashed">--</option>
+                    <option value="dotted">···</option>
+                  </select>
+                  <label class="wb-icon-style-label" title="Opacity">
+                    <input type="range" id="wb-opacity" min="10" max="100" value="100" style="width:40px;height:6px;" />
+                  </label>
+                </div>
+
+                <div class="wb-sidebar-divider"></div>
+
+                <!-- Math Subject Mini Selectors -->
+                <div class="wb-sidebar-group">
+                  <select id="wb-math-subject-select" class="wb-sidebar-mini-select" title="Math Lesson Tool" style="max-width:44px;font-size:10px;">
+                    <option value="" disabled selected>Tool</option>
+                    <option value="math-graph">f(x)</option>
+                    <option value="math-integration">∫</option>
+                    <option value="math-differentiation">dy/dx</option>
+                    <option value="math-coord-grid">Grid</option>
+                    <option value="math-trig-circle">Trig</option>
+                    <option value="math-vectors">Vec</option>
+                    <option value="math-stats">Stat</option>
+                    <option value="math-fractions">Frac</option>
+                    <option value="math-probability">Prob</option>
+                    <option value="math-functions">f:X→Y</option>
+                  </select>
+                  <select id="wb-func-select" class="wb-sidebar-mini-select" title="Function" style="max-width:44px;font-size:10px;">
+                    <option value="x^2" selected>x²</option>
+                    <option value="sin(x)">sin</option>
+                    <option value="cos(x)">cos</option>
+                    <option value="2*x + 1">2x+1</option>
+                    <option value="x^3 - 3*x">x³</option>
+                    <option value="exp(x)">eˣ</option>
+                    <option value="1/x">1/x</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- RIGHT PANEL: Sliding Live Chat & Reactions -->
+              <div class="wb-chat-panel" id="wb-chat-panel">
+                <div class="wb-chat-header">
+                  <span><i class="fa-solid fa-comments text-accent me-1"></i> Live Chat & Comments</span>
+                  <button type="button" class="btn-close-xs" id="btn-close-chat" title="Collapse Chat Panel">&times;</button>
+                </div>
+                <div class="wb-chat-messages" id="wb-chat-messages">
+                  <div class="wb-chat-empty">
+                    <i class="fa-regular fa-comments text-accent" style="font-size:1.8rem;margin-bottom:6px;"></i><br>
+                    <strong>Classroom Live Discussion</strong><br>
+                    Students can submit questions, text comments and replies here in real time.
+                  </div>
+                </div>
+
+                <!-- Student Reaction Emojis -->
+                <div class="wb-chat-reactions" id="wb-chat-reactions">
+                  <button class="wb-reaction-btn" data-emoji="👍" title="Agree / Understood">👍</button>
+                  <button class="wb-reaction-btn" data-emoji="🙋" title="Raise Hand / Question">🙋</button>
+                  <button class="wb-reaction-btn" data-emoji="❓" title="Need Clarification">❓</button>
+                  <button class="wb-reaction-btn" data-emoji="⭐" title="Great Point">⭐</button>
+                  <button class="wb-reaction-btn" data-emoji="💡" title="Got It!">💡</button>
+                  <button class="wb-reaction-btn" data-emoji="🔥" title="Excited">🔥</button>
+                  <button class="wb-reaction-btn" data-emoji="👏" title="Applause">👏</button>
+                </div>
+
+                <!-- Chat Input and Reply Area -->
+                <div class="wb-chat-input-area">
+                  <input type="text" id="wb-chat-input" class="wb-chat-input-field" placeholder="Post a comment or reply..." maxlength="250" />
+                  <button type="button" class="btn btn-sm btn-primary" id="btn-chat-send" title="Send message"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+              </div>
+
+            </div><!-- end .wb-main-area -->
+          </div><!-- end .wb-fullscreen-shell -->
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Bottom Toolbar
+               ═══════════════════════════════════════════ -->
+          <div id="live-toolbar">
+            <!-- Mic -->
+            <button class="lc-tb-btn muted" id="lc-btn-mic" data-tip="Unmute mic">
+              <span class="lc-tb-icon">🔇</span>
+              <span class="lc-tb-label">Unmute</span>
+            </button>
+            <!-- Camera -->
+            <button class="lc-tb-btn muted" id="lc-btn-cam" data-tip="Turn on camera">
+              <span class="lc-tb-icon">📷</span>
+              <span class="lc-tb-label">Start Cam</span>
+            </button>
+            <!-- Screen Share -->
+            <button class="lc-tb-btn" id="lc-btn-screen" data-tip="Share your screen">
+              <span class="lc-tb-icon">🖥️</span>
+              <span class="lc-tb-label">Share Screen</span>
+            </button>
+
+            <div class="lc-tb-sep"></div>
+
+            <!-- Chat -->
+            <button class="lc-tb-btn" id="lc-btn-chat" data-tip="Open chat">
+              <span class="lc-tb-icon">💬</span>
+              <span class="lc-tb-label">Chat</span>
+            </button>
+            <!-- Participants -->
+            <button class="lc-tb-btn" id="lc-btn-participants" data-tip="Show participants">
+              <span class="lc-tb-icon">👥</span>
+              <span class="lc-tb-label">People</span>
+            </button>
+            <!-- Hand Raise -->
+            <button class="lc-tb-btn" id="lc-btn-hand" data-tip="Raise hand">
+              <span class="lc-tb-icon">✋</span>
+              <span class="lc-tb-label">Raise Hand</span>
+            </button>
+
+            <div class="lc-tb-sep"></div>
+
+            <!-- Devices -->
+            <button class="lc-tb-btn" id="lc-btn-devices" data-tip="Audio/Video settings">
+              <span class="lc-tb-icon">⚙️</span>
+              <span class="lc-tb-label">Devices</span>
+            </button>
+            <!-- Fullscreen -->
+            <button class="lc-tb-btn" id="lc-btn-fullscreen" data-tip="Fullscreen">
+              <span class="lc-tb-icon">⛶</span>
+              <span class="lc-tb-label">Fullscreen</span>
+            </button>
+
+            <div class="lc-tb-sep"></div>
+
+            <!-- Leave -->
+            <button class="lc-tb-btn danger" id="lc-btn-leave" data-tip="Leave class">
+              <span class="lc-tb-icon">🚪</span>
+              <span class="lc-tb-label">Leave</span>
+            </button>
+            <!-- End class (tutor-only, shown via JS) -->
+            <button class="lc-tb-btn end-class" id="lc-btn-end" data-tip="End class for everyone" style="display:none">
+              <span class="lc-tb-icon">⏹</span>
+              <span class="lc-tb-label">End Class</span>
+            </button>
+          </div><!-- end #live-toolbar -->
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Chat Drawer
+               ═══════════════════════════════════════════ -->
+          <div id="live-chat-drawer">
+            <div class="lc-drawer-header">
+              <span><i class="fa-solid fa-comments"></i> Live Chat</span>
+              <button class="lc-drawer-close" title="Close chat">✕</button>
+            </div>
+            <div id="live-chat-messages"></div>
+            <div class="lc-reactions-row">
+              <button class="lc-reaction-btn" title="Send reaction">👍</button>
+              <button class="lc-reaction-btn" title="Send reaction">❤️</button>
+              <button class="lc-reaction-btn" title="Send reaction">😂</button>
+              <button class="lc-reaction-btn" title="Send reaction">😮</button>
+              <button class="lc-reaction-btn" title="Send reaction">👏</button>
+              <button class="lc-reaction-btn" title="Send reaction">🎉</button>
+            </div>
+            <div id="live-chat-input-row">
+              <textarea id="live-chat-input" rows="1" placeholder="Type a message… (Enter to send)"></textarea>
+              <button id="live-chat-send" title="Send"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+          </div><!-- end #live-chat-drawer -->
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Participants Drawer
+               ═══════════════════════════════════════════ -->
+          <div id="live-participants-drawer">
+            <div class="lc-drawer-header">
+              <span><i class="fa-solid fa-users"></i> Participants</span>
+              <button class="lc-drawer-close" title="Close">✕</button>
+            </div>
+            <div id="live-participants-count">0 participants</div>
+            <div id="live-participants-list"></div>
+          </div><!-- end #live-participants-drawer -->
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Device Picker Popup
+               ═══════════════════════════════════════════ -->
+          <div id="live-device-popup">
+            <h4><i class="fa-solid fa-sliders"></i> Audio &amp; Video Devices</h4>
+            <div class="lc-device-group">
+              <label class="lc-device-label">Microphone</label>
+              <select class="lc-device-select" id="lc-select-mic">
+                <option>Loading…</option>
+              </select>
+            </div>
+            <div class="lc-device-group">
+              <label class="lc-device-label">Camera</label>
+              <select class="lc-device-select" id="lc-select-cam">
+                <option>Loading…</option>
+              </select>
+            </div>
+            <div class="lc-device-group">
+              <label class="lc-device-label">Speaker</label>
+              <select class="lc-device-select" id="lc-select-spk">
+                <option>Loading…</option>
+              </select>
+            </div>
+            <button id="live-device-popup-close">Apply &amp; Close</button>
+          </div><!-- end #live-device-popup -->
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Connection Banner
+               ═══════════════════════════════════════════ -->
+          <div id="live-connection-banner">
+            ⚠ Connection lost — trying to reconnect…
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+               LIVE CLASSROOM — Toast Notifications
+               ═══════════════════════════════════════════ -->
+          <div id="lc-toast-container"></div>
+
+
+        </div>
+
+        <!-- 12. GRAPHING & DATA LAB -->
+        <div class="tab-pane" id="tab-graphing">
+          <div class="card p-0 mb-3" style="overflow: hidden; border-radius: 8px; border: 1px solid #E2E8F0;">
+            <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+              <div>
+                <h4 class="mb-0 fw-bold text-primary"><i class="fa-solid fa-chart-line text-accent me-2"></i> Interactive Graphing & Data Visualization Lab</h4>
+                <small class="text-muted">Plot mathematical curves, analyze scientific laboratory data, compute derivatives and definite integrals.</small>
+              </div>
+              <a href="/graphing-lab.html" target="_blank" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-up-right-from-square me-1"></i> Open in Full Window
+              </a>
+              <a href="/cs-lab.html" target="_blank" class="btn btn-xs btn-outline-primary ms-1" title="Launch Computer Science & ICT Laboratory">
+                <i class="fa-solid fa-terminal me-1"></i> CS Lab
+              </a>
+            </div>
+            <div style="height: 650px; width: 100%;">
+              <iframe src="/graphing-lab.html" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Add Lesson Modal -->
+    <div class="modal-backdrop hidden" id="modal-lesson">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Create Classroom Lesson</h3>
+          <button type="button" class="btn-close" data-close="modal-lesson">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-lesson">
+            <div class="field">
+              <label class="label">Topic *</label>
+              <input type="text" id="lesson-topic" class="input-text" required placeholder="e.g. Linear Equations" />
+            </div>
+            <div class="field">
+              <label class="label">Lesson Title *</label>
+              <input type="text" id="lesson-title" class="input-text" required placeholder="e.g. Solving Equations with Variables on Both Sides" />
+            </div>
+            <div class="field">
+              <label class="label">Learning Objectives</label>
+              <textarea id="lesson-objectives" class="input-textarea" rows="2" placeholder="Students will understand how to..."></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Lesson Content / Notes (Supports Math / KaTeX)</label>
+              <textarea id="lesson-content" class="input-textarea" rows="5" placeholder="Detailed lesson body..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label class="label">Scheduled Date & Time</label>
+                <input type="datetime-local" id="lesson-date" class="input-text" />
+              </div>
+              <div class="field">
+                <label class="label">Duration (Minutes)</label>
+                <input type="number" id="lesson-duration" class="input-text" value="45" min="5" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Lesson</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Material Modal -->
+    <div class="modal-backdrop hidden" id="modal-material">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Add Learning Material</h3>
+          <button type="button" class="btn-close" data-close="modal-material">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-material">
+            <div class="field">
+              <label class="label">Material Title *</label>
+              <input type="text" id="mat-title" class="input-text" required placeholder="e.g. Week 1 Lecture Slides PDF" />
+            </div>
+            <div class="field">
+              <label class="label">External URL / Document Link</label>
+              <input type="url" id="mat-url" class="input-text" placeholder="https://example.com/document.pdf" />
+            </div>
+            <div class="field">
+              <label class="label">File Type</label>
+              <select id="mat-type" class="input-select">
+                <option value="pdf">PDF Document</option>
+                <option value="doc">Word Document</option>
+                <option value="slides">Presentation Slides</option>
+                <option value="video">Video Recording</option>
+                <option value="link">Web Link</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Material</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Assignment Modal -->
+    <div class="modal-backdrop hidden" id="modal-assignment">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Create Assignment</h3>
+          <button type="button" class="btn-close" data-close="modal-assignment">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-assignment">
+            <div class="field">
+              <label class="label">Title *</label>
+              <input type="text" id="assign-title" class="input-text" required placeholder="e.g. Chapter 3 Problem Set" />
+            </div>
+            <div class="field">
+              <label class="label">Instructions *</label>
+              <textarea id="assign-instructions" class="input-textarea" rows="3" required placeholder="Provide clear instructions for students..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label class="label">Max Marks</label>
+                <input type="number" id="assign-max-marks" class="input-text" value="100" />
+              </div>
+              <div class="field">
+                <label class="label">Deadline *</label>
+                <input type="datetime-local" id="assign-deadline" class="input-text" required />
+              </div>
+            </div>
+            <div class="field">
+              <label class="checkbox-label">
+                <input type="checkbox" id="assign-allow-late" /> Allow Late Submissions
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Post Assignment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Quiz Modal -->
+    <div class="modal-backdrop hidden" id="modal-quiz">
+      <div class="modal-card modal-lg">
+        <div class="modal-header">
+          <h3>Create Classroom Quiz</h3>
+          <button type="button" class="btn-close" data-close="modal-quiz">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-quiz">
+            <div class="field">
+              <label class="label">Quiz Title *</label>
+              <input type="text" id="quiz-title" class="input-text" required placeholder="e.g. Quick Check: Algebra Basics" />
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label class="label">Duration (Minutes)</label>
+                <input type="number" id="quiz-duration" class="input-text" value="15" min="1" />
+              </div>
+              <div class="field">
+                <label class="label">Max Score</label>
+                <input type="number" id="quiz-max-score" class="input-text" value="100" />
+              </div>
+            </div>
+            
+            <h4 class="mt-3">Quiz Questions (MCQ A/B/C/D)</h4>
+            <div id="quiz-questions-builder" class="quiz-questions-builder">
+              <!-- Dynamically populated question cards -->
+            </div>
+            <button type="button" class="btn btn-outline btn-sm mt-2" id="btn-add-quiz-q">
+              <i class="fa-solid fa-plus"></i> Add Question
+            </button>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4">Save & Publish Quiz</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Take Quiz Modal -->
+    <div class="modal-backdrop hidden" id="modal-take-quiz">
+      <div class="modal-card modal-lg">
+        <div class="modal-header">
+          <h3 id="take-quiz-title">Quiz</h3>
+          <button type="button" class="btn-close" data-close="modal-take-quiz">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="take-quiz-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Assignment Modal -->
+    <div class="modal-backdrop hidden" id="modal-submit-assignment">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="submit-assign-title">Submit Assignment</h3>
+          <button type="button" class="btn-close" data-close="modal-submit-assignment">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-submit-assignment">
+            <input type="hidden" id="submit-assign-id" />
+            <div class="field">
+              <label class="label">Your Written Solution / Text Response</label>
+              <textarea id="submit-assign-text" class="input-textarea" rows="4" placeholder="Type your answer or solution here..."></textarea>
+            </div>
+            <div class="field">
+              <label class="label">External File Link (Google Drive / OneDrive / Doc link)</label>
+              <input type="url" id="submit-assign-link" class="input-text" placeholder="https://..." />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Assignment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grade Assignment Modal (Tutors) -->
+    <div class="modal-backdrop hidden" id="modal-grade-submission">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Grade Student Submission</h3>
+          <button type="button" class="btn-close" data-close="modal-grade-submission">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="grade-sub-details" class="p-2 mb-3 bg-muted rounded"></div>
+          <form id="form-grade-submission">
+            <input type="hidden" id="grade-sub-id" />
+            <div class="field">
+              <label class="label">Score (0 - 100) *</label>
+              <input type="number" id="grade-sub-score" class="input-text" required min="0" max="100" step="0.5" />
+            </div>
+            <div class="field">
+              <label class="label">Tutor Feedback</label>
+              <textarea id="grade-sub-feedback" class="input-textarea" rows="3" placeholder="Provide constructive feedback..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Grade & Feedback</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Whiteboard Interactive Graphing Lab Studio Modal -->
+    <div class="modal-backdrop hidden" id="modal-wb-graphing-lab" style="z-index: 9999;">
+      <div class="modal-card" style="max-width: 1050px; width: 96vw; height: 90vh; display: flex; flex-direction: column;">
+        <div class="modal-header" style="background: #1E40AF; color: #FFFFFF; padding: 10px 16px;">
+          <h3 style="color: #FFFFFF; margin: 0; font-size: 1.1rem;"><i class="fa-solid fa-chart-line text-warning me-2"></i> Interactive Graphing & Data Lab — Whiteboard Studio</h3>
+          <button type="button" class="btn-close" data-close="modal-wb-graphing-lab" style="filter: brightness(0) invert(1);">&times;</button>
+        </div>
+        <div class="modal-body" style="padding: 0; flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+
+          <!-- Top Control Bar -->
+          <div style="padding: 8px 14px; background: #F8FAFC; border-bottom: 1px solid #E2E8F0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+            <!-- Subject -->
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;">Subject:</span>
+              <select id="modal-gl-subject-select" style="font-size:0.82rem;padding:3px 8px;border-radius:4px;border:1px solid #CBD5E1;">
+                <option value="MATHEMATICS">ðŸ“ Mathematics</option>
+                <option value="PHYSICS">âš›ï¸ Physics</option>
+                <option value="CHEMISTRY">🧪 Chemistry</option>
+                <option value="BIOLOGY">🧬 Biology</option>
+                <option value="GEOGRAPHY">ðŸŒ Geography</option>
+                <option value="ECONOMICS">📈 Economics</option>
+                <option value="STATISTICS">📊 Statistics</option>
+                <option value="AGRICULTURE">🌾 Agriculture</option>
+              </select>
+            </div>
+
+            <!-- Expression Input -->
+            <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:240px;">
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;">y = f(x):</span>
+              <input type="text" id="modal-gl-expr" value="x^2 - 4"
+                style="font-size:0.88rem;font-family:monospace;flex:1;padding:4px 8px;border-radius:4px;border:1px solid #CBD5E1;background:#fff;"
+                placeholder="e.g. x^2, sin(x), 2*x+1, a*x^2+b*x+c" />
+              <button type="button" class="btn btn-sm" id="modal-gl-btn-preview"
+                style="background:#1E40AF;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-weight:600;">
+                <i class="fa-solid fa-play"></i> Plot
+              </button>
+            </div>
+
+            <!-- X/Y Range -->
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;">x:</span>
+              <input type="number" id="modal-gl-xmin" value="-10" style="width:52px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+              <span style="font-size:0.75rem;color:#94A3B8;">to</span>
+              <input type="number" id="modal-gl-xmax" value="10" style="width:52px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;">y:</span>
+              <input type="number" id="modal-gl-ymin" value="-10" style="width:52px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+              <span style="font-size:0.75rem;color:#94A3B8;">to</span>
+              <input type="number" id="modal-gl-ymax" value="10" style="width:52px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+            </div>
+
+            <!-- Axis Labels -->
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;">X-Label:</span>
+              <input type="text" id="modal-gl-xlabel" value="x" style="width:60px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+              <span style="font-weight:700;font-size:0.8rem;color:#475569;margin-left:4px;">Y-Label:</span>
+              <input type="text" id="modal-gl-ylabel" value="y = f(x)" style="width:80px;font-size:0.78rem;padding:3px 4px;border:1px solid #CBD5E1;border-radius:4px;" />
+            </div>
+
+            <!-- Insert Button -->
+            <button type="button" class="btn btn-sm btn-accent" id="modal-gl-btn-insert-board" style="font-weight:700;margin-left:auto;">
+              <i class="fa-solid fa-chalkboard-user me-1"></i> Insert onto Whiteboard
+            </button>
+          </div>
+
+          <!-- Parameter Sliders (auto-detected from expression) -->
+          <div id="modal-gl-params-bar" style="padding:6px 14px;background:#EFF6FF;border-bottom:1px solid #BFDBFE;display:none;flex-wrap:wrap;align-items:center;gap:12px;">
+            <span style="font-weight:700;font-size:0.78rem;color:#1E40AF;"><i class="fa-solid fa-sliders"></i> Parameters:</span>
+            <div id="modal-gl-params-container" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;"></div>
+          </div>
+
+          <!-- Graph Canvas Area -->
+          <div style="flex:1;position:relative;background:#FAFAFC;overflow:hidden;">
+            <div id="modal-graph-preview-container" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-scientific-assets" tabindex="-1" aria-labelledby="modal-scientific-assets-title" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header"><h2 class="modal-title fs-5" id="modal-scientific-assets-title">Insert a sourced model reference</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+          <div class="modal-body">
+            <p class="small text-muted">This adds an editable, persistent whiteboard reference card. Double-click it to open the source geometry in the interactive viewer.</p>
+            <form id="wb-scientific-asset-search" class="input-group mb-3"><input class="form-control" id="wb-scientific-asset-query" placeholder="Search approved assets" maxlength="120"><button class="btn btn-primary">Search</button></form>
+            <p id="wb-scientific-asset-status" class="small text-muted" role="status" aria-live="polite"></p>
+            <div id="wb-scientific-asset-results" class="list-group"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Socket.io client (auto-served by socket.io after npm install) -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- LiveKit client -->
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client@1.15.15/dist/livekit-client.umd.min.js"></script>
+    <script src="/js/scientific-calculations.js"></script>
+    <script src="/js/classroom.js"></script>
+    <script src="/js/live-classroom.js"></script>
+  </body>
+</html>

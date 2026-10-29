@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Exam result</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-student">
+    <div class="page student-page">
+      <div class="topbar">
+        <div class="school-header">
+          <img src="/images/school%20icon.jpg" alt="" class="school-logo" />
+          <span class="school-name">SCHOOL <small>Exam results</small></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap">
+          <span id="student-label" class="muted"></span>
+          <button type="button" class="btn btn-ghost" id="btn-back">Back to exams</button>
+        </div>
+      </div>
+      <div id="banner" class="hidden"></div>
+      <div class="card" style="max-width: 520px; margin: 0 auto">
+        <h1>Exam result</h1>
+        <p class="muted" id="result-title"></p>
+        <div id="content">
+          <p class="muted">Loading…</p>
+        </div>
+      </div>
+    </div>
+    <!-- Watermark -->
+    <div class="watermark">
+      <img src="/images/school%20icon.jpg" alt="" />
+    </div>
+    
+    <script src="/js/result.js"></script>
+  </body>
+</html>

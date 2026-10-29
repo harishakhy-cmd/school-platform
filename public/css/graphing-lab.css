@@ -1,0 +1,237 @@
+/* ==========================================================================
+   Interactive Graphing & Data Visualization Lab — Stylesheet
+   ========================================================================== */
+
+:root {
+  --gl-primary: #1E40AF;
+  --gl-primary-light: #3B82F6;
+  --gl-primary-dark: #1E3A8A;
+  --gl-accent: #FF4500;
+  --gl-saffron: #F59E0B;
+  --gl-success: #10B981;
+  --gl-bg-light: #F8FAFC;
+  --gl-card-bg: #FFFFFF;
+  --gl-border: #E2E8F0;
+  --gl-text: #0F172A;
+  --gl-text-muted: #64748B;
+  --gl-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.graph-lab-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--gl-bg-light);
+  color: var(--gl-text);
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Header */
+.graph-lab-header {
+  height: 56px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--gl-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 20;
+}
+
+.graph-lab-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--gl-primary);
+}
+
+.graph-lab-brand i {
+  color: var(--gl-accent);
+  font-size: 1.3rem;
+}
+
+.graph-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Workspace Layout */
+.graph-lab-workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar Toolpanel */
+.graph-sidebar {
+  width: 340px;
+  background: #FFFFFF;
+  border-right: 1px solid var(--gl-border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.graph-sidebar-section {
+  padding: 1rem;
+  border-bottom: 1px solid var(--gl-border);
+}
+
+.graph-sidebar-title {
+  font-size: 0.825rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gl-text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Main Viewport & Canvas Area */
+.graph-viewport-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #FAFAFC;
+  overflow: hidden;
+}
+
+.graph-canvas-frame {
+  flex: 1;
+  position: relative;
+  padding: 1rem;
+}
+
+.graph-bottom-tray {
+  height: 220px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--gl-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+.graph-bottom-tray.collapsed {
+  height: 38px;
+}
+
+.graph-tray-header {
+  height: 38px;
+  background: #F1F5F9;
+  border-bottom: 1px solid var(--gl-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.graph-tray-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.graph-tray-tab {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 4px;
+  color: var(--gl-text-muted);
+  cursor: pointer;
+}
+
+.graph-tray-tab.active {
+  background: #FFFFFF;
+  color: var(--gl-primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.graph-tray-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+}
+
+/* Parameter Sliders */
+.param-slider-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.param-slider-label {
+  width: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--gl-primary);
+}
+
+.param-slider-val {
+  width: 40px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--gl-text);
+}
+
+/* Function Input Rows */
+.func-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: #F8FAFC;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--gl-border);
+}
+
+.func-color-badge {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Tables */
+.gl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.gl-table th, .gl-table td {
+  padding: 6px 10px;
+  border: 1px solid var(--gl-border);
+  text-align: center;
+}
+
+.gl-table th {
+  background: #F1F5F9;
+  font-weight: 600;
+  color: var(--gl-text-muted);
+}
+
+/* Responsive Mobile Layout */
+@media (max-width: 900px) {
+  .graph-lab-workspace {
+    flex-direction: column;
+  }
+  .graph-sidebar {
+    width: 100%;
+    height: 240px;
+    border-right: none;
+    border-bottom: 1px solid var(--gl-border);
+  }
+}

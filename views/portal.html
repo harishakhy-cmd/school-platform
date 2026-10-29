@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Academic Portal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student.css" />
+    <link rel="stylesheet" href="/css/portal-polish.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-portal">
+    <!-- Top Navigation Bar -->
+    <header class="portal-navbar">
+      <div class="nav-container">
+        <div class="brand-group">
+          <div class="school-header">
+            <img src="/images/school%20icon.jpg" alt="" class="school-logo" />
+            <span class="portal-brand-text">SCHOOL <span>Learning Portal</span></span>
+          </div>
+        </div>
+
+        <div class="nav-controls">
+          <!-- Notification Bell -->
+          <div class="notif-dropdown-wrapper">
+            <button type="button" class="btn-icon notif-bell" id="btn-notif-bell" title="Notifications">
+              <i class="fa-solid fa-bell"></i>
+              <span class="badge-count hidden" id="notif-badge">0</span>
+            </button>
+            <div class="notif-panel hidden" id="notif-panel">
+              <div class="notif-panel-header">
+                <h4>Notifications</h4>
+                <button type="button" class="btn-link" id="btn-mark-all-read">Mark all as read</button>
+              </div>
+              <div class="notif-list" id="notif-list">
+                <p class="muted p-3 text-center">No notifications yet.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile & Sign Out -->
+          <div class="user-profile-badge">
+            <button type="button" class="avatar-circle profile-photo-trigger" id="btn-change-user-photo" title="Upload profile photo" aria-label="Upload profile photo">
+              <img id="user-avatar-photo" alt="Profile photo" hidden>
+              <i class="fa-solid fa-graduation-cap" id="user-avatar-icon" aria-hidden="true"></i>
+              <span class="profile-photo-edit-icon" aria-hidden="true"><i class="fa-solid fa-camera"></i></span>
+            </button>
+            <input id="user-photo-input" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="user-meta">
+              <span class="user-display-name" id="user-display-name">Loading...</span>
+              <span class="user-reg-code" id="user-reg-code">---</span>
+              <span id="user-photo-status" class="profile-photo-status" role="status" aria-live="polite"></span>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm ml-2" id="btn-portal-logout" title="Sign out">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="portal-main">
+      <div class="container">
+        
+        <!-- Welcome Hero Banner -->
+        <section class="portal-hero">
+          <div class="hero-content">
+            <h1 id="greeting-title">Welcome back!</h1>
+            <p class="muted" id="greeting-subtitle">Your unified digital classroom, learning materials, assignments, and CBT examinations.</p>
+          </div>
+          <div class="hero-quick-actions">
+            <a href="#section-cbt" class="btn btn-accent"><i class="fa-solid fa-laptop-code"></i> Take CBT Exam</a>
+            <button type="button" class="btn btn-primary" id="btn-open-ai"><i class="fa-solid fa-robot"></i> AI Study Helper</button>
+          </div>
+        </section>
+
+        <section class="learning-labs" aria-labelledby="learning-labs-title">
+          <div class="learning-labs-heading">
+            <div>
+              <span class="learning-labs-eyebrow">Explore & experiment</span>
+              <h2 id="learning-labs-title">Learning labs</h2>
+              <p>Interactive tools for seeing concepts, testing ideas, and learning by doing.</p>
+            </div>
+            <a class="labs-library-link" href="/scientific-assets.html">
+              <i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i>
+              Scientific asset library
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="learning-labs-grid">
+            <a class="learning-lab-card lab-physics" href="/physics-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-atom" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Physics</strong><span>Explore forces, motion, light, and circuits.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="learning-lab-card lab-chemistry" href="/chemistry-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-flask" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Chemistry</strong><span>Build molecules and explore reactions.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="learning-lab-card lab-biology" href="/biology-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-dna" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Biology</strong><span>Investigate cells, organisms, and life systems.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="learning-lab-card lab-geography" href="/geography-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-earth-africa" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Geography</strong><span>Read maps, terrain, climate, and our planet.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="learning-lab-card lab-graphing" href="/graphing-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Graphing</strong><span>Visualize functions, data, and relationships.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="learning-lab-card lab-computing" href="/cs-lab.html">
+              <span class="learning-lab-icon"><i class="fa-solid fa-terminal" aria-hidden="true"></i></span>
+              <span class="learning-lab-copy"><strong>Computer science</strong><span>Practice programming and computational thinking.</span></span>
+              <i class="fa-solid fa-arrow-up-right-from-square learning-lab-arrow" aria-hidden="true"></i>
+            </a>
+          </div>
+        </section>
+
+        <!-- Dynamic Announcement Banner -->
+        <div id="global-announcement-banner" class="announcement-alert hidden"></div>
+
+        <!-- Dashboard Grid Layout -->
+        <div class="portal-grid">
+          
+          <!-- Left Column (Primary): Classrooms & Stream -->
+          <div class="portal-main-col">
+            
+            <!-- Classrooms Section -->
+            <section class="section-card" id="section-classrooms">
+              <div class="section-header">
+                <h2><i class="fa-solid fa-chalkboard-user"></i> My Classrooms</h2>
+                <span class="badge" id="classrooms-count-badge">0 Classes</span>
+              </div>
+              <div class="classrooms-grid" id="classrooms-grid">
+                <div class="empty-state">
+                  <i class="fa-solid fa-folder-open empty-icon"></i>
+                  <p>Loading your enrolled classrooms...</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- CBT Examinations Section -->
+            <section class="section-card mt-4" id="section-cbt">
+              <div class="section-header">
+                <h2><i class="fa-solid fa-file-circle-check"></i> Computer-Based Tests (CBT)</h2>
+                <span class="badge badge-accent">Secure Testing</span>
+              </div>
+              <p class="muted mb-3">Official examinations scheduled for your registered subjects and classrooms. Strictly one attempt per examination.</p>
+              <div class="exams-list" id="portal-exams-list">
+                <div class="empty-state">
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+                  <p>Loading active examinations...</p>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Right Column (Sidebar): Upcoming Deadlines, Calendar & Progress -->
+          <div class="portal-side-col">
+            
+            <!-- Pending Tasks / Assignments -->
+            <div class="card side-widget">
+              <div class="widget-header">
+                <h3><i class="fa-solid fa-list-check"></i> Pending Assignments</h3>
+              </div>
+              <div class="widget-body" id="pending-assignments-list">
+                <p class="muted p-2 text-center">No pending assignments.</p>
+              </div>
+            </div>
+
+            <!-- Academic Calendar Preview -->
+            <div class="card side-widget mt-3">
+              <div class="widget-header">
+                <h3><i class="fa-solid fa-calendar-days"></i> Upcoming Schedule</h3>
+              </div>
+              <div class="widget-body" id="upcoming-schedule-list">
+                <p class="muted p-2 text-center">Loading academic calendar...</p>
+              </div>
+            </div>
+
+            <!-- Quick Academic Progress -->
+            <div class="card side-widget mt-3">
+              <div class="widget-header">
+                <h3><i class="fa-solid fa-chart-line"></i> Academic Overview</h3>
+              </div>
+              <div class="widget-body">
+                <div class="stat-row">
+                  <span class="stat-label">Active Enrollments:</span>
+                  <span class="stat-val" id="stat-enrollments">-</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Completed Exams:</span>
+                  <span class="stat-val" id="stat-cbt-completed">-</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Average Performance:</span>
+                  <span class="stat-val badge-success" id="stat-avg-score">--%</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- AI Study Assistant Modal / Drawer -->
+    <div class="modal-backdrop hidden" id="ai-modal">
+      <div class="modal-card ai-drawer">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-robot text-primary"></i> AI Learning Assistant</h3>
+          <button type="button" class="btn-close" id="btn-close-ai">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="muted small mb-3">
+            Ask concept questions, generate practice questions, or get lesson summaries.
+            <br><strong>Note:</strong> Disabled during active CBT exams.
+          </p>
+          <div class="field">
+            <label class="label" for="ai-prompt">What concept or lesson would you like help with?</label>
+            <textarea id="ai-prompt" class="input-textarea" rows="3" placeholder="e.g. Explain quadratic equations with examples or Summarize the ICT lesson"></textarea>
+          </div>
+          <div class="ai-action-buttons">
+            <button type="button" class="btn btn-outline btn-sm" id="btn-ai-explain"><i class="fa-solid fa-lightbulb"></i> Explain</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-ai-practice"><i class="fa-solid fa-circle-question"></i> Practice Questions</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-ai-summarize"><i class="fa-solid fa-align-left"></i> Summarize</button>
+          </div>
+          <div class="ai-response-box hidden" id="ai-response-box">
+            <div id="ai-response-content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script src="/js/profile-photo.js"></script>
+    <script src="/js/portal.js"></script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Student sign in</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student.css" />
+    <link rel="stylesheet" href="/css/auth.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-student">
+    <main class="auth-shell auth-student">
+      <section class="auth-panel" aria-labelledby="login-title">
+        <div class="auth-form-wrap">
+          <a class="auth-logo" href="/login.html" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /></a>
+          <h1 id="login-title">Welcome Back!</h1>
+          <p class="auth-description">Sign in to your SCHOOL learning account.</p>
+          <div id="msg" class="auth-message hidden" role="alert" aria-live="polite"></div>
+          <form id="login-form">
+            <div class="field">
+              <label class="auth-sr-only" for="registration_number">Registration number</label>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.14 0-7.5 2.24-7.5 5v1h15v-1c0-2.76-3.36-5-7.5-5Z"/></svg>
+                <input id="registration_number" name="registration_number" type="text" autocomplete="username" placeholder="Registration number" aria-label="Registration number" pattern="[A-Za-z0-9](?:[A-Za-z0-9\/_.]|-){2,31}" maxlength="32" autocapitalize="characters" spellcheck="false" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block auth-submit"><span>CONTINUE</span></button>
+          </form>
+          <p class="auth-switch-line">For sign-in help, contact your school administrator.</p>
+        </div>
+        <footer class="auth-footer"><a class="auth-switch" href="/admin-login.html">Staff sign in</a></footer>
+      </section>
+    </main>
+    <script src="/js/login.js"></script>
+  </body>
+</html>

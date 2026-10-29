@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCHOOL | Scientific 3D Viewer</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="/css/scientific-viewer.css">
+  <link rel="stylesheet" href="/css/scientific-workspace.css">
+  <link rel="icon" type="image/png" href="/images/school%20icon.png">
+</head>
+<body class="sv-page sv-workspace">
+  <main class="sv-shell">
+    <header class="sv-header">
+      <div class="sv-page-brand"><img class="sv-school-mark" src="/images/school%20icon.jpg" alt="" /><div><span class="sv-page-eyebrow">SCHOOL · LEARNING LAB</span><h1 id="sv-title">Scientific 3D Viewer</h1><p id="sv-subtitle">Interactive geometry with source metadata</p></div></div>
+      <a class="btn btn-sm btn-outline-secondary" href="/portal.html">Back to learning portal</a>
+    </header>
+    <div class="sv-grid">
+      <section class="sv-card sv-stage-card" id="sv-stage-card" aria-label="Interactive scientific model">
+        <div class="sv-toolbar">
+          <button class="btn btn-sm btn-outline-primary" id="sv-reset">Reset view</button>
+          <button class="btn btn-sm btn-outline-secondary" id="sv-previous" disabled>Previous view</button>
+          <button class="btn btn-sm btn-outline-secondary" id="sv-focus" disabled>Focus selection</button>
+          <button class="btn btn-sm btn-outline-secondary" id="sv-save-camera">Save camera</button>
+          <button class="btn btn-sm btn-outline-secondary" id="sv-restore-camera" disabled>Restore camera</button>
+          <button class="btn btn-sm btn-outline-primary" id="sv-label-toggle" aria-pressed="true">Hide label</button>
+          <button class="btn btn-sm btn-outline-primary" id="sv-hide">Hide selected</button>
+          <button class="btn btn-sm btn-outline-primary" id="sv-isolate">Isolate selected</button>
+          <button class="btn btn-sm btn-outline-primary" id="sv-restore">Restore all</button>
+          <label class="sv-view-control"><input type="checkbox" id="sv-transparency" disabled> Transparent surface</label>
+          <label class="sv-view-control"><input type="checkbox" id="sv-selected-transparency" disabled> Selected component only</label>
+          <label class="sv-view-control" for="sv-opacity">Opacity <output id="sv-opacity-value">35%</output>
+            <input id="sv-opacity" type="range" min="5" max="90" value="35" disabled>
+          </label>
+          <label class="sv-view-control"><input type="checkbox" id="sv-cutaway" disabled> Cutaway</label>
+          <label class="sv-view-control" for="sv-cut-position">Cut position
+            <input id="sv-cut-position" type="range" min="5" max="95" value="50" disabled>
+          </label>
+          <button class="btn btn-sm btn-outline-secondary" id="sv-fullscreen">Fullscreen</button>
+          <span class="sv-status" id="sv-status" role="status" aria-live="polite">Preparing 3D viewer…</span>
+        </div>
+        <p class="sv-interaction-hint" id="sv-interaction-hint"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span><strong>Explore the model</strong> Drag to rotate <span aria-hidden="true">·</span> scroll to zoom <span aria-hidden="true">·</span> right-drag to pan</span></p>
+        <div id="scientific-stage"><div class="sv-loading" id="sv-loading">Loading viewer…</div><div class="sv-label" id="sv-label"></div></div>
+      </section>
+      <aside class="sv-card sv-side">
+        <h2>Components</h2><div class="sv-tree" id="sv-components"><span class="text-muted small">Load an asset to inspect its components.</span></div>
+        <hr><h2>Selected component</h2><div id="sv-selection" class="sv-meta">Select a visible component or atom.</div>
+        <hr><h2>Source and license</h2><div id="sv-provenance" class="sv-meta">Provenance will appear with the selected asset.</div>
+        <div class="sv-notice" id="sv-accuracy">Source provenance and scientific validation are tracked separately. Transparency and cutaway are geometric display operations, not X-ray data; a cutaway clips the supplied surface and does not create internal anatomy.</div>
+      </aside>
+    </div>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="/js/scientific-structure-parser.js"></script>
+  <script src="/js/scientific-calculations.js"></script>
+  <script src="/js/scientific-viewer.js"></script>
+</body>
+</html>

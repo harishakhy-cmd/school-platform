@@ -1,0 +1,54 @@
+{
+  "name": "cbt-system",
+  "version": "3.0.0",
+  "description": "Computer-Based Test system (Express + MySQL) - Multi-Admin Hierarchy with Exam Approval Workflow",
+  "main": "app.js",
+  "scripts": {
+    "start": "node scripts/startWithLocalMysql.js",
+    "start:app-only": "node app.js",
+    "dev:vercel": "npx --yes vercel@65.8.0 dev",
+    "build:vercel": "npx --yes vercel@65.8.0 build",
+    "test:vercel": "node --test tests/chemistry-simulation.test.js tests/chemistry-lab-controller.test.js tests/scientific-assets.test.js tests/auth-session.test.js tests/session-security.test.js tests/profile-photo-storage.test.js tests/mysql-session-store.test.js",
+    "deploy:vercel": "npx --yes vercel@65.8.0 deploy --prod",
+    "init-db": "node scripts/initDatabase.js",
+    "migrate": "node scripts/migrateAddAdminToStudents.js",
+    "migrate:hierarchy": "node scripts/migrateAdminHierarchy.js",
+    "migrate:scientific-assets": "node scripts/migrateScientificAssets.js",
+    "migrate:chemistry-bench": "node scripts/migrateVirtualChemistryLab.js",
+    "migrate:profile-photos": "node scripts/migrateProfilePhotos.js",
+    "test:chemistry-simulation": "node --test tests/chemistry-simulation.test.js tests/chemistry-lab-controller.test.js",
+    "generate-password": "node scripts/generateAdminPassword.js",
+    "migrate:password-reset": "node scripts/migratePasswordReset.js",
+    "test:platform": "node scripts/testFullPlatform.js",
+    "test:graphing": "node scripts/testGraphingLab.js",
+    "test:password-reset": "node scripts/testPasswordReset.js",
+    "test:settings": "node scripts/testSettingsE2E.js",
+    "test:geography": "node scripts/testGeographyLab.js",
+    "test:physics": "node scripts/testPhysicsLab.js",
+    "test:biology": "node scripts/testBiologyLab.js",
+    "test:cs": "node scripts/testCsLab.js",
+    "test:chemistry": "node scripts/testChemistryLab.js",
+    "test:scientific-assets": "node --test tests/scientific-assets.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.4.0",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^1.20.3",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "livekit-server-sdk": "^2.19.1",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.1.0",
+    "socket.io": "^4.8.4",
+    "uuid": "^11.1.1"
+  },
+  "overrides": {
+    "express": {
+      "qs": "^6.17.1"
+    }
+  }
+}

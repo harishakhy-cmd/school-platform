@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCHOOL | Assessments</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX for Scientific & Mathematical rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Math.js & Interactive Graph Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.js"></script>
+    <script src="/js/graph-engine.js"></script>
+    <!-- Leaflet for Interactive Map Questions -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student.css" />
+    <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+  </head>
+  <body class="theme-student">
+    <div class="page student-page">
+      <!-- Premium Student Header -->
+      <header class="topbar">
+        <div class="student-brand-box">
+          <img src="/images/school%20icon.jpg" alt="" class="school-logo" />
+          <span class="student-brand-mark">SCHOOL <small>Assessments</small></span>
+        </div>
+        <div class="student-profile-actions">
+          <span id="student-label" class="student-label-badge"><i class="fa-solid fa-graduation-cap"></i> Loading...</span>
+          <button type="button" class="btn btn-student-ghost" id="btn-logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <!-- Alert Banner -->
+      <div id="banner" class="hidden"></div>
+
+      <!-- SECTION 1: AVAILABLE EXAMS LIST -->
+      <section id="exam-list-section">
+        <div class="card student-card-wide">
+          <div class="section-title-row">
+            <h1><i class="fa-solid fa-book-open"></i> Available Assessments</h1>
+            <p class="muted">Click "Start Exam" below to begin. Each assessment starts a strict countdown timer and permits a single attempt.</p>
+          </div>
+          <div id="exam-list" class="exam-grid">
+            <p class="muted text-center" style="padding: 2rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Retrieving exams list...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: EXAM RUNNING PORTAL -->
+      <section id="exam-run-section" class="hidden">
+        <!-- Floating Exam Timer Header -->
+        <div class="exam-sticky-bar">
+          <div class="school-header">
+            <img src="/images/school%20icon.jpg" alt="" class="school-logo" />
+            <div class="running-info">
+              <span class="school-name" id="exam-title-run">Math Exam</span>
+              <span id="timer-sub" class="timer-sub-time">Ends at ...</span>
+            </div>
+          </div>
+          <div class="timer-widget">
+            <div class="timer-display" id="timer">00:00</div>
+            <div class="timer-title">Time Remaining</div>
+          </div>
+        </div>
+
+        <div class="exam-interface-grid">
+          <!-- Question Navigation Palette -->
+          <div class="card student-card palette-card">
+            <h3><i class="fa-solid fa-circle-nodes"></i> Navigation Palette</h3>
+            <p class="muted font-small">Select question indices to navigate directly.</p>
+            <div class="question-palette" id="palette"></div>
+          </div>
+
+          <!-- Question Content & Options Column -->
+          <div class="card student-card question-main-card">
+            <div id="question-area">
+              <div class="q-header-row">
+                <span class="q-meta" id="q-meta">Question 1 of 10</span>
+                <span class="q-badge" id="q-type-badge"><i class="fa-solid fa-calculator"></i> Mathematics</span>
+              </div>
+              
+              <!-- Parsed Prompt Container -->
+              <div class="q-text" id="q-text">Loading question prompt...</div>
+              
+              <!-- Parsed Options Container -->
+              <div class="options" id="options"></div>
+            </div>
+            
+            <div class="exam-actions">
+              <button type="button" class="btn btn-student-ghost" id="btn-back-list">
+                <i class="fa-solid fa-chevron-left"></i> Temporary Exit
+              </button>
+              <button type="button" class="btn btn-student-warn" id="btn-submit">
+                <i class="fa-solid fa-paper-plane"></i> Finalize Submission
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Watermark -->
+    <div class="watermark">
+      <img src="/images/school%20icon.jpg" alt="" />
+    </div>
+    
+    <script src="/js/exam.js"></script>
+  </body>
+</html>

@@ -1,0 +1,718 @@
+/* ==========================================================================
+   Virtual Computer Science, ICT & Software Development Laboratory Stylesheet
+   CBT & Digital Classroom Educational Platform
+   ========================================================================== */
+
+:root {
+  --cs-primary: #1E40AF;
+  --cs-primary-dark: #1E3A8A;
+  --cs-primary-light: #DBEAFE;
+  --cs-secondary: #FF4500;
+  --cs-tertiary: #F4C430;
+  --cs-success: #10B981;
+  --cs-danger: #EF4444;
+  --cs-dark: #0F172A;
+  --cs-surface: #FFFFFF;
+  --cs-bg: #F8FAFC;
+  --cs-border: #E2E8F0;
+  --cs-text: #1E293B;
+  --cs-text-muted: #64748B;
+  --cs-sidebar-width: 310px;
+  --cs-inspector-width: 320px;
+  --cs-header-height: 56px;
+  --cs-bottom-height: 200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.cs-lab-body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--cs-bg);
+  color: var(--cs-text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ==========================================================================
+   Header Navbar
+   ========================================================================== */
+.cs-navbar {
+  height: var(--cs-header-height);
+  background: var(--cs-surface);
+  border-bottom: 1px solid var(--cs-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.cs-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1E40AF, #FF4500);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(30, 64, 175, 0.3);
+}
+
+.cs-brand-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cs-dark);
+  display: block;
+  line-height: 1.2;
+}
+
+.cs-brand-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cs-primary);
+  background: var(--cs-primary-light);
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.cs-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #F1F5F9;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.cs-mode-pill {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.cs-mode-pill:hover {
+  color: var(--cs-primary);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.cs-mode-pill.active {
+  background: var(--cs-surface);
+  color: var(--cs-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cs-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Main Workspace Layout
+   ========================================================================== */
+.cs-main-workspace {
+  display: flex;
+  height: calc(100vh - var(--cs-header-height));
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sidebar (Left) */
+.cs-sidebar {
+  width: var(--cs-sidebar-width);
+  background: var(--cs-surface);
+  border-right: 1px solid var(--cs-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.cs-topic-item {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--cs-border);
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: background 0.15s ease;
+}
+
+.cs-topic-item:hover {
+  background: #F1F5F9;
+}
+
+.cs-topic-item.active {
+  background: var(--cs-primary-light);
+  border-left: 4px solid var(--cs-primary);
+}
+
+.cs-topic-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #E2E8F0;
+  color: var(--cs-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cs-topic-item.active .cs-topic-icon {
+  background: var(--cs-primary);
+  color: #FFFFFF;
+}
+
+.cs-topic-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cs-dark);
+  line-height: 1.25;
+}
+
+.cs-topic-branch {
+  font-size: 11px;
+  color: var(--cs-text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Viewport (Center) */
+.cs-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: #1E1E2E;
+}
+
+.cs-viewport-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-mode-view {
+  flex: 1;
+  width: 100%;
+  height: calc(100% - 52px);
+  position: absolute;
+  top: 52px;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+
+.cs-mode-view.active {
+  display: flex !important;
+  z-index: 5;
+}
+
+/* Floating Toolbar */
+.cs-floating-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 40;
+}
+
+.cs-tool-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cs-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.cs-tool-btn:hover {
+  background: #F1F5F9;
+  color: var(--cs-primary);
+}
+
+.cs-tool-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--cs-border);
+  margin: 0 2px;
+}
+
+/* Code Editor Specific Styles */
+.cs-tabs-bar {
+  height: 36px;
+  background: #181825;
+  border-bottom: 1px solid #313244;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 4px;
+}
+
+.cs-file-tab {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  color: #CDD6F4;
+  background: #11111B;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cs-file-tab.active {
+  background: #1E1E2E;
+  color: #FFFFFF;
+  border-bottom: 2px solid var(--cs-primary);
+}
+
+.cs-tab-close {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.cs-tab-close:hover {
+  opacity: 1.0;
+  color: #F38BA8;
+}
+
+.cs-editor-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  background: #1E1E2E;
+  overflow: hidden;
+}
+
+.cs-editor-suggestions {
+  position: absolute;
+  z-index: 60;
+  display: grid;
+  width: min(310px, calc(100% - 58px));
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid #45475a;
+  border-radius: 8px;
+  background: #181825;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+  color: #cdd6f4;
+}
+
+.cs-editor-suggestions[hidden] {
+  display: none;
+}
+
+.cs-editor-suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 0;
+  border-bottom: 1px solid #29293a;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cs-editor-suggestion:last-child {
+  border-bottom: 0;
+}
+
+.cs-editor-suggestion:hover,
+.cs-editor-suggestion[aria-selected="true"] {
+  background: #313244;
+}
+
+.cs-editor-suggestion-label {
+  color: #cba6f7;
+  font: 12px 'JetBrains Mono', Consolas, monospace;
+}
+
+.cs-editor-suggestion-detail {
+  overflow: hidden;
+  color: #9399b2;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-editor-status {
+  display: flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 10px;
+  border-top: 1px solid #313244;
+  background: #181825;
+  color: #9399b2;
+  font-size: 10px;
+}
+
+.cs-editor-status[data-state="error"] {
+  color: #f38ba8;
+}
+
+.cs-editor-status[data-state="warning"] {
+  color: #f9e2af;
+}
+
+.cs-editor-status[data-state="clean"] {
+  color: #a6e3a1;
+}
+
+.cs-line-numbers {
+  width: 45px;
+  padding: 12px 8px;
+  text-align: right;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  color: #6C7086;
+  background: #181825;
+  user-select: none;
+  border-right: 1px solid #313244;
+}
+
+.cs-code-textarea {
+  flex: 1;
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  color: #CDD6F4;
+  background: #1E1E2E;
+  border: none;
+  outline: none;
+  resize: none;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 4;
+}
+
+/* Browser Viewport Styles */
+.cs-browser-header {
+  height: 42px;
+  background: #F1F5F9;
+  border-bottom: 1px solid var(--cs-border);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+}
+
+.cs-browser-address {
+  font-family: monospace;
+  font-size: 12px;
+  background: #FFFFFF;
+}
+
+.cs-browser-viewport-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #E2E8F0;
+  overflow: auto;
+  padding: 12px;
+}
+
+.cs-browser-frame {
+  background: #FFFFFF;
+  border: 1px solid var(--cs-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cs-browser-frame.desktop {
+  width: 100%;
+  height: 100%;
+}
+
+.cs-browser-frame.tablet {
+  width: 768px;
+  height: 90%;
+  border-radius: 12px;
+}
+
+.cs-browser-frame.mobile {
+  width: 375px;
+  height: 667px;
+  border-radius: 24px;
+}
+
+/* Bottom Terminal Dock */
+.cs-bottom-dock {
+  height: var(--cs-bottom-height);
+  background: #11111B;
+  border-top: 1px solid #313244;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+.cs-dock-header {
+  height: 32px;
+  background: #181825;
+  border-bottom: 1px solid #313244;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+#csDockTabs .nav-link {
+  color: #A6ADC8;
+  border-radius: 4px;
+}
+
+#csDockTabs .nav-link.active {
+  background: #313244;
+  color: #FFFFFF;
+}
+
+.cs-dock-content {
+  flex: 1;
+  overflow: auto;
+  padding: 8px 12px;
+}
+
+.cs-terminal-screen {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #A6ADC8;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.cs-terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 12px;
+  color: #CDD6F4;
+  flex: 1;
+}
+
+/* Inspector Panel (Right) */
+.cs-inspector {
+  width: var(--cs-inspector-width);
+  background: var(--cs-surface);
+  border-left: 1px solid var(--cs-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 30;
+  overflow-y: auto;
+}
+
+.cs-inspector-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.cs-inspector-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.cs-hud-card {
+  background: #F8FAFC;
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   Resizable Panel Splitters & Fullscreen
+   ========================================================================== */
+.cs-resizer-h {
+  width: 5px;
+  background: var(--cs-border);
+  cursor: col-resize;
+  z-index: 35;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.cs-resizer-h:hover, .cs-resizer-h.resizing {
+  background: var(--cs-primary);
+}
+
+.cs-resizer-v {
+  height: 5px;
+  background: #313244;
+  cursor: row-resize;
+  z-index: 35;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.cs-resizer-v:hover, .cs-resizer-v.resizing {
+  background: var(--cs-primary);
+}
+
+/* Fullscreen Mode */
+body.fullscreen .cs-navbar {
+  display: none !important;
+}
+
+body.fullscreen .cs-main-workspace {
+  height: 100vh !important;
+}
+
+/* File Tree Item Actions */
+.cs-tree-item {
+  padding: 5px 8px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cs-tree-item:hover {
+  background: #F1F5F9;
+}
+
+.cs-tree-item.active {
+  background: var(--cs-primary-light);
+  font-weight: 600;
+  color: var(--cs-primary-dark);
+}
+
+.cs-tree-item .tree-actions {
+  display: none;
+  gap: 4px;
+}
+
+.cs-tree-item:hover .tree-actions {
+  display: flex;
+}
+
+/* ==========================================================================
+   Screen Sharing Floating Presenter HUD
+   ========================================================================== */
+.cs-screenshare-hud {
+  position: fixed;
+  bottom: 220px;
+  right: 24px;
+  width: 400px;
+  background: #0F172A;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  z-index: 1050;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: csSlideUp 0.25s ease-out;
+}
+
+@keyframes csSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.cs-screenshare-header {
+  background: #1E293B;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+}
+
+.cs-screenshare-video-wrapper {
+  background: #000000;
+  height: 225px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cs-screenshare-video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cs-screenshare-footer {
+  background: #1E293B;
+  padding: 6px 12px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #334155;
+}
+
+/* Template Cards Interactive Hover */
+.cs-template-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.cs-template-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.15) !important;
+  border-color: var(--cs-primary) !important;
+}

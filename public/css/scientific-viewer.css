@@ -1,0 +1,32 @@
+:root { color-scheme: light; }
+.sv-page { min-height: 100vh; background: #f3f6fb; color: #102033; padding: 22px; }
+.sv-shell { max-width: 1440px; margin: auto; }
+.sv-header, .sv-card { background: #fff; border: 1px solid #dce4ef; border-radius: 14px; box-shadow: 0 8px 24px #16375c0d; }
+.sv-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 20px; margin-bottom: 16px; }
+.sv-page-brand { display: flex; min-width: 0; align-items: center; gap: 12px; }
+.sv-school-mark { width: 42px; height: 42px; flex: 0 0 42px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; object-fit: cover; }
+.sv-page-eyebrow { display: block; margin-bottom: 3px; color: #5675a4; font-size: .62rem; font-weight: 800; letter-spacing: .12em; }
+.sv-header h1 { font-size: 1.2rem; margin: 0; font-weight: 750; }
+.sv-header p { margin: 4px 0 0; color: #64748b; font-size: .85rem; }
+.sv-grid { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 16px; }
+.sv-stage-card { min-height: 620px; overflow: hidden; position: relative; }
+#scientific-stage { width: 100%; height: min(74vh, 760px); min-height: 480px; position: relative; background: radial-gradient(ellipse at 50% 42%, #f8fbff, #e9f0f8); }
+#scientific-stage canvas { display: block; width: 100%; height: 100%; outline: none; }
+.sv-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 12px 14px; border-bottom: 1px solid #e2e8f0; }
+.sv-toolbar button, .sv-toolbar select { font-size: .82rem; }
+.sv-view-control { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #dce4ef; border-radius: 7px; color: #334155; font-size: .78rem; }
+.sv-view-control input[type="range"] { width: 90px; }
+.sv-view-control output { min-width: 34px; }
+.sv-status { margin-left: auto; color: #64748b; font-size: .78rem; }
+.sv-label { position: absolute; z-index: 2; display: none; padding: 5px 8px; color: #fff; background: #102033e8; border-radius: 6px; font: 12px/1.2 system-ui,sans-serif; pointer-events: none; transform: translate(8px, -50%); white-space: nowrap; }
+.sv-side { padding: 16px; }
+.sv-side h2 { font-size: .95rem; font-weight: 750; margin: 0 0 10px; }
+.sv-tree { max-height: 300px; overflow: auto; display: grid; gap: 5px; }
+.sv-component { text-align: left; border: 1px solid #e2e8f0; background: white; border-radius: 7px; padding: 7px 9px; font-size: .76rem; color: #24364a; }
+.sv-component[aria-pressed="true"] { border-color: #2563eb; color: #1d4ed8; background: #eff6ff; }
+.sv-meta { font-size: .78rem; color: #526174; line-height: 1.45; overflow-wrap: anywhere; }
+.sv-meta a { color: #1d4ed8; }
+.sv-notice { padding: 9px 10px; border-radius: 8px; background: #f1f5f9; margin: 10px 0; font-size: .76rem; }
+.sv-notice.warning { background: #fff7ed; color: #9a3412; }
+.sv-loading { position: absolute; inset: 0; display: grid; place-items: center; background: #f8fafce8; z-index: 3; color: #334155; font-weight: 650; }
+@media(max-width: 900px) { .sv-page { padding: 10px; } .sv-grid { grid-template-columns: 1fr; } #scientific-stage { height: 58vh; min-height: 380px; } .sv-header { align-items: flex-start; flex-direction: column; } }

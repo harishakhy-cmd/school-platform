@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCHOOL | Chemistry Laboratory</title>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+
+  <!-- Chemistry Lab Stylesheet -->
+  <link rel="stylesheet" href="/css/chemistry-lab.css" />
+  <link rel="stylesheet" href="/css/lab-workspace-polish.css" />
+  <link rel="stylesheet" href="/css/lab-responsive.css" />
+  <link rel="stylesheet" href="/css/lab-assets.css" />
+  <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+</head>
+<body class="chem-lab-body">
+
+  <!-- Top Navigation Bar -->
+  <header class="chem-navbar">
+    <a href="/portal.html" class="school-header-brand" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></a>
+    <div class="chem-brand">
+      <div class="chem-brand-icon">
+        <i class="fa-solid fa-flask"></i>
+      </div>
+      <div>
+        <span class="chem-brand-title">Interactive Chemistry Laboratory</span>
+        <span class="chem-brand-badge">Chemical Sciences &amp; Virtual Practicals</span>
+      </div>
+    </div>
+    <div class="chem-mobile-panel-controls" aria-label="Workspace panels">
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-chem-mobile-topics aria-controls="chem-sidebar" aria-pressed="false">Topics</button>
+    </div>
+
+    <!-- Mode Switcher Pills -->
+    <div class="chem-nav-center">
+      <button class="chem-mode-pill active" data-mode="canvas2d" title="2D Interactive Apparatus Canvas">
+        <i class="fa-solid fa-flask-vial me-1"></i> 2D Workbench
+      </button>
+      <button class="chem-mode-pill" data-mode="molecular3d" title="3D Molecular Builder &amp; Bohr Atomic Structure">
+        <i class="fa-solid fa-atom me-1"></i> 3D Molecular &amp; Bohr
+      </button>
+      <button class="chem-mode-pill" data-mode="periodic" title="Interactive 118-Element Periodic Table">
+        <i class="fa-solid fa-table-cells me-1"></i> Periodic Table
+      </button>
+      <button class="chem-mode-pill" data-mode="charts" title="Kinetics, Energetics &amp; Reaction Graphs">
+        <i class="fa-solid fa-chart-line me-1"></i> Kinetics &amp; Energetics
+      </button>
+      <button class="chem-mode-pill" data-mode="experiments" title="Virtual Experiment Presets &amp; Persistence">
+        <i class="fa-solid fa-vials me-1"></i> Virtual Experiments
+      </button>
+      <button class="chem-mode-pill" data-mode="bench" title="Measured action-driven chemistry practicals">
+        <i class="fa-solid fa-flask me-1"></i> Interactive Bench
+      </button>
+    </div>
+
+    <!-- Quick Action Calculators & Reference Tools -->
+    <div class="chem-nav-actions">
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-calculator me-1"></i> Calculators
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+          <li><a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modal-equation-balancer"><i class="fa-solid fa-equals me-2 text-primary"></i> Equation Balancer</a></li>
+          <li><a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modal-mole-calc"><i class="fa-solid fa-calculator me-2 text-info"></i> Mole &amp; Particles Calc</a></li>
+          <li><a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modal-stoich-calc"><i class="fa-solid fa-scale-balanced me-2 text-warning"></i> Stoichiometry Engine</a></li>
+          <li><a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modal-ph-calc"><i class="fa-solid fa-vial me-2 text-danger"></i> pH &amp; Acid-Base Calc</a></li>
+          <li><a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modal-gas-law"><i class="fa-solid fa-wind me-2 text-success"></i> Gas Laws (PV=nRT)</a></li>
+        </ul>
+      </div>
+
+      <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-ion-tests" title="Qualitative Analysis &amp; Flame Tests">
+        <i class="fa-solid fa-magnifying-glass me-1"></i> Qualitative Tests
+      </button>
+
+      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-safety" title="Laboratory Safety &amp; GHS Hazard Symbols">
+        <i class="fa-solid fa-triangle-exclamation me-1"></i> Lab Safety
+      </button>
+
+      <a href="/graphing-lab.html?subject=CHEMISTRY" target="_blank" class="btn btn-sm btn-outline-info" title="Open Advanced Graphing Laboratory for Chemistry Data">
+        <i class="fa-solid fa-chart-simple me-1"></i> Graphing Lab
+      </a>
+
+      <a href="/portal.html" class="btn btn-sm btn-light border" title="Return to Portal Dashboard">
+        <i class="fa-solid fa-arrow-left me-1"></i> Portal
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="chem-main-workspace">
+
+    <!-- Left Sidebar: 33 Topics & Apparatus Palette -->
+    <aside class="chem-sidebar" id="chem-sidebar">
+      <div class="chem-sidebar-header">
+        <h6><i class="fa-solid fa-book-bookmark me-1"></i> CURRICULUM TOPICS</h6>
+        <span class="badge bg-primary text-white" style="font-size:10px;">33 Modules</span>
+      </div>
+      <div class="chem-sidebar-search">
+        <input type="text" id="chem-topic-search" placeholder="Search 33 chemistry topics..." autocomplete="off" />
+      </div>
+      <div class="chem-topics-list" id="chem-topics-list">
+        <!-- Rendered dynamically by chemistry-lab.js -->
+      </div>
+      <div class="chem-apparatus-panel" id="chem-apparatus-panel">
+        <!-- Apparatus palette rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- Central Viewport Wrapper -->
+    <main class="chem-viewport-wrapper">
+
+      <!-- Floating Toolbar for Canvas -->
+      <div class="chem-toolbar">
+        <button class="chem-tool-btn active" data-tool="select" title="Select and inspect apparatus">
+          <i class="fa-solid fa-arrow-pointer"></i> Select
+        </button>
+        <button class="chem-tool-btn" data-tool="move" title="Pan and reposition objects">
+          <i class="fa-solid fa-arrows-up-down-left-right"></i> Move
+        </button>
+        <div class="chem-tool-divider"></div>
+        <button class="chem-tool-btn" data-tool="duplicate" title="Duplicate selected apparatus">
+          <i class="fa-solid fa-copy"></i> Duplicate
+        </button>
+        <button class="chem-tool-btn danger" data-tool="delete" title="Delete selected apparatus">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+        <div class="chem-tool-divider"></div>
+        <button class="chem-tool-btn danger" data-tool="clear" title="Clear canvas workspace">
+          <i class="fa-solid fa-rotate-left"></i> Reset Canvas
+        </button>
+      </div>
+
+      <!-- Viewport Display Container -->
+      <div class="chem-viewport">
+
+        <!-- 1. 2D Interactive Canvas -->
+        <div id="chem-canvas-container">
+          <canvas id="chem-lab-canvas"></canvas>
+          <div class="chem-sim-badge">
+            <i class="fa-solid fa-circle-dot text-danger me-1"></i> SIMULATION ACTIVE
+          </div>
+        </div>
+
+        <!-- 2. 3D Molecular & Atomic Structure Viewer -->
+        <div id="chem-3d-container">
+          <div id="chem-3d-scene"></div>
+          <div class="chem-3d-controls">
+            <select id="chem-3d-mol-select" class="form-select form-select-sm" style="width:140px;" title="Select molecule to visualize in 3D">
+              <option value="H2O">H₂O (Water)</option>
+              <option value="CO2">CO₂ (Carbon Dioxide)</option>
+              <option value="NH3">NH₃ (Ammonia)</option>
+              <option value="CH4">CH₄ (Methane)</option>
+              <option value="HCl">HCl (Hydrogen Chloride)</option>
+              <option value="C2H6">C₂H₆ (Ethane)</option>
+              <option value="C2H4">C₂H₄ (Ethene)</option>
+            </select>
+
+            <div class="input-group input-group-sm" style="width:230px;">
+              <span class="input-group-text bg-dark text-white border-secondary" style="font-size:10px;">Z</span>
+              <input type="number" id="inp-atomic-Z" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Protons" value="6" min="1" max="118" title="Atomic Number (Z)">
+              <span class="input-group-text bg-dark text-white border-secondary" style="font-size:10px;">A</span>
+              <input type="number" id="inp-atomic-A" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Mass" value="12" min="1" max="294" title="Mass Number (A)">
+              <button class="btn btn-sm btn-primary" id="btn-3d-atomic" title="Render Bohr Atomic Shell Model"><i class="fa-solid fa-atom"></i> Bohr</button>
+            </div>
+
+            <div class="input-group input-group-sm" style="width:200px;">
+              <select id="chem-vsepr-select" class="form-select form-select-sm bg-dark text-white border-secondary" title="VSEPR Molecular Geometry">
+                <option value="linear">Linear (180°)</option>
+                <option value="bent">Bent (104.5°)</option>
+                <option value="trigonal_planar">Trigonal Planar (120°)</option>
+                <option value="trigonal_pyramidal">Trigonal Pyramidal (107°)</option>
+                <option value="tetrahedral" selected>Tetrahedral (109.5°)</option>
+                <option value="trigonal_bipyramidal">Trigonal Bipyramidal</option>
+                <option value="octahedral">Octahedral (90°)</option>
+              </select>
+              <button class="btn btn-sm btn-info text-white" id="btn-3d-vsepr" title="Render VSEPR Geometry"><i class="fa-solid fa-shapes"></i></button>
+            </div>
+
+            <button class="btn btn-sm btn-outline-light" id="btn-3d-rotate-toggle" title="Pause / Resume Rotation">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-light" id="btn-3d-reset" title="Reset Camera View">
+              <i class="fa-solid fa-crosshairs"></i>
+            </button>
+          </div>
+          <form class="chem-source-lookup" action="/scientific-viewer.html" method="get" target="_blank" rel="noopener">
+            <input type="hidden" name="source" value="pubchem" />
+            <label class="visually-hidden" for="chem-source-compound">PubChem compound name or CID</label>
+            <input class="form-control form-control-sm" id="chem-source-compound" name="compound" value="water" maxlength="100" placeholder="Compound name or PubChem CID" required />
+            <button type="submit" class="btn btn-sm btn-info text-white">View PubChem 3D structure</button>
+            <small>Source-derived 3D conformer when available; the controls above remain illustrative models.</small>
+          </form>
+        </div>
+
+        <!-- 3. Interactive Periodic Table -->
+        <div id="chem-periodic-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-table-cells text-primary me-2"></i>IUPAC Periodic Table of the Elements</h5>
+              <p class="text-muted small mb-0">Explore all 118 chemical elements, atomic numbers, configurations, and electronegativities.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <input type="text" id="chem-periodic-search" class="form-control form-control-sm" placeholder="Search element or symbol..." style="width:200px;">
+              <select id="chem-periodic-filter" class="form-select form-select-sm" style="width:170px;">
+                <option value="">All Classifications</option>
+                <option value="alkali_metal">Alkali Metals</option>
+                <option value="alkaline_earth">Alkaline Earth</option>
+                <option value="transition">Transition Metals</option>
+                <option value="post_transition">Post-Transition</option>
+                <option value="metalloid">Metalloids</option>
+                <option value="nonmetal">Reactive Nonmetals</option>
+                <option value="halogen">Halogens</option>
+                <option value="noble_gas">Noble Gases</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="chem-periodic-legend">
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-alkali_metal"></span> Alkali Metal</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-alkaline_earth"></span> Alkaline Earth</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-transition"></span> Transition Metal</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-post_transition"></span> Post-Transition</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-metalloid"></span> Metalloid</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-nonmetal"></span> Reactive Nonmetal</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-halogen"></span> Halogen</div>
+            <div class="chem-legend-item"><span class="chem-legend-box chem-elem-noble_gas"></span> Noble Gas</div>
+          </div>
+
+          <!-- Periodic Grid -->
+          <div class="chem-periodic-grid" id="chem-periodic-grid"></div>
+
+          <!-- Element Detail Inspector -->
+          <div class="chem-element-detail-panel" id="chem-element-detail">
+            <div class="text-muted small text-center py-2">Click any chemical element above to inspect electron configurations, oxidation states, and 3D atomic shells.</div>
+          </div>
+        </div>
+
+        <!-- 4. Charts & Kinetics -->
+        <div id="chem-chart-container">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card border shadow-sm p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-temperature-high text-danger me-2"></i>Reaction Energy Profile (\(\Delta H\))</h6>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-danger" onclick="window.renderEnergyProfile('exothermic')">Exothermic (\(\Delta H < 0\))</button>
+                    <button class="btn btn-outline-primary" onclick="window.renderEnergyProfile('endothermic')">Endothermic (\(\Delta H > 0\))</button>
+                  </div>
+                </div>
+                <div class="row g-2 mb-2">
+                  <div class="col-6">
+                    <label class="form-label small text-muted mb-0">Activation Energy \(E_a\) (kJ/mol):</label>
+                    <input type="range" class="form-range" id="inp-ea" min="20" max="150" value="80">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label small text-muted mb-0">Enthalpy Change \(\Delta H\) (kJ/mol):</label>
+                    <input type="range" class="form-range" id="inp-dh" min="-120" max="120" value="-60">
+                  </div>
+                </div>
+                <canvas id="chem-energy-canvas" width="460" height="260" class="w-100 border rounded"></canvas>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="card border shadow-sm p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-chart-line text-primary me-2"></i>Kinetics &amp; Half-Life Curves</h6>
+                  <span class="badge bg-primary-subtle text-primary border">First-Order Rate Law</span>
+                </div>
+                <p class="small text-muted mb-2">Compares rate of decay under varying temperature conditions and homogeneous catalysts.</p>
+                <canvas id="chem-kinetics-canvas" width="460" height="295" class="w-100 border rounded"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Virtual Experiments -->
+        <div id="chem-experiment-container">
+          <div class="row g-3">
+            <div class="col-md-7">
+              <div class="card border shadow-sm p-3 mb-3">
+                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-flask-vial text-primary me-2"></i>Standard Practical Lab Templates</h6>
+                <p class="small text-muted mb-3">Select a guided practical experiment template to load onto the laboratory workbench.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <button class="btn btn-outline-primary chem-template-btn" data-template="titration">
+                    <i class="fa-solid fa-droplet me-1"></i> Acid-Base Titration (HCl + NaOH)
+                  </button>
+                  <button class="btn btn-outline-info chem-template-btn" data-template="electrolysis">
+                    <i class="fa-solid fa-bolt me-1"></i> Electrolysis of Aqueous CuSO₄
+                  </button>
+                  <button class="btn btn-outline-warning chem-template-btn" data-template="distillation">
+                    <i class="fa-solid fa-fire me-1"></i> Fractional Distillation
+                  </button>
+                </div>
+              </div>
+
+              <div class="card border shadow-sm p-3">
+                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-floppy-disk text-success me-2"></i>Save Current Experiment Workspace</h6>
+                <div class="mb-2">
+                  <label class="form-label small text-muted">Experiment Title:</label>
+                  <input type="text" id="inp-exp-title" class="form-control form-control-sm" placeholder="e.g. Standardisation of 0.1M Sodium Hydroxide">
+                </div>
+                <button class="btn btn-success btn-sm" id="btn-save-experiment">
+                  <i class="fa-solid fa-cloud-arrow-up me-1"></i> Save to Database
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class="card border shadow-sm p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-folder-open text-warning me-2"></i>Saved Experiments</h6>
+                  <button class="btn btn-sm btn-outline-primary" id="btn-load-experiments">
+                    <i class="fa-solid fa-rotate me-1"></i> Refresh
+                  </button>
+                </div>
+                <div id="chem-experiment-list" class="overflow-auto" style="max-height:360px;">
+                  <p class="text-muted small">Click "Refresh" to view saved experiments from MySQL database.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action-driven, measured chemistry practicals -->
+        <div id="chem-bench-container" class="chem-bench" style="display:none;" aria-label="Interactive chemistry bench">
+          <div class="chem-bench-header">
+            <div>
+              <h2>Interactive Chemistry Bench</h2>
+              <p>Use measured transfers, named reagents, and visible apparatus to investigate supported classroom reactions. This is a rule-based model, not a molecular dynamics simulation.</p>
+            </div>
+            <div class="chem-bench-actions">
+              <label class="visually-hidden" for="chem-bench-title">Practical title</label>
+              <input id="chem-bench-title" class="form-control form-control-sm" maxlength="255" value="Open laboratory" style="width:190px;" aria-label="Practical title">
+              <button type="button" data-bench-action="undo" aria-label="Undo last action"><i class="fa-solid fa-rotate-left"></i> Undo</button>
+              <button type="button" data-bench-action="redo" aria-label="Redo last undone action"><i class="fa-solid fa-rotate-right"></i> Redo</button>
+              <button type="button" data-bench-action="reset"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+              <button type="button" data-bench-action="save"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            </div>
+          </div>
+          <div class="chem-bench-guide" id="chem-bench-limits">
+            Strong-acid/strong-base pH uses an ideal dilute-solution approximation; activity coefficients and heat are not modelled. Precipitation uses fixed classroom stoichiometry, not equilibrium calculations. Unsupported combinations never invent products.
+          </div>
+          <div class="chem-bench-guide chem-bench-safety" id="chem-ammonium-safety" hidden>
+            <strong>Virtual practical only.</strong> Do not use this as a real-lab procedure. Sulfuric acid is corrosive and ammonia vapour is harmful; real work requires an approved risk assessment, trained supervision, and appropriate controls.
+          </div>
+          <div class="chem-bench-grid">
+            <section class="chem-bench-card" aria-label="Reagent stockroom">
+              <div class="chem-bench-card-head"><h3><i class="fa-solid fa-flask me-1"></i> Reagent stockroom</h3></div>
+              <div class="chem-bench-card-body">
+                <label class="visually-hidden" for="chem-bench-stock-search">Search available reagents</label>
+                <input class="chem-stock-search" id="chem-bench-stock-search" type="search" placeholder="Search reagents" autocomplete="off">
+                <div id="chem-bench-stock-list"></div>
+              </div>
+            </section>
+
+            <section class="chem-bench-card" aria-label="Laboratory workbench">
+              <div class="chem-bench-card-head">
+                <h3><i class="fa-solid fa-table-cells-large me-1"></i> Workbench</h3>
+                <label class="visually-hidden" for="chem-bench-practical">Choose a practical</label>
+                <select id="chem-bench-practical" class="form-select form-select-sm" style="max-width:230px;">
+                  <option value="open-lab">Open lab</option>
+                  <option value="acid-base-neutralisation">Acid-base neutralisation</option>
+                  <option value="precipitation">Calcium carbonate precipitation</option>
+                  <option value="solution-from-solid">Prepare a solution from a solid</option>
+                  <option value="dilution">Measured dilution</option>
+                  <option value="glucose-dilution">Glucose dilution problem</option>
+                  <option value="ammonium-sulfate-preparation">Ammonium sulfate preparation</option>
+                </select>
+              </div>
+              <div class="chem-bench-card-body">
+                <div class="chem-bench-stage">
+                  <div class="chem-bench-vessels" id="chem-bench-vessels" aria-live="polite"></div>
+                </div>
+                <section id="chem-ammonium-animation" class="chem-prep-animation" aria-label="Ammonium sulfate preparation animation" hidden>
+                  <div class="chem-prep-animation-head">
+                    <div><strong>Animated apparatus walkthrough</strong><small id="chem-ammonium-animation-status" aria-live="polite">Apparatus set up</small></div>
+                    <button type="button" class="chem-prep-replay" data-bench-animation>Replay animation</button>
+                  </div>
+                  <p class="chem-prep-caveat">Illustrative 2D schematic only—not a real-life recording, 3D model, or operating instruction. Heating, evaporation, endpoint, and crystal yield are not simulated.</p>
+                  <svg class="chem-prep-scene" viewBox="0 0 520 230" role="img" aria-labelledby="chem-prep-scene-title chem-prep-scene-desc">
+                    <title id="chem-prep-scene-title">Schematic ammonium sulfate preparation sequence</title>
+                    <desc id="chem-prep-scene-desc">A conical flask is mixed, then the conceptual solution is shown over a heater and crystals appear in an evaporating dish. Motion is illustrative.</desc>
+                    <rect class="chem-prep-wall" x="1" y="1" width="518" height="228" rx="12"/>
+                    <path class="chem-prep-bench" d="M22 190 H498"/>
+                    <g class="chem-prep-mixing-vessel">
+                      <path class="chem-prep-liquid" d="M91 100 H140 V123 L160 169 Q163 176 154 178 H77 Q69 176 73 169 L91 123 Z"/>
+                      <path class="chem-prep-glass" d="M91 72 H140 V123 L160 169 Q163 176 154 178 H77 Q69 176 73 169 L91 123 Z"/>
+                      <path class="chem-prep-neck" d="M88 74 H143"/>
+                      <text class="chem-prep-label" x="116" y="204" text-anchor="middle">Conical flask · mixing</text>
+                      <path class="chem-prep-stir-rod" d="M108 90 L144 153"/>
+                      <circle class="chem-prep-drop" cx="115" cy="63" r="4"/>
+                    </g>
+                    <g class="chem-prep-heating-setup">
+                      <path class="chem-prep-vapour" d="M271 97 C258 86 283 78 270 65 M293 97 C280 86 305 78 292 65"/>
+                      <path class="chem-prep-dish" d="M236 111 Q291 145 346 111 L337 127 Q291 147 245 127 Z"/>
+                      <path class="chem-prep-dish-rim" d="M236 111 Q291 137 346 111"/>
+                      <path class="chem-prep-gauze" d="M248 141 H334 M259 135 L323 147 M323 135 L259 147"/>
+                      <path class="chem-prep-tripod" d="M252 144 L233 185 M330 144 L350 185 M291 144 V185"/>
+                      <rect class="chem-prep-burner" x="278" y="166" width="26" height="20" rx="3"/>
+                      <path class="chem-prep-flame" d="M291 164 C279 155 290 150 291 143 C303 154 303 158 291 164 Z"/>
+                      <g class="chem-prep-crystals">
+                        <path d="M266 119 l6 -11 6 11 z M282 123 l7 -15 7 15 z M301 120 l6 -12 6 12 z M316 116 l5 -9 5 9 z"/>
+                      </g>
+                      <text class="chem-prep-label" x="291" y="204" text-anchor="middle">Evaporating dish · conceptual stage</text>
+                    </g>
+                    <text class="chem-prep-equation" x="260" y="32" text-anchor="middle">H₂SO₄(aq) + 2NH₃(aq) → (NH₄)₂SO₄(aq)</text>
+                    <text class="chem-prep-caption" x="260" y="48" text-anchor="middle">Balanced stoichiometry · no temperature/yield calculation</text>
+                  </svg>
+                </section>
+                <div class="mt-2"><strong class="small">Apparatus:</strong> <span id="chem-bench-apparatus"></span></div>
+                <div class="chem-bench-tabs" role="tablist" aria-label="Practical notebook panels">
+                  <button class="chem-bench-tab active" type="button" role="tab" aria-selected="true" data-bench-tab="procedure">Procedure</button>
+                  <button class="chem-bench-tab" type="button" role="tab" aria-selected="false" data-bench-tab="notebook">Notebook</button>
+                  <button class="chem-bench-tab" type="button" role="tab" aria-selected="false" data-bench-tab="history">Observations</button>
+                  <button class="chem-bench-tab" type="button" role="tab" aria-selected="false" data-bench-tab="saved">Saved runs</button>
+                </div>
+                <div class="chem-bench-tab-panel" role="tabpanel" data-bench-panel="procedure"></div>
+                <div class="chem-bench-tab-panel" role="tabpanel" data-bench-panel="notebook" hidden>
+                  <div class="chem-bench-notebook">
+                    <label>Hypothesis<textarea id="chem-bench-hypothesis" maxlength="4000" placeholder="What do you predict?"></textarea></label>
+                    <label>Notes<textarea id="chem-bench-notes" maxlength="8000" placeholder="Record observations and calculations"></textarea></label>
+                  </div>
+                </div>
+                <div class="chem-bench-tab-panel" role="tabpanel" data-bench-panel="history" hidden></div>
+                <div class="chem-bench-tab-panel" role="tabpanel" data-bench-panel="saved" hidden>
+                  <div id="chem-bench-saved-runs">Loading saved practicals…</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="chem-bench-card chem-bench-inspector" aria-label="Experiment controls and measurements">
+              <div class="chem-bench-card-head"><h3><i class="fa-solid fa-sliders me-1"></i> Actions &amp; measurements</h3></div>
+              <div class="chem-bench-card-body">
+                <div class="chem-bench-controls">
+                  <label class="chem-bench-control-wide">Selected vessel
+                    <select id="chem-bench-target"></select>
+                  </label>
+                  <label>Reagent
+                    <select id="chem-bench-reagent"></select>
+                  </label>
+                  <label>Volume (mL)
+                    <input id="chem-bench-volume" type="number" min="0.01" step="0.1" value="10">
+                  </label>
+                  <label>Solid mass (g)
+                    <input id="chem-bench-mass" type="number" min="0.001" step="0.01" value="1">
+                  </label>
+                  <label>Vessel type
+                    <select id="chem-bench-vessel-type"></select>
+                  </label>
+                  <label>Apparatus type
+                    <select id="chem-bench-apparatus-type"></select>
+                  </label>
+                  <label>Final volume (mL)
+                    <input id="chem-bench-final-volume" type="number" min="0.1" step="0.1" value="100">
+                  </label>
+                  <label>Transfer from
+                    <select id="chem-bench-source"></select>
+                  </label>
+                  <label>Transfer to
+                    <select id="chem-bench-destination"></select>
+                  </label>
+                  <label class="chem-bench-control-wide">Transfer volume (mL)
+                    <input id="chem-bench-transfer-volume" type="number" min="0.01" step="0.1" value="5">
+                  </label>
+                </div>
+                <div class="chem-bench-control-buttons">
+                  <button type="button" data-bench-action="add-vessel">Add vessel</button>
+                  <button type="button" data-bench-action="add-apparatus">Add apparatus</button>
+                  <button type="button" data-bench-action="add-liquid">Transfer liquid</button>
+                  <button type="button" data-bench-action="add-solid">Add solid</button>
+                  <button type="button" data-bench-action="mix">Stir / mix</button>
+                  <button type="button" data-bench-action="filter">Filter precipitate</button>
+                  <button type="button" data-bench-action="between">Transfer between vessels</button>
+                  <button type="button" data-bench-action="final-volume">Set final volume</button>
+                  <button type="button" data-bench-action="measure-ph">Measure pH</button>
+                </div>
+                <div id="chem-bench-status" class="chem-bench-status" role="status" aria-live="polite"></div>
+                <hr>
+                <h3 class="small fw-bold text-primary">Composition and results</h3>
+                <div id="chem-bench-inspection"><p class="small text-muted">Add or select a vessel to inspect its measured contents.</p></div>
+                <div class="chem-bench-attribution mt-3">
+                  Reagent identity references: <a href="https://pubchem.ncbi.nlm.nih.gov/compound/313" target="_blank" rel="noopener noreferrer">hydrochloric acid</a>,
+                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/14798" target="_blank" rel="noopener noreferrer">sodium hydroxide</a>,
+                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/5284359" target="_blank" rel="noopener noreferrer">calcium chloride</a>,
+                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/10340" target="_blank" rel="noopener noreferrer">sodium carbonate</a> and
+                  <a href="https://pubchem.ncbi.nlm.nih.gov/compound/5234" target="_blank" rel="noopener noreferrer">sodium chloride</a> (PubChem compound records).
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+      </div><!-- /.chem-viewport -->
+
+      <!-- Bottom HUD overlay on canvas -->
+      <footer class="chem-hud">
+        <div class="chem-hud-tabs">
+          <div class="chem-hud-tab active" data-target="hud-readouts"><i class="fa-solid fa-gauge me-1"></i> Telemetry &amp; Status</div>
+          <div class="chem-hud-tab" data-target="hud-observations"><i class="fa-solid fa-book-open me-1"></i> Live Observations</div>
+          <div class="chem-hud-tab" data-target="hud-titration"><i class="fa-solid fa-droplet me-1"></i> Titration Bench</div>
+          <div class="chem-hud-tab" data-target="hud-data"><i class="fa-solid fa-table me-1"></i> Measurements Table</div>
+        </div>
+
+        <div class="chem-hud-body">
+          <!-- 1. Telemetry HUD -->
+          <div class="chem-hud-panel" id="hud-readouts">
+            <div class="chem-readout-grid">
+              <div class="chem-readout-card">
+                <div class="chem-readout-label">Ambient Temperature</div>
+                <div class="chem-readout-val">25.0 <span class="chem-readout-unit">°C (298.15 K)</span></div>
+              </div>
+              <div class="chem-readout-card">
+                <div class="chem-readout-label">Pressure</div>
+                <div class="chem-readout-val">101.3 <span class="chem-readout-unit">kPa (1.00 atm)</span></div>
+              </div>
+              <div class="chem-readout-card">
+                <div class="chem-readout-label">Solution pH</div>
+                <div class="chem-readout-val" id="disp-telemetry-ph">7.00 <span class="chem-readout-unit">Neutral</span></div>
+              </div>
+              <div class="chem-readout-card">
+                <div class="chem-readout-label">Safety Status</div>
+                <div class="chem-readout-val text-success"><i class="fa-solid fa-shield-check me-1"></i> Safe <span class="chem-readout-unit">Goggles On</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Observations HUD -->
+          <div class="chem-hud-panel" id="hud-observations" style="display:none;">
+            <div class="row g-2 align-items-center">
+              <div class="col-9">
+                <textarea id="inp-observations" class="form-control form-control-sm" rows="3" placeholder="Record qualitative observations (effervescence, precipitate color, odor, temperature change)..."></textarea>
+              </div>
+              <div class="col-3">
+                <button class="btn btn-sm btn-outline-primary w-100 mb-1" onclick="alert('Observations logged into lab record.')">
+                  <i class="fa-solid fa-floppy-disk me-1"></i> Log Note
+                </button>
+                <button class="btn btn-sm btn-outline-secondary w-100" onclick="document.getElementById('inp-observations').value='';">
+                  <i class="fa-solid fa-eraser me-1"></i> Clear
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Titration Bench HUD -->
+          <div class="chem-hud-panel" id="hud-titration" style="display:none;">
+            <div class="d-flex gap-4 align-items-center">
+              <div style="width:160px; height:120px;">
+                <canvas id="chem-titration-canvas" width="160" height="120"></canvas>
+              </div>
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <label class="small text-muted fw-bold">Drop Volume (cm³):</label>
+                  <input type="number" id="inp-titration-drop" class="form-control form-control-sm" style="width:80px;" value="1.0" step="0.1" min="0.1" max="10.0">
+                  <button class="btn btn-sm btn-primary" id="btn-titration-add"><i class="fa-solid fa-plus me-1"></i> Add Titrant</button>
+                  <button class="btn btn-sm btn-outline-danger" id="btn-titration-reset"><i class="fa-solid fa-rotate-left me-1"></i> Reset</button>
+                </div>
+                <div class="d-flex gap-3 small">
+                  <div>Burette Reading: <strong id="disp-burette-reading" class="text-primary fs-6">0.00</strong> cm³</div>
+                  <div>Titre Delivered: <strong id="disp-titre" class="text-success fs-6">0.00 cm³</strong></div>
+                  <div>Indicator: <span class="badge bg-warning text-dark">Phenolphthalein</span></div>
+                </div>
+              </div>
+              <div class="flex-grow-1" style="height:120px;">
+                <canvas id="chem-titration-curve" width="300" height="120" class="border rounded bg-white"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Data HUD -->
+          <div class="chem-hud-panel" id="hud-data" style="display:none;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="small fw-bold text-muted">Practical Data Measurements</span>
+              <a href="/graphing-lab.html?subject=CHEMISTRY" target="_blank" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Plot in Graphing Laboratory
+              </a>
+            </div>
+            <table class="chem-data-table">
+              <thead>
+                <tr>
+                  <th>Titre Run</th>
+                  <th>Initial Burette (cm³)</th>
+                  <th>Final Burette (cm³)</th>
+                  <th>Volume Delivered (cm³)</th>
+                  <th>Concordant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Trial / Rough</td>
+                  <td>0.00</td>
+                  <td>25.40</td>
+                  <td>25.40</td>
+                  <td><span class="badge bg-secondary">Rough</span></td>
+                </tr>
+                <tr>
+                  <td>Titre 1</td>
+                  <td>0.00</td>
+                  <td>24.90</td>
+                  <td>24.90</td>
+                  <td><span class="badge bg-success">Concordant</span></td>
+                </tr>
+                <tr>
+                  <td>Titre 2</td>
+                  <td>24.90</td>
+                  <td>49.85</td>
+                  <td>24.95</td>
+                  <td><span class="badge bg-success">Concordant</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Right Inspector Drawer -->
+    <aside class="chem-inspector">
+      <div class="chem-inspector-header">
+        <span class="chem-inspector-title"><i class="fa-solid fa-sliders me-1"></i> OBJECT &amp; TOPIC INSPECTOR</span>
+      </div>
+      <div class="chem-inspector-body" id="chem-inspector-body">
+        <p class="text-muted small">Loading topic details...</p>
+      </div>
+    </aside>
+
+  </div><!-- /.chem-main-workspace -->
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: CHEMICAL EQUATION BALANCER                           -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-equation-balancer" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-equals me-2"></i>Chemical Equation Balancer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">Applies Gaussian matrix conservation to balance chemical equations with exact integer coefficients.</p>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Reactants (separated by +):</label>
+            <input type="text" id="inp-reactants" class="form-control form-control-sm" placeholder="e.g. C3H8 + O2" value="C3H8 + O2">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Products (separated by +):</label>
+            <input type="text" id="inp-products" class="form-control form-control-sm" placeholder="e.g. CO2 + H2O" value="CO2 + H2O">
+          </div>
+          <button class="btn btn-primary btn-sm w-100" id="btn-balance-equation">
+            <i class="fa-solid fa-calculator me-1"></i> Balance Equation
+          </button>
+          <div class="mt-3" id="balance-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: MOLE & PARTICLES CALCULATOR                          -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-mole-calc" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-calculator me-2"></i>Mole &amp; Avogadro Calculator</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Calculation Mode:</label>
+            <select id="sel-mole-type" class="form-select form-select-sm">
+              <option value="mass_to_moles">Mass (g) &rarr; Moles (mol)</option>
+              <option value="moles_to_mass">Moles (mol) &rarr; Mass (g)</option>
+              <option value="moles_to_particles">Moles (mol) &rarr; Particles (N)</option>
+              <option value="particles_to_moles">Particles (N) &rarr; Moles (mol)</option>
+            </select>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Input Value:</label>
+              <input type="number" id="inp-mole-value" class="form-control form-control-sm" value="36.0" step="any">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Molar Mass \(M\) (g/mol):</label>
+              <input type="number" id="inp-mole-M" class="form-control form-control-sm" value="18.015" step="any">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm w-100" id="btn-calc-moles">
+            <i class="fa-solid fa-play me-1"></i> Calculate
+          </button>
+          <div class="mt-3" id="mole-calc-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: STOICHIOMETRY ENGINE                                 -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-stoich-calc" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-scale-balanced me-2"></i>Stoichiometry Calculation Engine</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">Calculate theoretical yield and mole-ratio conversions based on balanced equation coefficients.</p>
+          <div class="row g-2 mb-2">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Given Coeff (\(c_g\)):</label>
+              <input type="number" id="inp-stoich-cg" class="form-control form-control-sm" value="2">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Wanted Coeff (\(c_w\)):</label>
+              <input type="number" id="inp-stoich-cw" class="form-control form-control-sm" value="2">
+            </div>
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Given Molar Mass (g/mol):</label>
+              <input type="number" id="inp-stoich-Mg" class="form-control form-control-sm" value="2.016" step="any">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Wanted Molar Mass (g/mol):</label>
+              <input type="number" id="inp-stoich-Mw" class="form-control form-control-sm" value="18.015" step="any">
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-8">
+              <label class="form-label small fw-bold">Given Quantity:</label>
+              <input type="number" id="inp-stoich-amt" class="form-control form-control-sm" value="4.0" step="any">
+            </div>
+            <div class="col-4">
+              <label class="form-label small fw-bold">Unit:</label>
+              <select id="sel-stoich-unit" class="form-select form-select-sm">
+                <option value="g">Grams (g)</option>
+                <option value="mol">Moles (mol)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm w-100" id="btn-calc-stoich">
+            <i class="fa-solid fa-play me-1"></i> Calculate Yield
+          </button>
+          <div class="mt-3" id="stoich-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: pH & ACID-BASE CALCULATOR                            -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-ph-calc" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-vial me-2"></i>pH &amp; Acid-Base Calculator</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Substance Category:</label>
+            <select id="sel-acid-type" class="form-select form-select-sm">
+              <option value="strong_acid">Strong Monoprotic Acid (e.g. HCl, HNO₃)</option>
+              <option value="strong_base">Strong Monoprotic Base (e.g. NaOH, KOH)</option>
+              <option value="weak_acid">Weak Acid (e.g. CH₃COOH with \(K_a\))</option>
+              <option value="weak_base">Weak Base (e.g. NH₃ with \(K_b\))</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Concentration \(C\) (mol dm⁻³):</label>
+            <input type="number" id="inp-acid-conc" class="form-control form-control-sm" value="0.05" step="0.001" min="0.000001">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(K_a\) (if weak acid):</label>
+              <input type="number" id="inp-ka" class="form-control form-control-sm" value="0.000018" step="any">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(K_b\) (if weak base):</label>
+              <input type="number" id="inp-kb" class="form-control form-control-sm" value="0.000018" step="any">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm w-100" id="btn-calc-ph">
+            <i class="fa-solid fa-play me-1"></i> Compute pH &amp; pOH
+          </button>
+          <div class="mt-3" id="ph-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: GAS LAWS CALCULATOR                                  -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-gas-law" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-wind me-2"></i>Ideal Gas Law Calculator (\(PV = nRT\))</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Solve for Target Variable:</label>
+            <select id="sel-gas-target" class="form-select form-select-sm">
+              <option value="P">Pressure \(P\) (kPa)</option>
+              <option value="V" selected>Volume \(V\) (dm³ / L)</option>
+              <option value="n">Moles \(n\) (mol)</option>
+              <option value="T">Temperature \(T\) (K)</option>
+            </select>
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(P\) (kPa):</label>
+              <input type="number" id="inp-gas-P" class="form-control form-control-sm" value="101.325" step="any">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(V\) (dm³):</label>
+              <input type="number" id="inp-gas-V" class="form-control form-control-sm" value="22.414" step="any">
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(n\) (mol):</label>
+              <input type="number" id="inp-gas-n" class="form-control form-control-sm" value="1.0" step="any">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">\(T\) (K):</label>
+              <input type="number" id="inp-gas-T" class="form-control form-control-sm" value="273.15" step="any">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm w-100" id="btn-calc-gas">
+            <i class="fa-solid fa-play me-1"></i> Solve Ideal Gas Equation
+          </button>
+          <div class="mt-3" id="gas-calc-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: QUALITATIVE ANALYSIS & FLAME TESTS                   -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-ion-tests" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header">
+          <h5 class="modal-title fs-6 fw-bold"><i class="fa-solid fa-magnifying-glass me-2"></i>Qualitative Analysis &amp; Flame Test Reference</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-fire text-danger me-1"></i> Characteristic Flame Tests</h6>
+          <table class="table table-sm table-bordered table-hover mb-4" style="font-size:12px;">
+            <thead class="table-light">
+              <tr>
+                <th>Cation</th>
+                <th>Element</th>
+                <th>Flame Color</th>
+              </tr>
+            </thead>
+            <tbody id="chem-flame-test-grid"></tbody>
+          </table>
+
+          <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-vial-circle-check text-primary me-1"></i> Ion Precipitation Tests (Aqueous Reagents)</h6>
+          <table class="table table-sm table-bordered table-hover" style="font-size:12px;">
+            <thead class="table-light">
+              <tr>
+                <th>Ion</th>
+                <th>Reagent Added</th>
+                <th>Observation &amp; Precipitate</th>
+              </tr>
+            </thead>
+            <tbody id="chem-ion-test-grid"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: LABORATORY SAFETY & HAZARD SYMBOLS                    -->
+  <!-- ============================================================ -->
+  <div class="modal fade" id="modal-safety" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header chem-modal-header bg-danger">
+          <h5 class="modal-title fs-6 fw-bold text-white"><i class="fa-solid fa-triangle-exclamation me-2"></i>Laboratory Safety &amp; GHS Hazard Standards</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <h6 class="fw-bold text-dark mb-2">GHS Globally Harmonised Hazard Pictograms:</h6>
+          <div class="chem-hazard-grid mb-4" id="chem-hazard-grid"></div>
+
+          <h6 class="fw-bold text-dark mb-2">Essential Chemistry Lab Protocols:</h6>
+          <div class="row g-2 small">
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <strong><i class="fa-solid fa-glasses text-primary me-1"></i> Personal Protection (PPE):</strong>
+                Safety goggles, lab coats, and closed shoes are mandatory at all times. Tie back long hair.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <strong><i class="fa-solid fa-droplet text-danger me-1"></i> Acid Dilution Rule:</strong>
+                Always add concentrated acid to water slowly with constant stirring. Never add water into acid.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <strong><i class="fa-solid fa-wind text-info me-1"></i> Fume Hood Usage:</strong>
+                Carry out reactions producing toxic gases (\(\text{Cl}_2, \text{NO}_2, \text{SO}_2\)) strictly inside a fume cupboard.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2 border rounded bg-light">
+                <strong><i class="fa-solid fa-sink text-success me-1"></i> Chemical Spill Protocol:</strong>
+                Wash affected skin immediately with copious running water for at least 15 minutes. Notify the tutor.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- External Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+  <!-- Chemistry Lab Engine Modules -->
+  <script src="/js/chem-data.js"></script>
+  <script src="/js/chem-3d-engine.js"></script>
+  <script src="/js/chem-canvas.js"></script>
+  <script src="/js/chemistry-lab.js"></script>
+  <script src="/js/chemistry-simulation.js"></script>
+  <script src="/js/chemistry-bench.js"></script>
+  <script src="/js/lab-assets.js" data-subject="chemistry"></script>
+
+  <!-- Gas Law Modal script helper -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('btn-calc-gas');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          var target = (document.getElementById('sel-gas-target') || {}).value || 'V';
+          var P = parseFloat((document.getElementById('inp-gas-P') || {}).value) || 101.325;
+          var V = parseFloat((document.getElementById('inp-gas-V') || {}).value) || 22.414;
+          var n = parseFloat((document.getElementById('inp-gas-n') || {}).value) || 1.0;
+          var T = parseFloat((document.getElementById('inp-gas-T') || {}).value) || 273.15;
+          var R = 8.314462; // J / (mol K) = kPa dm3 / (mol K)
+
+          fetch('/api/chemistry/gas-law', {
+            method: 'POST', credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ target: target, P: P, V: V, n: n, T: T })
+          })
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            var el = document.getElementById('gas-calc-result');
+            if (!el) return;
+            if (d.success) {
+              el.innerHTML = '<div class="chem-calc-result"><div class="chem-calc-answer">' + target + ' = ' + d.result + ' ' + d.unit + '</div>' +
+                '<div class="small text-muted mt-1">' + (d.steps || []).join('<br>') + '</div></div>';
+            } else {
+              el.innerHTML = '<div class="alert alert-danger">' + (d.error || 'Calculation error') + '</div>';
+            }
+          })
+          .catch(function(){
+            // Local fallback calculation if offline
+            var ans = 0, unit = '';
+            if (target === 'P') { ans = (n * R * T) / V; unit = 'kPa'; }
+            else if (target === 'V') { ans = (n * R * T) / P; unit = 'dm³'; }
+            else if (target === 'n') { ans = (P * V) / (R * T); unit = 'mol'; }
+            else if (target === 'T') { ans = (P * V) / (n * R); unit = 'K'; }
+            var el = document.getElementById('gas-calc-result');
+            if (el) {
+              el.innerHTML = '<div class="chem-calc-result"><div class="chem-calc-answer">' + target + ' = ' + ans.toFixed(3) + ' ' + unit + '</div></div>';
+            }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

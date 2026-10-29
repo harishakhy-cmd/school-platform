@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCHOOL | Physics Laboratory</title>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+
+  <!-- Physics Lab Stylesheet -->
+  <link rel="stylesheet" href="/css/physics-lab.css" />
+  <link rel="stylesheet" href="/css/lab-live.css" />
+  <link rel="stylesheet" href="/css/lab-workspace-polish.css" />
+  <link rel="stylesheet" href="/css/lab-responsive.css" />
+  <link rel="stylesheet" href="/css/lab-assets.css" />
+  <link rel="icon" type="image/png" href="/images/school%20icon.png" />
+</head>
+<body class="phys-lab-body">
+  <div class="phys-lab-container">
+    <!-- Top Navigation Bar -->
+    <header class="phys-navbar">
+      <a href="/portal.html" class="school-header-brand" aria-label="SCHOOL home"><img src="/images/school%20icon.jpg" alt="" /><strong>SCHOOL</strong></a>
+      <div class="phys-brand">
+        <div class="phys-brand-icon">
+          <i class="fa-solid fa-atom"></i>
+        </div>
+        <div>
+          <span class="phys-brand-title">Interactive Physics Laboratory</span>
+          <span class="phys-brand-badge">Computational Science & Experiments</span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Pills -->
+      <div class="phys-nav-center">
+        <button class="phys-mode-pill active" data-mode="workspace2d">
+          <i class="fa-solid fa-microscope"></i> 2D Workbench
+        </button>
+        <button class="phys-mode-pill" data-mode="viewport3d">
+          <i class="fa-solid fa-cubes"></i> 3D Physics View
+        </button>
+        <button class="phys-mode-pill" data-mode="guided-labs">
+          <i class="fa-solid fa-flask-vial"></i> Virtual Experiments
+        </button>
+        <button class="phys-mode-pill" data-mode="assessments">
+          <i class="fa-solid fa-clipboard-check"></i> Practical CBT
+        </button>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="phys-nav-actions">
+        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-scale-simulator" title="Vernier & Micrometer Scale Reading Practice">
+          <i class="fa-solid fa-ruler-combined"></i> Scale Simulator
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-apparatus-library" title="Browse Complete Apparatus Inventory">
+          <i class="fa-solid fa-boxes-stacked"></i> Apparatus Library
+        </button>
+        <a class="btn btn-sm btn-outline-info" href="https://physics.nist.gov/cuu/Constants/index.html" target="_blank" rel="noopener noreferrer" title="Open NIST CODATA 2022 physical constants">
+          <i class="fa-solid fa-ruler-combined"></i> NIST constants
+        </a>
+        <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modal-experiment-templates" title="Load Standard Experiment Templates">
+          <i class="fa-solid fa-folder-open"></i> Templates
+        </button>
+        <button class="btn btn-sm btn-primary" id="btn-phys-save-experiment" title="Save Current Experiment Setup">
+          <i class="fa-solid fa-floppy-disk"></i> Save Setup
+        </button>
+        <a href="/portal.html" class="btn btn-sm btn-light border" title="Return to Portal">
+          <i class="fa-solid fa-arrow-left"></i> Exit to Portal
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="phys-main-workspace">
+      <!-- 27-Topic Sidebar (Left) -->
+      <aside class="phys-sidebar" id="phys-sidebar">
+        <div class="phys-sidebar-header">
+          <h6 class="mb-0 fw-bold"><i class="fa-solid fa-book-bookmark text-primary me-2"></i> Curriculum Modules</h6>
+          <span class="badge bg-primary-subtle text-primary fw-semibold">27 Topics</span>
+        </div>
+        <div class="phys-sidebar-search">
+          <input type="text" class="form-control form-control-sm" id="phys-search-topics" placeholder="Filter mechanics, optics, circuits..." />
+        </div>
+        <div class="phys-topics-list" id="phys-topics-list">
+          <!-- Dynamically populated via JS from CURRICULUM_TOPICS -->
+        </div>
+      </aside>
+
+      <!-- Central Viewport -->
+      <section class="phys-viewport" id="phys-viewport">
+        <!-- Floating Canvas Toolbar -->
+        <div class="phys-floating-toolbar">
+          <button class="phys-tool-btn active" data-tool="select" title="Select & Move Apparatus">
+            <i class="fa-solid fa-arrow-pointer"></i> Select
+          </button>
+          <button class="phys-tool-btn" data-tool="rotate" title="Rotate Selected Object">
+            <i class="fa-solid fa-rotate"></i> Rotate
+          </button>
+          <button class="phys-tool-btn" data-tool="connect" title="Draw Wire / String Connection">
+            <i class="fa-solid fa-bezier-curve"></i> Connect
+          </button>
+          <button class="phys-tool-btn" data-tool="measure" title="Metre Rule Measurement">
+            <i class="fa-solid fa-ruler"></i> Rule
+          </button>
+          <button class="phys-tool-btn" data-tool="force" title="Add Force Vector">
+            <i class="fa-solid fa-arrow-trend-up"></i> Force
+          </button>
+          <span class="phys-tool-sep"></span>
+          <button class="phys-tool-btn text-danger" id="btn-phys-clear-canvas" title="Clear Canvas">
+            <i class="fa-solid fa-trash-can"></i> Clear
+          </button>
+        </div>
+
+        <!-- Simulation Playback Controls -->
+        <div class="phys-playback-controls">
+          <button class="phys-playback-btn btn-play" id="btn-phys-play" title="Start/Pause Simulation">
+            <i class="fa-solid fa-play"></i>
+          </button>
+          <button class="phys-playback-btn" id="btn-phys-step" title="Advance Single Time Step (dt)">
+            <i class="fa-solid fa-forward-step"></i>
+          </button>
+          <button class="phys-playback-btn" id="btn-phys-reset" title="Reset Simulation Time to 0s">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+          </button>
+          <span class="phys-tool-sep"></span>
+          <span class="small fw-bold text-muted me-1">Speed:</span>
+          <select id="phys-speed-select" class="form-select form-select-sm" style="width: 75px; font-size: 11px; padding: 2px 4px;">
+            <option value="0.25">0.25x</option>
+            <option value="0.5">0.5x</option>
+            <option value="1.0" selected>1.0x</option>
+            <option value="2.0">2.0x</option>
+          </select>
+          <span class="phys-tool-sep"></span>
+          <span class="small text-muted font-monospace" id="phys-clock-hud">t: 0.00 s</span>
+        </div>
+
+        <!-- Canvas Viewports -->
+        <div class="phys-canvas-wrapper" id="phys-canvas-wrapper">
+          <canvas id="phys-main-canvas"></canvas>
+          <div id="phys-3d-container"></div>
+
+          <!-- Theory & Experiment Guide Pane (When guided-labs mode is active) -->
+          <div id="phys-guide-pane" class="position-absolute top-0 start-0 w-100 h-100 bg-white p-4 overflow-auto" style="display: none; z-index: 20;">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+              <h4 class="fw-bold mb-0 text-primary" id="guide-topic-title">Guided Physics Experiment Protocol</h4>
+              <button class="btn btn-sm btn-outline-secondary" id="btn-close-guide"><i class="fa-solid fa-xmark"></i> Close Guide</button>
+            </div>
+            <div id="guide-topic-content"></div>
+          </div>
+
+          <!-- CBT Practical Assessment Pane -->
+          <div id="phys-cbt-pane" class="position-absolute top-0 start-0 w-100 h-100 bg-white p-4 overflow-auto" style="display: none; z-index: 20;">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+              <h4 class="fw-bold mb-0 text-success"><i class="fa-solid fa-clipboard-check me-2"></i> Practical Physics CBT Assessment</h4>
+              <button class="btn btn-sm btn-outline-secondary" id="btn-close-cbt"><i class="fa-solid fa-xmark"></i> Return to Workbench</button>
+            </div>
+            <div id="cbt-questions-container"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Data Dock -->
+        <div class="phys-bottom-dock" id="phys-bottom-dock">
+          <div class="phys-dock-header">
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold small"><i class="fa-solid fa-table me-1 text-primary"></i> Experimental Readings & Data Log</span>
+              <button class="btn btn-xs btn-outline-primary" id="btn-phys-record-reading"><i class="fa-solid fa-circle-plus me-1"></i> Record Data Point</button>
+              <button class="btn btn-xs btn-outline-secondary" id="btn-phys-clear-data"><i class="fa-solid fa-trash me-1"></i> Clear Table</button>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <a href="/graphing-lab.html?subject=PHYSICS&preset=0" target="_blank" class="btn btn-xs btn-outline-primary fw-semibold" id="btn-phys-open-graphing-lab" title="Launch Advanced Graphing Lab with this data">
+                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Analyze in Graphing Lab
+              </a>
+              <button class="btn btn-xs btn-light border" id="btn-phys-toggle-dock"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+          </div>
+          <div class="phys-dock-content">
+            <div class="phys-dock-table-pane">
+              <table class="table table-sm table-hover table-striped mb-0 small" id="phys-data-table">
+                <thead class="table-light">
+                  <tr id="phys-table-head">
+                    <th>#</th>
+                    <th>Time t (s)</th>
+                    <th>Position x (m)</th>
+                    <th>Velocity v (m/s)</th>
+                    <th>Force F (N)</th>
+                    <th>Energy E (J)</th>
+                  </tr>
+                </thead>
+                <tbody id="phys-table-body">
+                  <tr><td colspan="6" class="text-center text-muted py-3">No experimental points recorded yet. Click "Record Data Point" or start simulation.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="phys-dock-graph-pane">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="small fw-bold text-muted">Real-Time Graph Preview:</span>
+                <select id="phys-graph-var-select" class="form-select form-select-xs" style="width: 140px; font-size: 11px;">
+                  <option value="xt">x vs t (Displacement)</option>
+                  <option value="vt">v vs t (Velocity)</option>
+                  <option value="at">a vs t (Acceleration)</option>
+                  <option value="energy">Energy Conservation (KE/PE)</option>
+                </select>
+              </div>
+              <canvas id="phys-mini-graph" width="380" height="120" style="width:100%; height:110px;"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inspector Panel (Right) -->
+      <aside class="phys-inspector" id="phys-inspector">
+        <div class="phys-inspector-header">
+          <h6 class="mb-0 fw-bold" id="phys-inspector-title"><i class="fa-solid fa-sliders text-primary me-2"></i> Topic Inspector</h6>
+          <small class="text-muted" id="phys-inspector-subtitle">Select a module from curriculum</small>
+        </div>
+
+        <div class="phys-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Live Measurements HUD</label>
+          <div class="phys-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Primary Quantity:</span>
+              <span id="hud-primary-label">Displacement s</span>
+            </div>
+            <div class="phys-hud-val" id="hud-primary-val">0.00 m</div>
+          </div>
+          <div class="phys-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Velocity / Rate:</span>
+              <span id="hud-secondary-label">Velocity v</span>
+            </div>
+            <div class="phys-hud-val" id="hud-secondary-val">0.00 m/s</div>
+          </div>
+          <div class="phys-hud-card">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Work / Energy:</span>
+              <span id="hud-tertiary-label">Mechanical Energy E</span>
+            </div>
+            <div class="phys-hud-val" id="hud-tertiary-val">0.00 J</div>
+          </div>
+        </div>
+
+        <div class="phys-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Physical Parameter Controls</label>
+          <div id="phys-controls-container">
+            <!-- Dynamically populated based on active topic -->
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Mass m: <span class="text-primary fw-bold" id="val-param-mass">2.0</span> kg</label>
+              <input type="range" class="form-range" id="slider-param-mass" min="0.1" max="10.0" step="0.1" value="2.0" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Gravity g: <span class="text-primary fw-bold" id="val-param-g">9.81</span> m/s²</label>
+              <input type="range" class="form-range" id="slider-param-g" min="0" max="25" step="0.1" value="9.8" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Damping / Friction coefficient: <span class="text-primary fw-bold" id="val-param-friction">0.05</span></label>
+              <input type="range" class="form-range" id="slider-param-friction" min="0" max="1.0" step="0.01" value="0.05" />
+            </div>
+          </div>
+        </div>
+
+        <div class="phys-inspector-section">
+          <label class="form-label small fw-bold text-secondary text-uppercase mb-2">Fundamental Equations</label>
+          <div id="phys-equations-container" class="small">
+            <!-- Dynamically populated via KaTeX -->
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Vernier Calipers & Micrometer Scale Simulator -->
+  <div class="modal fade" id="modal-scale-simulator" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-ruler-combined text-primary me-2"></i> Precision Measurement Scale Simulator</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-pills mb-3" id="scale-sim-tabs">
+            <li class="nav-item">
+              <button class="nav-link active py-1 px-3 small fw-bold" id="tab-vernier">Vernier Calipers (0.1 mm)</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link py-1 px-3 small fw-bold" id="tab-micrometer">Micrometer Screw Gauge (0.01 mm)</button>
+            </li>
+          </ul>
+
+          <div class="p-3 bg-light rounded border text-center mb-3">
+            <canvas id="canvas-scale-sim" class="scale-reader-canvas mx-auto" width="700" height="200" style="max-width: 100%;"></canvas>
+          </div>
+
+          <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Observed Main Reading:</label>
+              <div class="input-group input-group-sm">
+                <input type="number" step="0.01" class="form-control" id="scale-observed-reading" value="23.4" />
+                <span class="input-group-text">mm</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Zero Error of Instrument:</label>
+              <div class="input-group input-group-sm">
+                <input type="number" step="0.01" class="form-control" id="scale-zero-error" value="0.00" />
+                <span class="input-group-text">mm</span>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <span class="small text-muted d-block">Corrected True Reading:</span>
+              <strong class="fs-5 text-primary" id="scale-corrected-val">23.40 mm</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: 12 Pre-Configured Experiment Templates -->
+  <div class="modal fade" id="modal-experiment-templates" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-flask-vial text-info me-2"></i> Standard Physics Experiment Templates</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3" id="templates-grid-container">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Apparatus Library Quick-Picker -->
+  <div class="modal fade" id="modal-apparatus-library" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-boxes-stacked text-secondary me-2"></i> Comprehensive Physics Apparatus Library</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3" id="apparatus-categories-container">
+            <!-- Populated via JS: 10 Categories -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/lab-live.js"></script>
+
+  <!-- Physics Lab Scripts -->
+  <script src="/js/physics-lab.js"></script>
+  <script src="/js/lab-assets.js" data-subject="physics"></script>
+</body>
+</html>
