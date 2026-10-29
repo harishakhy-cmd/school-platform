@@ -1,17 +1,22 @@
 # Environment Variables
 
-The existing app reads server-side configuration from dotenv and
-`process.env`. No Firebase or Vercel-specific variable set exists yet. The
-root `.env.example` contains templates only; never commit a real `.env`.
+The shared Express app reads server-side configuration from dotenv and
+`process.env`. The root `.env.example` covers local development; the Vercel
+edition adds provider-specific server variables in
+[`apps/vercel-edition/.env.example`](../../apps/vercel-edition/.env.example).
+Firebase provider configuration is not implemented. Never commit a real
+`.env`.
 
 | Variable | Scope | Current purpose |
 |---|---|---|
 | `NODE_ENV` | Server | Enables production security behavior |
 | `PORT`, `HOST` | Server | Express listener |
 | `APP_URL`, `APP_NAME` | Server | Password-reset links and email branding |
+| `APP_DEPLOYMENT_TARGET` | Server | Selects Vercel-specific profile-photo storage behavior |
 | `SESSION_SECRET` | Server-only secret | Production session signing; must be unique and at least 32 characters |
 | `TRUST_PROXY` | Server | Set `true` only behind one trusted proxy; controls one-hop Express proxy trust |
 | `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` | Server-only | Current MySQL pool |
+| `BLOB_READ_WRITE_TOKEN` | Server-only secret | Vercel Blob profile-photo storage |
 | `ADMIN_USERNAME`, `ADMIN_PASSWORD` | Initialization and local tests | Initial admin account for `npm run init-db` and database-backed admin test scripts; use a unique strong password |
 | `EMAIL_*` | Server-only where credentials are present | Optional SMTP/Gmail transport |
 | `LOGIN_RATE_LIMIT`, `PASSWORD_RESET_RATE_LIMIT` | Server | Existing in-process limit configuration |
